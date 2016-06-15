@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Flask/React/Webpack</title>
+
+    {# This uses the stock distribution of jQuery and jQueryUI #}
+    {# Not in use
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.3/css/jquery.dataTables.min.css">
+
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js"></script>
+    #}
+
+    {# For React #}
+    <meta charset="UTF-8">
+
+    {#
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    #}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    {# Bootstrap #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='susannas_library.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <div class="container">
+        <h1> <img class="logo" src="{{ url_for('static', filename='book_pile.png') }}"
+                style="height:auto; width:auto; max-width:50px; max-height:50px;" />Flask-React</h1>
+        <div class="metanav">
+            <a class="btn-sm btn-default" role="button" href="{{ url_for('get_home') }}">Home</a>
+            <a class="btn-sm btn-default" role="button" href="{{ url_for('get_form') }}">Form</a>
+        </div>
+    </div>
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div class="">
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
+
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="flash">{{ category | capitalize() }}: {{ message }}</div>
+        {% endfor %}
+
+        {% block body %}
+        {% endblock %}
+
+        <div class="clear"></div>
+    </div>
+
+    {% block react %}
+    {% endblock %}
+</body>
+
+<footer class="container footer">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="{{ url_for('get_home') }}">Home</a>
+            {% block footer_links %}
+            {% endblock %}
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="{{ url_for('get_about') }}">Flask-React {{ version }} -- Copyright © 2016 by Dave Hocker</a>
+        </div>
+    </div>
+</footer>
+</html>
