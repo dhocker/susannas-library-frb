@@ -6,3 +6,4 @@ susannas_library.sqlite3
 susannas_library.conf
 *~
 node_modules/
+static/dist/
