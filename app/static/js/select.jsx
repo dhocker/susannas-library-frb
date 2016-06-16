@@ -59,3 +59,16 @@ export default class Select extends React.Component {
         )
     }
 }
+
+Select.propTypes = {
+    id: React.PropTypes.string,
+    class: React.PropTypes.string,
+    options: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    defaultOption: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func
+};
+
+Select.defaultProps = {
+    id: "select",
+    class: "form-control"
+};

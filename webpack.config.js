@@ -3,40 +3,10 @@ var path = require("path");
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 /*
-    From: http://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
-*/
-
-/*
-// Webpack HTML Plugin setup
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/app/templates/index.html',
-    filename: 'index.html',
-    inject: 'body'
-});
-*/
-
-/*
-    Legend
-    __dirname - the directory where this file (webpack.config.js) is located.
-*/
-
-/*
-module.exports = {
-    entry: [
-        './app/js/index.js'
-    ],
-    module: {
-        loaders: [
-            {test: /\.js$/, include: __dirname + '/app', loader: "babel-loader"}
-        ]
-    },
-    output: {
-        filename: "index_bundler.js",
-        path: __dirname + '/app/static/dist'
-    },
-    plugins: [HTMLWebpackPluginConfig]
-};
+    Initial config: http://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
+    Multiple entry points methods:
+        https://webpack.github.io/docs/multiple-entry-points.html
+        https://github.com/webpack/webpack/tree/master/examples/multiple-entry-points
 */
 
 module.exports = {

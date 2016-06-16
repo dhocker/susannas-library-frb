@@ -3,7 +3,13 @@ import ReactDOM from 'react-dom';
 import Select from './select';
 
 /*
-    This is the beginning of a basic React componet that can render a form.
+    This is the beginning of a basic React component that can render a form.
+    The form includes all of the basic form controls:
+        input text
+        select list (drop down list box)
+        checkbox
+        radio button and radio button group
+
     The next step is to figure out how to make this reusable.
 */
 
@@ -18,6 +24,7 @@ export default class Form extends React.Component {
             optionValue: 'option1',
             selectValue: "3"
         };
+        // Bind 'this' to each "on" handler function
         this.helloChanged = this.helloChanged.bind(this);
         this.worldChanged = this.worldChanged.bind(this);
         this.save = this.save.bind(this);
@@ -128,7 +135,7 @@ export default class Form extends React.Component {
     }
 }
 
-Form.propTyes = {
+Form.propTypes = {
 
 };
 
