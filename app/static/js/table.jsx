@@ -8,27 +8,32 @@ import ReactDOM from 'react-dom';
     various React datagrids and tables that can be found on GitHub.
 */
 
-const Table = React.createClass({
-    propTypes: {
-        class: React.PropTypes.string.isRequired,
-        cols: React.PropTypes.array.isRequired,
-        url: React.PropTypes.string.isRequired
-    },
+export default class Table extends React.Component {
+    constructor(props) {
+        super(props);
+        // Initial state with empty rows
+        this.state = {rows: []};
+    }
 
-    getInitialState: function(){
-        return {rows: []};
-    },
-
-    componentDidMount: function() {
+    componentDidMount() {
         this.serverRequest = $.get(this.props.url, function(response, status){
             console.log("Data rows received: " + String(response.data.length));
             this.setState({rows: response.data});
         }.bind(this));
-    },
+    }
 
-    render: function() {
+    render() {
+        var ActionComponents = (
+                <td>
+                    <a href="#">Books</a>
+                    <a href="#">Show</a>
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            );
+
         var HeaderComponents = this.generateHeaders(),
-            RowComponents = this.generateRows(),
+            RowComponents = this.generateRows(ActionComponents),
             FooterComponents = this.generateFooter();
 
         return (
@@ -45,9 +50,9 @@ const Table = React.createClass({
                 </div>
             </div>
         );
-    },
+    }
 
-    generateHeaders: function() {
+    generateHeaders() {
         var cols = this.props.cols;  // [{colname, label}]
 
         // generate our header (th) cell components
@@ -55,10 +60,13 @@ const Table = React.createClass({
             return <th key={colData.colname}>{colData.label}</th>;
         });
         // return a single header row
-        return <tr>{cells}</tr>
-    },
+        return <tr>
+            {cells}
+            <th>Actions</th>
+            </tr>
+    }
 
-    generateRows: function() {
+    generateRows(actions) {
         var cols = this.props.cols,  // [{colname, label}]
             rows = this.state.rows;
 
@@ -69,13 +77,23 @@ const Table = React.createClass({
                 // colData.colname might be "FirstName"
                 return <td key={colData.colname}>{row[colData.colname]}</td>;
             });
-            return <tr key={row.id}>{cells}</tr>;
+            return <tr key={row.id}>
+                {cells}
+                {actions}
+                </tr>;
         });
-    },
+    }
 
-    generateFooter: function() {
+    generateFooter() {
         return <tr><td>{"Total Rows"}</td><td>{this.state.rows.length}</td></tr>;
     }
-});
+}
 
-export default Table;
+Table.propTypes = {
+    class: React.PropTypes.string.isRequired,
+    cols: React.PropTypes.array.isRequired,
+    url: React.PropTypes.string.isRequired
+};
+
+Table.defaultProps = {
+};
