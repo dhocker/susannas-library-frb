@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Table from './table';
+import AuthorsTable from './authors-table';
 import Form from './form';
 
 /*
@@ -18,7 +18,8 @@ export function initHomePage() {
     ];
 
     console.log("Attempting to create Table");
-    ReactDOM.render(<Table class={"table table-striped table-condensed"}
+    ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
+        title={"Authors"}
         cols={authorTableColumns}
         url={"/authors"}
         />,
