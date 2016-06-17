@@ -1,3 +1,30 @@
+#
+# flask-react - web server for learning to use react front end with Flask back end
+# Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the LICENSE file for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#
+# Reference tutorial
+#   http://docs.sqlalchemy.org/en/latest/orm/tutorial.html
+#   This is a pretty good cover of the most frequently used aspects of SQLAlchemy
+#
+# Notes
+#   *   Sqlite is being used as the database and the code here assumes that
+#       to be the case. It does not address any other database.
+#
+
 from datetime import datetime
 from types import *
 from app import app
@@ -6,12 +33,19 @@ from sqlalchemy import create_engine, Table, ForeignKey, Column, Integer, Text, 
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
+# Here we create a database engine instance. However, a connection is not created until needed.
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
+# This session object serves as a factory
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
 
+# Classes mapped using the Declarative system are defined in terms of a base class
+# which maintains a catalog of classes and tables relative to that base - this is
+# known as the declarative base class. Our application will usually have just one
+# instance of this base in a commonly imported module.
 Base = declarative_base()
+# This makes query available as a property of all model classes derived from Base.
 Base.query = db_session.query_property()
 
 
@@ -93,6 +127,10 @@ class Author(Base, ModelMixin):
             self.Avoid = 0
         self.created_at = datetime.now()
         self.updated_at = self.created_at
+
+    def __repr__(self):
+        return "<Author(id=%s, LastName='%s', FirstName='%s', category='%s', Avoid=%s, try=%s)>" \
+            % (str(self.id), self.LastName, self.FirstName, self.category, str(self.Avoid), str(self.try_author))
 
 
     # Each model must supply these mapping tables for DataTables to work
