@@ -1,21 +1,20 @@
 # Flask, React and Webpack
 
 ## Overview
-This is a playground sandbox for the combination of Flask, React and Webpack.
-The following pages illustrate various aspects of React.
-- home
+This is the newest iteration of Susanna's Library developed using 
+Flask, React, Booststrap and Webpack.
 
 ## Set Up
-Create a venv with flask and sqlalchemy.
+Create a venv with flask and SQLAlchemy.
 
-    mkvirtualenv -r requirements.txt flask-react
+    mkvirtualenv -r requirements.txt susannas-library-frb
 
 Install Webpack and various dependencies called out in package.json.
 
     npm install
 
 ## Build
-Run a one time build
+Run a one time build based on webpack.config.js
 
     npm run build
     
