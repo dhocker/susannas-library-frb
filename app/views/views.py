@@ -1,5 +1,5 @@
 #
-# flask-react - web server for learning to use react front end with Flask back end
+# Susanna's New Library - web app for managing Susan's vast library
 # Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 #
 # This program is free software: you can redistribute it and/or modify
@@ -38,17 +38,14 @@ def get_root():
     return redirect(url_for("get_home"))
 
 
-@app.route("/about", methods=['GET'])
-#@login_required                                 # Use of @login_required decorator
-def get_about():
-    #return render_template("home.html", authors=authors)
-    return "About"
-
-
-@app.route("/home", methods=['GET'])
+@app.route("/authors-page", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_home():
-    return render_template("home.html")
+    """
+    The home page is the authors page
+    :return:
+    """
+    return render_template("authors.html")
 
 
 @app.route("/authors", methods=['GET'])
@@ -91,3 +88,10 @@ def save_form():
     arg5 = request.form["select"]
     logger.info("formadata called with: [%s] [%s] [%s] [%s] [%s]", arg1, arg2, arg3, arg4, arg5)
     return "saved"
+
+
+@app.route("/about", methods=['GET'])
+#@login_required                                 # Use of @login_required decorator
+def get_about():
+    #return render_template("home.html", authors=authors)
+    return "About"
