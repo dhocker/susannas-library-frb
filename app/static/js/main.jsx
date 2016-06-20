@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AuthorsTable from './authors-table';
 import Form from './form';
+import ModalDialog from './modal-dialog';
 
 /*
     Initialize the home page
@@ -26,6 +27,10 @@ export function initHomePage() {
         document.querySelector('#reacttable')
     );
     console.log("Table created");
+
+    console.log("Attempting to create ModalDialog");
+    ReactDOM.render(<ModalDialog id="new-author-jsx" />, document.querySelector('#new-author'));
+    console.log("ModalDialog created");
 };
 
 /*
