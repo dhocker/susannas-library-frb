@@ -139,7 +139,7 @@ class Configuration():
         """
         Returns the full path to the configuration file
         """
-        file_name = 'flask-react.conf'
+        file_name = 'susannas-library-frb.conf'
 
         # A local configuration file (in the home directory) takes precedent
         if os.path.exists(file_name):

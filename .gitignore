@@ -3,7 +3,7 @@ secret_key
 *.log*
 .idea/
 susannas_library.sqlite3
-susannas_library.conf
+susannas-library-frb.conf
 *~
 node_modules/
 app/static/dist/
