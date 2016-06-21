@@ -146,15 +146,15 @@ export default class NewAuthorDialog extends ModalDialog {
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label for="firstname">First Name</label>
-                            <input id="firstname" type="text"  className="form-control"
-                                value={this.state.firstnameValue} onChange={this.firstnameChanged}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label for="lastname">Last Name</label>
                             <input id="lastname" type="text"  className="form-control"
                                 value={this.state.lastnameValue} onChange={this.lastnameChanged}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label for="firstname">First Name</label>
+                            <input id="firstname" type="text"  className="form-control"
+                                value={this.state.firstnameValue} onChange={this.firstnameChanged}
                             />
                         </div>
                         <div className="form-group">
