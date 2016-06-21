@@ -91,7 +91,7 @@ export default class Table extends React.Component {
                 // colData.colname might be "FirstName"
                 return <td key={colData.colname}>{row[colData.colname]}</td>;
             });
-            var actions = $this.getActions(row.id);
+            var actions = $this.getActions(row);
             return <tr key={row.id}>
                 {cells}
                 {actions}

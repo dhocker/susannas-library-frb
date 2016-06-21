@@ -25,30 +25,30 @@ export default class AuthorsTable extends Table {
         super(props);
     }
 
-    onBooksClick(id) {
-        console.log("Books was clicked for id " + String(id));
+    onBooksClick(row) {
+        console.log("Books was clicked for id " + String(row.id));
     }
 
-    onShowClick(id) {
-        console.log("Show was clicked for id " + String(id));
+    onShowClick(row) {
+        console.log("Show was clicked for id " + String(row.id));
     }
 
-    onEditClick(id) {
-        console.log("Edit was clicked for id " + String(id));
+    onEditClick(row) {
+        console.log("Edit was clicked for id " + String(row.id));
     }
 
     onDeleteClick(id) {
-        console.log("Delete was clicked for id " + String(id));
+        console.row("Delete was clicked for id " + String(row.id));
     }
 
     // Generate the actions for authors
-    getActions(id) {
+    getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onBooksClick.bind(this, id)}>Books</a>
-                <a href="#" onClick={this.onShowClick.bind(this, id)}>Show</a>
-                <a href="#" onClick={this.onEditClick.bind(this, id)}>Edit</a>
-                <a href="#" onClick={this.onDeleteClick.bind(this, id)}>Delete</a>
+                <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
+                <a href="#" onClick={this.onShowClick.bind(this, row)}>Show</a>
+                <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
+                <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
         )
     }
