@@ -220,3 +220,10 @@ NewAuthorDialog.propTypes = {
 
 NewAuthorDialog.defaultProps = {
 };
+
+/*
+    Initialize the new author dialog box
+*/
+export function initNewAuthorDialog() {
+    ReactDOM.render(<NewAuthorDialog id="new-author-jsx" />, document.querySelector('#new-author'));
+}

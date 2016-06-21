@@ -97,6 +97,13 @@ def add_author():
     return "author created"
 
 
+@app.route("/author/<id>", methods=['DELETE'])
+def delete_author(id):
+    logger.info("Delete author id: [%s]", id)
+    delete_author_by_id(id)
+    return "Author deleted"
+
+
 @app.route("/form-page", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_form():
