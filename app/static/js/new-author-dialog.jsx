@@ -98,6 +98,15 @@ export default class NewAuthorDialog extends ModalDialog {
                 // Refresh authors table to pick up the new record.
                 // This is a bit of overkill but it is simple.
                 authorstable.refreshAuthorsTable();
+            },
+            error: function(xhr, status, errorThrown) {
+                console.log(status);
+                console.log(errorThrown);
+                // Show user error
+                alert("That author already exists");
+                // TODO It would be nice if we could figure out how to keep the dialog open
+                // This doesn't work.
+                // $("#delete-author-jsx").modal("show");
             }
         })
     }

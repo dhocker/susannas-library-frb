@@ -29,3 +29,15 @@ def delete_author_by_id(id):
     a = Author.query.get(id)
     db_session.delete(a)
     db_session.commit()
+
+def author_exists(lastname, firstname):
+    """
+    Case insensitive check to see if an author exists
+    :param lastname:
+    :param firstname:
+    :return: Returns the count of existing authors. If the author
+    does not exist, returns 0.
+    """
+    c = Author.query.filter(func.lower(Author.LastName) == func.lower(lastname),
+                            func.lower(Author.FirstName) == func.lower(firstname)).count()
+    return c

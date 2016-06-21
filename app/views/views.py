@@ -19,10 +19,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_all_authors, insert_author, get_page_of_authors
 from app.models.models import Author, Book
-from app.models.datatables_factory import DataTablesFactory
 from app.models.models import db_session
-from app.models.authors import insert_author, delete_author_by_id, get_author, update_author
-import json
+from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, update_author
 import logging
 
 logger = logging.getLogger("app")
@@ -92,9 +90,15 @@ def add_author():
     if avoid_str.encode('utf-8').lower() == "true":
         avoid = True
 
+    # Duplicate check
+    c = author_exists(lastname, firstname)
+    if c > 0:
+        logger.info("Author exists: %s, %s", lastname, firstname)
+        return "ERROR: Author exists", 409
+
     logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
     insert_author(lastname, firstname, category, try_author, avoid)
-    return "author created"
+    return "SUCCESS: Author created"
 
 
 @app.route("/author/<id>", methods=['DELETE'])
