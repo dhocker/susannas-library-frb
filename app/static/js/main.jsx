@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AuthorsTable from './authors-table';
+import * as authorstable from './authors-table';
 import Form from './form';
 import NewAuthorDialog from './new-author-dialog';
 
@@ -18,15 +18,7 @@ export function initHomePage() {
         { colname: 'id', label: 'ID' }
     ];
 
-    console.log("Attempting to create Table");
-    ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
-        title={"Authors"}
-        cols={authorTableColumns}
-        url={"/authors"}
-        />,
-        document.querySelector('#reacttable')
-    );
-    console.log("Table created");
+    authorstable.createAuthorsTable();
 
     console.log("Attempting to create ModalDialog");
     ReactDOM.render(<NewAuthorDialog id="new-author-jsx" />, document.querySelector('#new-author'));

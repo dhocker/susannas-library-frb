@@ -17,7 +17,7 @@
 from app import app
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
-from app.models.authors import get_all_authors, get_page_of_authors
+from app.models.authors import get_all_authors, insert_author, get_page_of_authors
 from app.models.models import Author, Book
 from app.models.datatables_factory import DataTablesFactory
 from app.models.models import db_session
@@ -70,7 +70,34 @@ def get_authors():
     return json
 
 
-@app.route("/form", methods=['GET'])
+@app.route("/author", methods=['PUT'])
+def add_author():
+    """
+    Add a new author.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    firstname = request.form["firstname"]
+    lastname = request.form["lastname"]
+    category = request.form["category"]
+
+    # Marshal boolean values
+    try_author_str = request.form["try"]
+    try_author = False
+    if try_author_str.encode('utf-8').lower() == "true":
+        try_author = True
+
+    avoid_str = request.form["avoid"]
+    avoid = False
+    if avoid_str.encode('utf-8').lower() == "true":
+        avoid = True
+
+    logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
+    insert_author(lastname, firstname, category, try_author, avoid)
+    return "author created"
+
+
+@app.route("/form-page", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_form():
     return render_template("form.html")
@@ -81,13 +108,14 @@ def save_form():
     # Save form data
     # args = json.loads(request.data.decode())
     # request.form is a dict containing the data sent by the client ajax call
-    arg1 = request.form["hello"]
-    arg2 = request.form["world"]
-    arg3 = request.form["checked"]
-    arg4 = request.form["option"]
-    arg5 = request.form["select"]
-    logger.info("formadata called with: [%s] [%s] [%s] [%s] [%s]", arg1, arg2, arg3, arg4, arg5)
-    return "saved"
+    firstname = request.form["firstname"]
+    lastname = request.form["lastname"]
+    category = request.form["category"]
+    try_author = request.form["try"]
+    avoid = request.form["avoid"]
+    logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
+    insert_author(lastname, firstname, category, try_author, avoid)
+    return "author created"
 
 
 @app.route("/about", methods=['GET'])

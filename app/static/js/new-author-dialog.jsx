@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import Select from './select';
+import * as authorstable from './authors-table';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -28,11 +29,22 @@ export default class NewAuthorDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
-        this.state = {};
+        this.state = {
+            lastnameValue: "",
+            firstnameValue: "",
+            categoryValue: "Mystery",
+            tryValue: false,
+            avoidValue: false
+        };
 
         // Bind 'this' to various methods
-        this.onClose = this.onClose.bind(this);
+        this.onAdd = this.onAdd.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.firstnameChanged = this.firstnameChanged.bind(this);
+        this.lastnameChanged = this.lastnameChanged.bind(this);
+        this.categoryChanged = this.categoryChanged.bind(this);
+        this.tryChanged = this.tryChanged.bind(this);
+        this.avoidChanged = this.avoidChanged.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
@@ -47,6 +59,9 @@ export default class NewAuthorDialog extends ModalDialog {
         */
     }
 
+    /*
+        Cancel the dialog
+    */
     onCancel() {
         console.log("Dialog canceled");
     }
@@ -54,9 +69,60 @@ export default class NewAuthorDialog extends ModalDialog {
     /*
         Add author
     */
-    onClose() {
-        console.log("Author added");
-        console.log(this.state);
+    onAdd() {
+        console.log(this.state.firstnameValue);
+        console.log(this.state.lastnameValue);
+        console.log(this.state.categoryValue);
+        console.log(this.state.tryValue);
+        console.log(this.state.avoidValue);
+        /*
+            There is a bit of an issue marshalling boolean values (try and avoid).
+            While we are using JS booleans here, when they arrive at the server
+            they will be string values :true" or "false".
+        */
+        var data = {
+            firstname: this.state.firstnameValue,
+            lastname: this.state.lastnameValue,
+            category: this.state.categoryValue,
+            try: this.state.tryValue,
+            avoid: this.state.avoidValue
+        };
+        // The data object will be request.form on the server
+        this.serverRequest = $.ajax({
+            type: "PUT",
+            url: "/author",
+            data: data,
+            success: function(result){
+                console.log(result);
+                console.log("Author added");
+                // Refresh authors table to pick up the new record.
+                // This is a bit of overkill but it is simple.
+                authorstable.refreshAuthorsTable();
+            }
+        })
+    }
+
+    /*
+        Control event handlers
+    */
+    firstnameChanged(event) {
+        this.setState({firstnameValue: event.target.value});
+    }
+
+    lastnameChanged(event) {
+        this.setState({lastnameValue: event.target.value});
+    }
+
+    categoryChanged(event) {
+        this.setState({categoryValue: event.newValue});
+    }
+
+    tryChanged(event) {
+        this.setState({tryValue: !this.state.tryValue});
+    }
+
+    avoidChanged(event) {
+        this.setState({avoidValue: !this.state.avoidValue});
     }
 
     /*
@@ -81,26 +147,34 @@ export default class NewAuthorDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="form-group">
                             <label for="firstname">First Name</label>
-                            <input id="firstname" type="text"  className="form-control" />
+                            <input id="firstname" type="text"  className="form-control"
+                                value={this.state.firstnameValue} onChange={this.firstnameChanged}
+                            />
                         </div>
                         <div className="form-group">
                             <label for="lastname">Last Name</label>
-                            <input id="lastname" type="text"  className="form-control" />
+                            <input id="lastname" type="text"  className="form-control"
+                                value={this.state.lastnameValue} onChange={this.lastnameChanged}
+                            />
                         </div>
                         <div className="form-group">
                             <label for="category">Category or Genre</label>
-                            <Select id="category" class="form-control" options={["s1", "s2", "s3"]}
-                                defaultOption={"s3"} />
+                            <Select id="category" class="form-control" options={["Mystery", "SciFi", "Fantasy"]}
+                                defaultOption={"Mystery"}
+                                onChange={this.categoryChanged}
+                                />
                         </div>
                         <div className="checkbox">
                             <label>
                                 <input type="checkbox" checked={this.state.tryValue}
+                                    onChange={this.tryChanged}
                                 />Try
                             </label>
                         </div>
                         <div className="checkbox">
                             <label>
                                 <input type="checkbox" checked={this.state.avoidValue}
+                                    onChange={this.avoidChanged}
                                 />Avoid
                             </label>
                         </div>
@@ -118,7 +192,7 @@ export default class NewAuthorDialog extends ModalDialog {
         return (
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
-                      onClick={this.onClose}>Add</button>
+                      onClick={this.onAdd}>Add</button>
                   <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
                       onClick={this.onCancel}>Cancel</button>
             </div>

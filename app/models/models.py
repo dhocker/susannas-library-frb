@@ -117,14 +117,16 @@ class Author(Base, ModelMixin):
         self.LastName = last_name
         self.FirstName = first_name
         self.category = category
+        # This bizarre encoding of booleans comes from the way the existing
+        # library database was exported from Heroku and Postgres.
         if try_author:
-            self.try_author = 1
+            self.try_author = "True"
         else:
-            self.try_author = 0;
+            self.try_author = "False"
         if avoid:
-            self.Avoid = 1
+            self.Avoid = "True"
         else:
-            self.Avoid = 0
+            self.Avoid = "False"
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 

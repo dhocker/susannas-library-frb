@@ -37,7 +37,15 @@ export default class Table extends React.Component {
         return <td></td>
     }
 
+    // This will load the table when the component is mounted
     componentDidMount() {
+        this.loadTable();
+    }
+
+    // This can be called to initially load the table or to refresh the table
+    // after inserts, updates or deletes
+    loadTable() {
+        console.log("Getting all records from url " + this.props.url);
         this.serverRequest = $.get(this.props.url, function(response, status){
             console.log("Data rows received: " + String(response.data.length));
             this.setState({rows: response.data});

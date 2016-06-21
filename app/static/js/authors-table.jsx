@@ -19,7 +19,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
 
-
+/*
+    Authors table - a specific instance of a table showing
+    all of the authors in the authors database.
+*/
 export default class AuthorsTable extends Table {
     constructor(props) {
         super(props);
@@ -63,3 +66,36 @@ AuthorsTable.propTypes = {
 
 AuthorsTable.defaultProps = {
 };
+
+/*
+    Create the authors table instance on the authors page
+*/
+var authorsTableInstance;
+export function createAuthorsTable() {
+    // Defines the columns in the authors table
+    var authorTableColumns = [
+        { colname: 'LastName', label: 'Last Name' },
+        { colname: 'FirstName', label: 'First Name' },
+        { colname: 'category', label: 'Category' },
+        { colname: 'try_author', label: 'Try' },
+        { colname: 'Avoid', label: 'Avoid' },
+        { colname: 'id', label: 'ID' }
+    ];
+
+    console.log("Attempting to create Authors table");
+    authorsTableInstance = ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
+        title={"Authors"}
+        cols={authorTableColumns}
+        url={"/authors"}
+        />,
+        document.querySelector('#authorstable')
+    );
+    console.log("Authors table created");
+}
+
+/*
+    Reload the authors table
+*/
+export function refreshAuthorsTable() {
+    authorsTableInstance.loadTable();
+}
