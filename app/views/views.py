@@ -54,11 +54,11 @@ def get_authors():
     ca = []
     for a in authors:
         aa = Author.row2dict(a)
-        if aa["try_author"] == "True":
+        if aa["try_author"] == 1:
             aa["try_author"] = "Try"
         else:
             aa["try_author"] = ""
-        if aa["Avoid"] == "True":
+        if aa["Avoid"] == 1:
             aa["Avoid"] = "Avoid"
         else:
             aa["Avoid"] = ""

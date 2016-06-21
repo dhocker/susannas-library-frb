@@ -66,6 +66,8 @@ class ModelMixin():
                 d[column_prop] = v.encode('utf-8')
             elif type(v) == StringType:
                 d[column_prop] = str(v)
+            elif type(v) == IntType:
+                d[column_prop] = v
             else:
                 d[column_prop] = str(v)
 
@@ -83,6 +85,8 @@ class ModelMixin():
                 d.append = str(v)
             elif type(v) == StringType:
                 d.append = str(v)
+            elif type(v) == IntType:
+                d.append = v
             else:
                 d.append = str(v)
 
@@ -119,14 +123,15 @@ class Author(Base, ModelMixin):
         self.category = category
         # This bizarre encoding of booleans comes from the way the existing
         # library database was exported from Heroku and Postgres.
+        # SQLite prefers using integers with true == 1 and false == 0
         if try_author:
-            self.try_author = "True"
+            self.try_author = 1
         else:
-            self.try_author = "False"
+            self.try_author = 0
         if avoid:
-            self.Avoid = "True"
+            self.Avoid = 1
         else:
-            self.Avoid = "False"
+            self.Avoid = 0
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
