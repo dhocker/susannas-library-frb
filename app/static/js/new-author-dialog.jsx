@@ -126,7 +126,7 @@ export default class NewAuthorDialog extends ModalDialog {
         // The data object will be request.form on the server
         var $this = this;
         this.serverRequest = $.ajax({
-            type: "PUT",
+            type: "POST",
             url: "/author",
             data: data,
             success: function(result){

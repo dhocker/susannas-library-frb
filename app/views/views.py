@@ -68,7 +68,7 @@ def get_authors():
     return json
 
 
-@app.route("/author", methods=['PUT'])
+@app.route("/author", methods=['POST'])
 def add_author():
     """
     Add a new author.
