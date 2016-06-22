@@ -27,7 +27,11 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                {# Note that dialog fields are cleared when the dialog is opened #}
+                {#
+                    Note that dialog fields are cleared when the dialog is opened.
+                    Also, the data-target value must match the id defined in the
+                    new-author-dialog module.
+                #}
                 <button id="new-author-btn" type="button" class="btn btn-primary btn-sm"
                         data-toggle="modal" data-target="#new-author-jsx">
                     New Author

@@ -25,6 +25,9 @@ import * as authorstable from './authors-table';
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
 */
 
+// This is the id of the element that contains the new author dialog box
+const NEW_AUTHOR_DLG_ID = "new-author-jsx";
+
 export default class NewAuthorDialog extends ModalDialog {
     constructor(props) {
         super(props);
@@ -112,15 +115,16 @@ export default class NewAuthorDialog extends ModalDialog {
                 // Refresh authors table to pick up the new record.
                 // This is a bit of overkill but it is simple.
                 authorstable.refreshAuthorsTable();
+                // Manually close dialog
+                $("#" + NEW_AUTHOR_DLG_ID).modal("hide");
             },
             error: function(xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
+                // TODO It would be nice if this were another dialog box
                 alert("That author already exists");
-                // TODO It would be nice if we could figure out how to keep the dialog open
-                // This doesn't work.
-                // $("#delete-author-jsx").modal("show");
+                // Note that the dialog box is left open so the user can fix the error
             }
         })
     }
@@ -214,7 +218,7 @@ export default class NewAuthorDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Add</button>
                   <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
                       onClick={this.onCancel}>Cancel</button>
@@ -249,7 +253,7 @@ NewAuthorDialog.defaultProps = {
 */
 var newAuthorDialogInstance;
 export function initNewAuthorDialog() {
-    newAuthorDialogInstance = ReactDOM.render(<NewAuthorDialog id="new-author-jsx" />,
+    newAuthorDialogInstance = ReactDOM.render(<NewAuthorDialog id={NEW_AUTHOR_DLG_ID} />,
         document.querySelector('#new-author'));
 }
 
