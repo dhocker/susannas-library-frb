@@ -38,6 +38,7 @@ export default class NewAuthorDialog extends ModalDialog {
         };
 
         // Bind 'this' to various methods
+        this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
         this.onCancel = this.onCancel.bind(this);
         this.firstnameChanged = this.firstnameChanged.bind(this);
@@ -48,6 +49,19 @@ export default class NewAuthorDialog extends ModalDialog {
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
+    }
+
+    /*
+        Clear all form fields
+    */
+    clearFormFields() {
+        this.setState({
+            lastnameValue: "",
+            firstnameValue: "",
+            categoryValue: "Mystery",
+            tryValue: false,
+            avoidValue: false
+        });
     }
 
     componentDidMount() {
@@ -233,6 +247,15 @@ NewAuthorDialog.defaultProps = {
 /*
     Initialize the new author dialog box
 */
+var newAuthorDialogInstance;
 export function initNewAuthorDialog() {
-    ReactDOM.render(<NewAuthorDialog id="new-author-jsx" />, document.querySelector('#new-author'));
+    newAuthorDialogInstance = ReactDOM.render(<NewAuthorDialog id="new-author-jsx" />,
+        document.querySelector('#new-author'));
+}
+
+/*
+    Access point for clearing dialog fields
+*/
+export function clearNewAuthorDialog() {
+    newAuthorDialogInstance.clearFormFields();
 }

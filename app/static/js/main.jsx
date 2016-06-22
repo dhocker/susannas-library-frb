@@ -23,6 +23,11 @@ export function initHomePage() {
 
     NewAuthor.initNewAuthorDialog();
 
+    /// When New Author button is clicked, clear dialog fields
+    $("#new-author-btn").click(function() {
+        NewAuthor.clearNewAuthorDialog();
+    });
+
 };
 
 /*

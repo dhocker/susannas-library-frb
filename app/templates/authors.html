@@ -27,7 +27,11 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#new-author-jsx">New Author</button>
+                {# Note that dialog fields are cleared when the dialog is opened #}
+                <button id="new-author-btn" type="button" class="btn btn-primary btn-sm"
+                        data-toggle="modal" data-target="#new-author-jsx">
+                    New Author
+                </button>
             </div>
         </div>
     </div>
