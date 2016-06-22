@@ -8,16 +8,6 @@ import * as NewAuthor from './new-author-dialog';
     Initialize the home page
 */
 export function initHomePage() {
-    // Defines the columns in the authors table
-    var authorTableColumns = [
-        { colname: 'LastName', label: 'Last Name' },
-        { colname: 'FirstName', label: 'First Name' },
-        { colname: 'category', label: 'Category' },
-        { colname: 'try_author', label: 'Try' },
-        { colname: 'Avoid', label: 'Avoid' },
-        { colname: 'id', label: 'ID' }
-    ];
-
     // Create and load authors table
     authorstable.createAuthorsTable();
 
@@ -27,7 +17,6 @@ export function initHomePage() {
     $("#new-author-btn").click(function() {
         NewAuthor.clearNewAuthorDialog();
     });
-
 };
 
 /*
