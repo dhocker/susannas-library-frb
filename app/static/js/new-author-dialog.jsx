@@ -92,6 +92,21 @@ export default class NewAuthorDialog extends ModalDialog {
         console.log(this.state.categoryValue);
         console.log(this.state.tryValue);
         console.log(this.state.avoidValue);
+
+        // Validate fields
+        if (this.state.lastnameValue.length <= 0) {
+            alert("Last Name is blank");
+            return;
+        }
+        if (this.state.firstnameValue.length <= 0) {
+            alert("First Name is blank");
+            return;
+        }
+        if (this.state.categoryValue.length <= 0) {
+            alert("Category is blank");
+            return;
+        }
+
         /*
             There is a bit of an issue marshalling boolean values (try and avoid).
             While we are using JS booleans here, when they arrive at the server
@@ -229,7 +244,7 @@ export default class NewAuthorDialog extends ModalDialog {
     render() {
         return (
             <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
