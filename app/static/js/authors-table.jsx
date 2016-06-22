@@ -33,10 +33,6 @@ export default class AuthorsTable extends Table {
         console.log("Books was clicked for id " + String(row.id));
     }
 
-    onShowClick(row) {
-        console.log("Show was clicked for id " + String(row.id));
-    }
-
     onEditClick(row) {
         console.log("Edit was clicked for id " + String(row.id));
     }
@@ -52,7 +48,6 @@ export default class AuthorsTable extends Table {
         return (
             <td>
                 <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
-                <a href="#" onClick={this.onShowClick.bind(this, row)}>Show</a>
                 <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
                 <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>

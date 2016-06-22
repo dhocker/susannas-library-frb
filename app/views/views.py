@@ -80,15 +80,8 @@ def add_author():
     category = request.form["category"]
 
     # Marshal boolean values
-    try_author_str = request.form["try"]
-    try_author = False
-    if try_author_str.encode('utf-8').lower() == "true":
-        try_author = True
-
-    avoid_str = request.form["avoid"]
-    avoid = False
-    if avoid_str.encode('utf-8').lower() == "true":
-        avoid = True
+    try_author = normalize_boolean(request.form["try"])
+    avoid = normalize_boolean(request.form["avoid"])
 
     # Duplicate check
     c = author_exists(lastname, firstname)
@@ -98,14 +91,45 @@ def add_author():
 
     logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
     insert_author(lastname, firstname, category, try_author, avoid)
-    return "SUCCESS: Author created"
+    return "SUCCESS: Author created", 201
+
+
+@app.route("/author/<id>", methods=['PUT'])
+def edit_author(id):
+    """
+    Edit an existing author.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    firstname = request.form["firstname"]
+    lastname = request.form["lastname"]
+    category = request.form["category"]
+
+    # Marshal boolean values
+    try_author = normalize_boolean(request.form["try"])
+    avoid = normalize_boolean(request.form["avoid"])
+
+    logger.info("Edit author with: [%s] [%s] [%s] [%s] [%s] [%s]", id, firstname, lastname, category, try_author, avoid)
+    try:
+        author = get_author(id)
+        author.LastName = lastname
+        author.FirstName = firstname
+        author.category = category
+        author.try_author = try_author
+        author.Avoid = avoid
+        update_author(author)
+    except Exception as ex:
+        logger.info("Author update failed: %s", ex.message)
+        return "ERROR: Author update failed", 409
+
+    return "SUCCESS: Author updated", 200
 
 
 @app.route("/author/<id>", methods=['DELETE'])
 def delete_author(id):
     logger.info("Delete author id: [%s]", id)
     delete_author_by_id(id)
-    return "Author deleted"
+    return "Author deleted", 200
 
 
 @app.route("/form-page", methods=['GET'])
@@ -134,3 +158,15 @@ def save_form():
 def get_about():
     #return render_template("home.html", authors=authors)
     return "About"
+
+
+def normalize_boolean(str_value):
+    """
+    Normalize a string representation of a boolean value.
+    :param str_value: 'true' or 'false'
+    :return: True or False
+    """
+    v = False
+    if str_value.encode('utf-8').lower() == "true":
+        v = True
+    return v
