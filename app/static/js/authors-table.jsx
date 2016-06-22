@@ -45,7 +45,6 @@ export default class AuthorsTable extends Table {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
         DeleteAuthor.deleteAuthor(row);
-        $("#delete-author-jsx").modal({});
     }
 
     // Generate the actions for authors

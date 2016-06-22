@@ -25,6 +25,9 @@ import * as authorstable from './authors-table';
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
 */
 
+// This is the id of the element that contains the delete author dialog box
+const DELETE_AUTHOR_DLG_ID = "delete-author-jsx";
+
 export default class DeleteAuthorDialog extends ModalDialog {
     constructor(props) {
         super(props);
@@ -143,6 +146,7 @@ DeleteAuthorDialog.defaultProps = {
 */
 export function deleteAuthor(row) {
     console.log("Attempting to create DeleteAuthorDialog");
-    ReactDOM.render(<DeleteAuthorDialog id="delete-author-jsx" row={row}/>, document.querySelector('#delete-author'));
+    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} row={row}/>, document.querySelector('#delete-author'));
     console.log("DeleteAuthorDialog created");
+    $("#" + DELETE_AUTHOR_DLG_ID).modal("show");
 }
