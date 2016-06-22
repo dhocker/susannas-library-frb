@@ -34,6 +34,24 @@ export default class ModalDialog extends React.Component {
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
+        this.showDialog = this.showDialog.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
+    }
+
+    /*
+        Simple way to manually show the dialog
+        Thid id is the dialog box, NOT the element it was rendered on
+    */
+    showDialog(id) {
+        $("#" +id).modal("show");
+    }
+
+    /*
+        Simple way to manually close the dialog
+        Thid id is the dialog box, NOT the element it was rendered on
+    */
+    closeDialog(id) {
+        $("#" +id).modal("hide");
     }
 
     componentDidMount() {

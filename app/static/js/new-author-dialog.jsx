@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import Select from './select';
 import * as authorstable from './authors-table';
+import * as errordialog from './error-dialog';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -37,7 +38,8 @@ export default class NewAuthorDialog extends ModalDialog {
             firstnameValue: "",
             categoryValue: "Mystery",
             tryValue: false,
-            avoidValue: false
+            avoidValue: false,
+            error: ""
         };
 
         // Bind 'this' to various methods
@@ -63,7 +65,8 @@ export default class NewAuthorDialog extends ModalDialog {
             firstnameValue: "",
             categoryValue: "Mystery",
             tryValue: false,
-            avoidValue: false
+            avoidValue: false,
+            error: ""
         });
     }
 
@@ -94,16 +97,17 @@ export default class NewAuthorDialog extends ModalDialog {
         console.log(this.state.avoidValue);
 
         // Validate fields
+        this.setState({error: ""});
         if (this.state.lastnameValue.length <= 0) {
-            alert("Last Name is blank");
+            this.setState({error: "Last Name is blank"});
             return;
         }
         if (this.state.firstnameValue.length <= 0) {
-            alert("First Name is blank");
+            this.setState({error: "First Name is blank"});
             return;
         }
         if (this.state.categoryValue.length <= 0) {
-            alert("Category is blank");
+            this.setState({error: "Category is blank"});
             return;
         }
 
@@ -120,6 +124,7 @@ export default class NewAuthorDialog extends ModalDialog {
             avoid: this.state.avoidValue
         };
         // The data object will be request.form on the server
+        var $this = this;
         this.serverRequest = $.ajax({
             type: "PUT",
             url: "/author",
@@ -131,14 +136,14 @@ export default class NewAuthorDialog extends ModalDialog {
                 // This is a bit of overkill but it is simple.
                 authorstable.refreshAuthorsTable();
                 // Manually close dialog
-                $("#" + NEW_AUTHOR_DLG_ID).modal("hide");
+                $this.closeDialog(NEW_AUTHOR_DLG_ID);
             },
             error: function(xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
                 // TODO It would be nice if this were another dialog box
-                alert("That author already exists");
+                $this.setState({error: "That author already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }
         })
@@ -148,11 +153,17 @@ export default class NewAuthorDialog extends ModalDialog {
         Control event handlers
     */
     firstnameChanged(event) {
-        this.setState({firstnameValue: event.target.value});
+        this.setState({
+            firstnameValue: event.target.value,
+            error: ""
+        });
     }
 
     lastnameChanged(event) {
-        this.setState({lastnameValue: event.target.value});
+        this.setState({
+            lastnameValue: event.target.value,
+            error: ""
+        });
     }
 
     categoryChanged(event) {
@@ -169,11 +180,13 @@ export default class NewAuthorDialog extends ModalDialog {
 
     /*
         Override to customize the dialog header (title)
+        In this case, there is a simple error message embedded in the header
     */
     getHeader() {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">New Author</h1>
+                <h2 style={{color:"red"}}>{this.state.error}</h2>
             </div>
         );
     }
