@@ -119,7 +119,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
     render() {
         return (
             <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
