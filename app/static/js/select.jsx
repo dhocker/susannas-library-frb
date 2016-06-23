@@ -2,6 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /*
+    ABANDONED: Could not get this to work as a reusable component. There were issues with
+    how it handled the selected value. Once instantiated, you could not programatically
+    change the selected value.
+*/
+
+/*
     This is the beginning of a basic React component that can render a select element.
     The next step is to figure out how to make this reusable.
 

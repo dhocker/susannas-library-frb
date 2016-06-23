@@ -18,7 +18,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
-import Select from './select';
 import * as authorstable from './authors-table';
 
 /*
@@ -50,9 +49,11 @@ export default class NewAuthorDialog extends ModalDialog {
         this.categoryChanged = this.categoryChanged.bind(this);
         this.tryChanged = this.tryChanged.bind(this);
         this.avoidChanged = this.avoidChanged.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
+        this.getCategorySelect = this.getCategorySelect.bind(this);
         this.commitAuthor = this.commitAuthor.bind(this);
     }
 
@@ -188,6 +189,10 @@ export default class NewAuthorDialog extends ModalDialog {
         this.setState({avoidValue: !this.state.avoidValue});
     }
 
+    handleCategoryChange(event) {
+        this.setState({categoryValue: event.target.value});
+    }
+
     /*
         Override to customize the dialog header (title)
         In this case, there is a simple error message embedded in the header
@@ -207,7 +212,7 @@ export default class NewAuthorDialog extends ModalDialog {
     */
     getBody() {
         return (
-            <form role="form">
+            <form id={this.props.id} role="form">
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
@@ -223,11 +228,8 @@ export default class NewAuthorDialog extends ModalDialog {
                             />
                         </div>
                         <div className="form-group">
-                            <label for="category">Category or Genre</label>
-                            <Select id="category" class="form-control" options={["Mystery", "SciFi", "Fantasy"]}
-                                value={this.state.categoryValue}
-                                onChange={this.categoryChanged}
-                                />
+                            <label for={this.props.id + "-category"}>Category or Genre</label>
+                            {this.getCategorySelect(this.props.id + "-category")}
                         </div>
                         <div className="checkbox">
                             <label>
@@ -262,6 +264,28 @@ export default class NewAuthorDialog extends ModalDialog {
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
+    }
+
+    /*
+        Generate a select element for the categories
+    */
+    getCategorySelect(select_id) {
+        var options_list = ["Mystery", "SciFi", "Fantasy"];
+        var option_elements = options_list.map(function(optionValue) {
+            return (
+                <option key={optionValue} value={optionValue}>
+                    {optionValue}
+                </option>
+            )
+        });
+        return (
+            <select id={select_id}
+                    className="form-control"
+                    value={this.state.categoryValue}
+                    onChange={this.handleCategoryChange}>
+                {option_elements}
+            </select>
+        )
     }
 
     render() {
