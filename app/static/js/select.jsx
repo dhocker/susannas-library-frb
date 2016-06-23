@@ -23,9 +23,14 @@ export default class Select extends React.Component {
         super(props);
         // Initial state of form inputs
         this.state = {
-            selectValue: props.defaultOption
+            selectValue: props.value ? props.value : props.defaultOption
         };
         this.handleChange = this.handleChange.bind(this);
+        this.setSelectedOption = this.setSelectedOption.bind(this);
+    }
+
+    setSelectedOption(value) {
+        this.setState({selectValue: value});
     }
 
     handleChange(event) {
@@ -64,7 +69,8 @@ Select.propTypes = {
     id: React.PropTypes.string,
     class: React.PropTypes.string,
     options: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    defaultOption: React.PropTypes.string.isRequired,
+    defaultOption: React.PropTypes.string,
+    value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func
 };
 

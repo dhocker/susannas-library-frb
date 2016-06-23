@@ -1,5 +1,5 @@
 /*
-    React + Bootstrap modal dialog box
+    React + Bootstrap delete author dialog box
     Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify

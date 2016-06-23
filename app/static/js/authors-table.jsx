@@ -18,7 +18,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
-import * as DeleteAuthor from './delete-author-dialog'
+import * as DeleteAuthor from './delete-author-dialog';
+import * as EditAuthor from './edit-author-dialog';
 
 /*
     Authors table - a specific instance of a table showing
@@ -35,6 +36,7 @@ export default class AuthorsTable extends Table {
 
     onEditClick(row) {
         console.log("Edit was clicked for id " + String(row.id));
+        EditAuthor.editAuthorDialog(row);
     }
 
     onDeleteClick(row) {

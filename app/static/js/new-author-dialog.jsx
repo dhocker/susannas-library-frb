@@ -1,5 +1,5 @@
 /*
-    React + Bootstrap modal dialog box
+    React + Bootstrap mew author dialog box
     Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,6 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import Select from './select';
 import * as authorstable from './authors-table';
-import * as errordialog from './error-dialog';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -54,6 +53,7 @@ export default class NewAuthorDialog extends ModalDialog {
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
+        this.commitAuthor = this.commitAuthor.bind(this);
     }
 
     /*
@@ -124,10 +124,20 @@ export default class NewAuthorDialog extends ModalDialog {
             avoid: this.state.avoidValue
         };
         // The data object will be request.form on the server
+        this.commitAuthor(data);
+    }
+
+    /*
+        Send author data to server
+    */
+    commitAuthor(data) {
+        // The data object will be request.form on the server
         var $this = this;
+        const http_verb = "POST";
+        const url = "/author";
         this.serverRequest = $.ajax({
-            type: "POST",
-            url: "/author",
+            type: http_verb,
+            url: url,
             data: data,
             success: function(result){
                 console.log(result);
@@ -215,7 +225,7 @@ export default class NewAuthorDialog extends ModalDialog {
                         <div className="form-group">
                             <label for="category">Category or Genre</label>
                             <Select id="category" class="form-control" options={["Mystery", "SciFi", "Fantasy"]}
-                                defaultOption={"Mystery"}
+                                value={this.state.categoryValue}
                                 onChange={this.categoryChanged}
                                 />
                         </div>
