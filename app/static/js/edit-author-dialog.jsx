@@ -35,8 +35,8 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             lastnameValue: props.row.LastName,
             firstnameValue: props.row.FirstName,
             categoryValue: props.row.category,
-            tryValue: props.row.try_author,
-            avoidValue: props.row.Avoid,
+            tryValue: !props.row.try_author == "",
+            avoidValue: !props.row.Avoid == "",
             id: props.row.id,
             error: ""
         };
@@ -53,8 +53,8 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             lastnameValue: row.LastName,
             firstnameValue: row.FirstName,
             categoryValue: row.category,
-            tryValue: row.try_author,
-            avoidValue: row.Avoid,
+            tryValue: !row.try_author == "",
+            avoidValue: !row.Avoid == "",
             id: row.id,
             error: ""
         });
