@@ -33,25 +33,25 @@
                     Also, the data-target value must match the id defined in the
                     new-book-dialog module.
                 #}
-                <button id="new-book-btn" type="button" class="btn btn-primary btn-sm"
-                        data-toggle="modal" data-target="#new-book-jsx">
-                    New Book
-                </button>
+                <div class="row">
+                    <div class="col-md-9">
+                        <button id="new-book-btn" type="button" class="btn btn-primary btn-sm"
+                                data-toggle="modal" data-target="#new-book-jsx">
+                            New Book
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <form class="form-inline">
+                            <input type="text" class="form-control" id="search-text" />
+                            <button id="search-button" class="btn btn-primary btn-md" type="button">Search</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-9">
-            </div>
-            <div class="col-md-3">
-                <form class="form-inline">
-                    <input type="text" class="form-control" id="search-text" />
-                    <button id="search-button" class="btn btn-primary btn-md" type="button">Search</button>
-                </form>
-            </div>
-        </div>
         <div id="bookstable">
             {# Table will be rendered inside of this element #}
         </div>
