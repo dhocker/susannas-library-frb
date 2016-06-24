@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as authorstable from './authors-table';
+import * as bookstable from './books-table';
 import Form from './form';
 import * as NewAuthor from './new-author-dialog';
 
@@ -23,6 +24,30 @@ export function initHomePage() {
         var search_arg = $("#search-text").val();
         console.log("Search for authors: " + search_arg);
         authorstable.searchAuthors(search_arg);
+    });
+};
+
+/*
+    Initialize the books page
+*/
+export function initBooksPage(author_id, author_name) {
+    console.log("Initializing books page for author id: " + author_id);
+    // Create and load books table
+    bookstable.createBooksTable(author_id, author_name);
+
+    //NewAuthor.initNewAuthorDialog();
+
+    // When New Book button is clicked, clear dialog fields
+    $("#new-book-btn").click(function() {
+        //NewAuthor.clearNewAuthorDialog();
+        console.log("New book clicked");
+    });
+
+    // Set up search button
+    $("#search-button").click(function() {
+        var search_arg = $("#search-text").val();
+        console.log("Search for books: " + search_arg);
+        //authorstable.searchAuthors(search_arg);
     });
 };
 

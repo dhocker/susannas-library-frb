@@ -178,3 +178,5 @@ def normalize_boolean(str_value):
     if str_value.encode('utf-8').lower() == "true":
         v = True
     return v
+
+# Books

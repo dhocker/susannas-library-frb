@@ -1,17 +1,10 @@
 {#
-    Authors page - generally the focal point of the application
+    Books page
 #}
 
 {% extends "layout.html" %}
 
 {% block head %}
-    {#
-    <script type="text/babel" src="{{ url_for('static', filename='js/react-table.js') }}"></script>
-    <script type="text/babel" src="{{ url_for('static', filename='js/authors-table.js') }}"></script>
-    <script type="text/babel">
-    </script>
-    #}
-
 {% endblock %}
 
 {% block body %}
@@ -20,16 +13,16 @@
         {# Error dialog box #}
     </div>
 
-    <div id="new-author">
-        {# New author dialog box #}
+    <div id="new-book">
+        {# New book dialog box #}
     </div>
 
-    <div id="edit-author">
-        {# Edit author dialog box #}
+    <div id="edit-book">
+        {# Edit book dialog box #}
     </div>
 
-    <div id="delete-author">
-        {# Delete author dialog box #}
+    <div id="delete-book">
+        {# Delete book dialog box #}
     </div>
 
     <div class="container">
@@ -38,11 +31,11 @@
                 {#
                     Note that dialog fields are cleared when the dialog is opened.
                     Also, the data-target value must match the id defined in the
-                    new-author-dialog module.
+                    new-book-dialog module.
                 #}
-                <button id="new-author-btn" type="button" class="btn btn-primary btn-sm"
-                        data-toggle="modal" data-target="#new-author-jsx">
-                    New Author
+                <button id="new-book-btn" type="button" class="btn btn-primary btn-sm"
+                        data-toggle="modal" data-target="#new-book-jsx">
+                    New Book
                 </button>
             </div>
         </div>
@@ -59,7 +52,7 @@
                 </form>
             </div>
         </div>
-        <div id="authorstable">
+        <div id="bookstable">
             {# Table will be rendered inside of this element #}
         </div>
     </div>
@@ -73,7 +66,7 @@
 {% block react %}
     <script type="text/javascript" src="{{ url_for('static', filename='dist/index_bundler.js') }}"></script>
     <script type="text/javascript">
-        EntryPoint.initHomePage();
+        EntryPoint.initBooksPage("{{ author_id }}", "{{ author_name }}");
     </script>
 {% endblock %}
 

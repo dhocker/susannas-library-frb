@@ -18,39 +18,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
-import * as DeleteAuthor from './delete-author-dialog';
-import * as EditAuthor from './edit-author-dialog';
+//import * as DeleteAuthor from './delete-author-dialog';
+//import * as EditAuthor from './edit-author-dialog';
 
 /*
-    Authors table - a specific instance of a table showing
-    all of the authors in the authors database.
+    Books table - a specific instance of a table showing
+    all of the books in the database or all of the books for an author.
 */
-export default class AuthorsTable extends Table {
+export default class BooksTable extends Table {
     constructor(props) {
         super(props);
     }
 
-    onBooksClick(row) {
-        console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/books-page?a=" + String(row.id);
-    }
-
     onEditClick(row) {
         console.log("Edit was clicked for id " + String(row.id));
-        EditAuthor.editAuthorDialog(row);
+        //EditAuthor.editAuthorDialog(row);
     }
 
     onDeleteClick(row) {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
-        DeleteAuthor.deleteAuthor(row);
+        //DeleteAuthor.deleteAuthor(row);
     }
 
     // Generate the actions for authors
     getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
                 <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
                 <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
@@ -58,52 +52,61 @@ export default class AuthorsTable extends Table {
     }
 }
 
-AuthorsTable.propTypes = {
+BooksTable.propTypes = {
     title: React.PropTypes.string.isRequired,
     class: React.PropTypes.string.isRequired,
     cols: React.PropTypes.array.isRequired,
     url: React.PropTypes.string.isRequired
 };
 
-AuthorsTable.defaultProps = {
+BooksTable.defaultProps = {
 };
 
 /*
-    Create the authors table instance on the authors page
+    Create the books table instance on the books page
 */
-var authorsTableInstance;
-export function createAuthorsTable() {
+var booksTableInstance;
+export function createBooksTable(author_id, author_name) {
     // Defines the columns in the authors table
-    var authorTableColumns = [
-        { colname: 'LastName', label: 'Last Name' },
-        { colname: 'FirstName', label: 'First Name' },
-        { colname: 'category', label: 'Category' },
-        { colname: 'try_author', label: 'Try' },
-        { colname: 'Avoid', label: 'Avoid' },
+    var bookTableColumns = [
+        { colname: 'Title', label: 'Title' },
+        { colname: 'Volume', label: 'Volume' },
+        { colname: 'Series', label: 'Series' },
+        { colname: 'Category', label: 'Category' },
+        { colname: 'Status', label: 'Status' },
+        { colname: 'CoverType', label: 'CoverType' },
+        { colname: 'Notes', label: 'Notes' },
         { colname: 'id', label: 'ID' }
     ];
 
+    var url = "/books";
+    var title = "Books";
+    if (author_id.length > 0) {
+        url += "?a=" + author_id;
+        title = "Books for " + String(author_name);
+    }
+
     console.log("Attempting to create Authors table");
-    authorsTableInstance = ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
-        title={"Authors"}
-        cols={authorTableColumns}
-        url={"/authors"}
+    booksTableInstance = ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
+        title={title}
+        cols={bookTableColumns}
+        url={url}
         />,
-        document.querySelector('#authorstable')
+        document.querySelector('#bookstable')
     );
-    console.log("Authors table created");
+    console.log("Books table created");
 }
 
 /*
     Reload the authors table
 */
-export function refreshAuthorsTable() {
-    authorsTableInstance.loadTable();
+export function refreshBooksTable() {
+    booksTableInstance.loadTable();
 }
 
 /*
     Load authors table based on search/filter
 */
-export function searchAuthors(arg) {
-    authorsTableInstance.filterTable(arg);
+export function searchBooks(arg) {
+    booksTableInstance.filterTable(arg);
 }
