@@ -64,6 +64,7 @@ export default class Table extends React.Component {
             type: "GET",
             url: url,
             success: function(response) {
+                console.log("Data rows received: " + String(response.data.length));
                 $this.setState({rows: response.data});
             },
             error: function(xhr, status, err) {
