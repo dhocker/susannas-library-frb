@@ -98,7 +98,7 @@ export function createBooksTable(author_id, author_name) {
 }
 
 /*
-    Reload the authors table
+    Reload the books table
 */
 export function refreshBooksTable() {
     booksTableInstance.loadTable();
