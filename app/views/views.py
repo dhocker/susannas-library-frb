@@ -15,12 +15,13 @@
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
 from app import app
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_all_authors, insert_author, get_page_of_authors
 from app.models.models import Author, Book
 from app.models.models import db_session
-from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, update_author
+from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
+    update_author, search_for_authors
 import logging
 
 logger = logging.getLogger("app")
@@ -49,7 +50,14 @@ def get_home():
 @app.route("/authors", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_authors():
-    authors = get_all_authors()
+    # Check for search first. Default to all.
+    if "s" in request.args:
+        search_text = request.args.get('s', '')
+        logger.info("Search authors: %s", search_text)
+        authors = search_for_authors(search_text)
+    else:
+        authors = get_all_authors()
+
     # This is model code and needs to be moved to the authors.py file
     ca = []
     for a in authors:

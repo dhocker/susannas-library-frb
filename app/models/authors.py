@@ -1,10 +1,16 @@
 from models import Author
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from app.models.models import db_session
 
 
 def get_all_authors():
     return Author.query.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
+
+
+def search_for_authors(search_text):
+    like = '%' + search_text + '%'
+    return Author.query.filter(or_(Author.LastName.like(like), Author.FirstName.like(like)))\
+        .order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
 
 
 def get_page_of_authors(skip, page_size):

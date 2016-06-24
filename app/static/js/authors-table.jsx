@@ -99,3 +99,10 @@ export function createAuthorsTable() {
 export function refreshAuthorsTable() {
     authorsTableInstance.loadTable();
 }
+
+/*
+    Load authors table based on search/filter
+*/
+export function searchAuthors(arg) {
+    authorsTableInstance.filterTable(arg);
+}

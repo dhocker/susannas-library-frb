@@ -28,8 +28,11 @@ import ReactDOM from 'react-dom';
 export default class Table extends React.Component {
     constructor(props) {
         super(props);
+
         // Initial state with empty rows
-        this.state = {rows: []};
+        this.state = {
+            rows: []
+        };
     }
 
     // Override in derived class to provide actions for table
@@ -46,16 +49,35 @@ export default class Table extends React.Component {
     // after inserts, updates or deletes
     loadTable() {
         console.log("Getting all records from url " + this.props.url);
-        this.serverRequest = $.get(this.props.url, function(response, status){
+        var $this = this;
+        $.get(this.props.url, function(response, status){
             console.log("Data rows received: " + String(response.data.length));
-            this.setState({rows: response.data});
-        }.bind(this));
+            $this.setState({rows: response.data});
+        });
+    }
+
+    // Loads the table with the results of a get + search arg (filter)
+    filterTable(arg) {
+        var $this = this;
+        var url = this.props.url + "?s=" + arg;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function(response) {
+                $this.setState({rows: response.data});
+            },
+            error: function(xhr, status, err) {
+                console.error("AJAX search call failed");
+                console.error(url, status, err.toString());
+            }
+        });
     }
 
     render() {
         var HeaderComponents = this.generateHeaders(),
             RowComponents = this.generateRows(),
             FooterComponents = this.generateFooter();
+        var $this = this;
 
         return (
             <div className="panel panel-default">

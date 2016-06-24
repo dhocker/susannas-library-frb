@@ -13,9 +13,16 @@ export function initHomePage() {
 
     NewAuthor.initNewAuthorDialog();
 
-    /// When New Author button is clicked, clear dialog fields
+    // When New Author button is clicked, clear dialog fields
     $("#new-author-btn").click(function() {
         NewAuthor.clearNewAuthorDialog();
+    });
+
+    // Set up search button
+    $("#search-button").click(function() {
+        var search_arg = $("#search-text").val();
+        console.log("Search for authors: " + search_arg);
+        authorstable.searchAuthors(search_arg);
     });
 };
 
