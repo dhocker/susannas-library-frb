@@ -315,7 +315,12 @@ NewAuthorDialog.defaultProps = {
 */
 var newAuthorDialogInstance;
 export function initNewAuthorDialog() {
-    newAuthorDialogInstance = ReactDOM.render(<NewAuthorDialog id={NEW_AUTHOR_DLG_ID} />,
+    ReactDOM.render(<NewAuthorDialog
+        id={NEW_AUTHOR_DLG_ID}
+        ref={function(instance) {
+            newAuthorDialogInstance = instance;
+        }}
+        />,
         document.querySelector('#new-author'));
 }
 

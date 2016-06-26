@@ -84,7 +84,19 @@ ErrorDialog.defaultProps = {
     Fire error dialog
 */
 export function showErrorDialog(message) {
-    var dialogInstance = ReactDOM.render(<ErrorDialog id={ERROR_DLG_ID} message={message}/>,
-        document.querySelector('#error-dialog'));
-    dialogInstance.showDialog(ERROR_DLG_ID);
+    var dialogInstance;
+    if (dialogInstance) {
+        dialogInstance.showDialog(ERROR_DLG_ID);
+    }
+    else {
+        ReactDOM.render(<ErrorDialog
+            id={ERROR_DLG_ID}
+            message={message}
+            ref={function(instance) {
+                dialogInstance = instance;
+                dialogInstance.showDialog(ERROR_DLG_ID);
+            }}
+            />,
+            document.querySelector('#error-dialog'));
+    }
 }

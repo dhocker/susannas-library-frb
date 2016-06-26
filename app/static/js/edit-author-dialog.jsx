@@ -130,7 +130,7 @@ EditAuthorDialog.defaultProps = {
 };
 
 /*
-    Initialize the new author dialog box
+    Initialize the edit author dialog box
 */
 var editAuthorInstance;
 export function editAuthorDialog(row) {
@@ -138,7 +138,13 @@ export function editAuthorDialog(row) {
         editAuthorInstance.initState(row);
     }
     else {
-        editAuthorInstance = ReactDOM.render(<EditAuthorDialog id={EDIT_AUTHOR_DLG_ID} row={row}/>,
+        ReactDOM.render(<EditAuthorDialog
+            id={EDIT_AUTHOR_DLG_ID}
+            row={row}
+            ref={function(instance) {
+                editAuthorInstance = instance;
+            }}
+            />,
             document.querySelector('#edit-author'));
     }
     $("#" + EDIT_AUTHOR_DLG_ID).modal("show");

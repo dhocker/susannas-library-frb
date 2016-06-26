@@ -87,10 +87,14 @@ export function createBooksTable(author_id, author_name) {
     }
 
     console.log("Attempting to create Authors table");
-    booksTableInstance = ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
+    // Note that the ref attribute is the preferred way to capture the rendered instance
+    ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
         title={title}
         cols={bookTableColumns}
         url={url}
+        ref={function(instance) {
+            booksTableInstance = instance;
+        }}
         />,
         document.querySelector('#bookstable')
     );

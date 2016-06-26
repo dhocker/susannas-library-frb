@@ -84,10 +84,14 @@ export function createAuthorsTable() {
     ];
 
     console.log("Attempting to create Authors table");
-    authorsTableInstance = ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
+    // Note that the ref attribute is the preferred way to capture the rendered instance
+    ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
         title={"Authors"}
         cols={authorTableColumns}
         url={"/authors"}
+        ref={function(instance) {
+            authorsTableInstance = instance;
+        }}
         />,
         document.querySelector('#authorstable')
     );
