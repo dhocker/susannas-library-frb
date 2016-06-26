@@ -1,5 +1,5 @@
 /*
-    flask-react - web server for learning to use react front end with Flask back end
+    Susanna's New Library
     Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,36 @@ import ReactDOM from 'react-dom';
     various React datagrids and tables that can be found on GitHub.
 */
 
+const SORT_ASC = 1;
+const SORT_DESC = -1;
+const SOR_
+
 export default class Table extends React.Component {
     constructor(props) {
         super(props);
+
+        this.column_count = props.cols.length;
+        this.sort_col = 0;
+        this.sort_dir = [];
+        // 1 = sort asc, -1 = sort desc
+        for (var i = 0; i < this.column_count; i++) {
+            // Set up the NEXT sort direction
+            if (i > 0) {
+                this.sort_dir.push(SORT_ASC);
+            }
+            else {
+                // The first column is the default sort column, so it is already sorted asc
+                this.sort_dir.push(SORT_DESC);
+            }
+        }
 
         // Initial state with empty rows
         this.state = {
             rows: []
         };
+
+        this.onSortColumn = this.onSortColumn.bind(this);
+        this.sortRows = this.sortRows.bind(this);
     }
 
     // Override in derived class to provide actions for table
@@ -52,7 +74,15 @@ export default class Table extends React.Component {
         var $this = this;
         $.get(this.props.url, function(response, status){
             console.log("Data rows received: " + String(response.data.length));
-            $this.setState({rows: response.data});
+            var rows = response.data;
+            // Repeat the last sort
+            if ($this.sort_col == 0 && $this.sort_dir[0] == SORT_DESC) {
+                // Default sort, do nothing
+            }
+            else {
+                $this.sortRows(rows, $this.sort_col, $this.sort_dir[$this.sort_col] * SORT_INVERT);
+            }
+            $this.setState({rows: rows});
         });
     }
 
@@ -72,6 +102,29 @@ export default class Table extends React.Component {
                 console.error(url, status, err.toString());
             }
         });
+    }
+
+    // Sort rows for a given column and direction
+    sortRows(rows, i, dir) {
+        var $this = this;
+        console.log("Sorting");
+        rows.sort(function(left, right) {
+            // Sort direction: 1 = asc, -1 = desc
+            return dir * String(left[$this.props.cols[i].colname]).localeCompare(right[$this.props.cols[i].colname]);
+        });
+    }
+
+    // Sorts the table based on the given column index
+    onSortColumn(i) {
+        console.log("Sort column: " + String(i));
+        var $this = this;
+        // Sort
+        this.sortRows(this.state.rows, i, this.sort_dir[i]);
+        this.setState({rows: this.state.rows});
+        // Flip the sort direction
+        this.sort_dir[i] = SORT_INVERT * this.sort_dir[i];
+        // Remember last sorted column
+        this.sort_col = i;
     }
 
     render() {
@@ -97,12 +150,27 @@ export default class Table extends React.Component {
     }
 
     generateHeaders() {
-        var cols = this.props.cols;  // [{colname, label}]
-
+        var cols = this.props.cols;
         // generate our header (th) cell components
-        var cells = cols.map(function(colData) {
-            return <th key={colData.colname}>{colData.label}</th>;
-        });
+        var cells = cols.map(function(colData, i) {
+            if (cols[i].sortable) {
+                return <th
+                    key={colData.colname}
+                    onClick={this.onSortColumn.bind(this, i)}
+                    style={{cursor:'pointer'}}
+                    >
+                    {colData.label}
+                    </th>;
+            }
+            else {
+                return <th
+                    key={colData.colname}
+                    >
+                    {colData.label}
+                    </th>;
+            }
+        }, this);
+
         // return a single header row
         return <tr>
             {cells}

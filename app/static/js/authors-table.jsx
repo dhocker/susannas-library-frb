@@ -75,12 +75,12 @@ var authorsTableInstance;
 export function createAuthorsTable() {
     // Defines the columns in the authors table
     var authorTableColumns = [
-        { colname: 'LastName', label: 'Last Name' },
-        { colname: 'FirstName', label: 'First Name' },
-        { colname: 'category', label: 'Category' },
-        { colname: 'try_author', label: 'Try' },
-        { colname: 'Avoid', label: 'Avoid' },
-        { colname: 'id', label: 'ID' }
+        { colname: 'LastName', label: 'Last Name', sortable: true },
+        { colname: 'FirstName', label: 'First Name', sortable: true },
+        { colname: 'category', label: 'Category', sortable: true },
+        { colname: 'try_author', label: 'Try', sortable: true },
+        { colname: 'Avoid', label: 'Avoid', sortable: true },
+        { colname: 'id', label: 'ID', sortable: true }
     ];
 
     console.log("Attempting to create Authors table");

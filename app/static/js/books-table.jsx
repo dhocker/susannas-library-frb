@@ -69,14 +69,14 @@ var booksTableInstance;
 export function createBooksTable(author_id, author_name) {
     // Defines the columns in the authors table
     var bookTableColumns = [
-        { colname: 'Title', label: 'Title' },
-        { colname: 'Volume', label: 'Volume' },
-        { colname: 'Series', label: 'Series' },
-        { colname: 'Category', label: 'Category' },
-        { colname: 'Status', label: 'Status' },
-        { colname: 'CoverType', label: 'CoverType' },
-        { colname: 'Notes', label: 'Notes' },
-        { colname: 'id', label: 'ID' }
+        { colname: 'Title', label: 'Title', sortable: true },
+        { colname: 'Volume', label: 'Volume', sortable: false },
+        { colname: 'Series', label: 'Series', sortable: true  },
+        { colname: 'Category', label: 'Category', sortable: true },
+        { colname: 'Status', label: 'Status', sortable: true },
+        { colname: 'CoverType', label: 'CoverType', sortable: true },
+        { colname: 'Notes', label: 'Notes', sortable: false },
+        { colname: 'id', label: 'ID', sortable: true }
     ];
 
     var url = "/books";
