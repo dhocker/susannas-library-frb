@@ -27,7 +27,7 @@ import ReactDOM from 'react-dom';
 
 const SORT_ASC = 1;
 const SORT_DESC = -1;
-const SOR_
+const SORT_INVERT = -1;
 
 export default class Table extends React.Component {
     constructor(props) {
