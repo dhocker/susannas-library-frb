@@ -1,6 +1,6 @@
 #
 # Susanna's New Library - web app for managing Susan's vast library
-# Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+# Copyright (c) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,21 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
-from models import Author, Book
+from models import Series
 from sqlalchemy import func, or_
 from app.models.models import db_session
 
 
-def get_all_books():
-    return Book.query.order_by(func.lower(Book.Title)).all()
-
-
-def update_book(book):
-    db_session.commit()
-
-
-def insert_book(title, isbn, volume, series_id, author_id, category, status, cover, notes):
-    author = Author.query.get(author_id)
-    b = Book(title, isbn, volume, series_id, author, category, status, cover, notes)
-    db_session.add(b)
-    db_session.commit()
+def get_all_series():
+    return Series.query.order_by(func.lower(Series.name)).all()

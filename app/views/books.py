@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_all_books
+from app.models.books import get_all_books, insert_book
 from app.models.models import Author, Book
 from app.models.models import db_session
 import logging
@@ -86,3 +86,26 @@ def get_books_for_author():
 
     json = jsonify({'data': ca})
     return json
+
+
+@app.route("/book", methods=['POST'])
+def add_book():
+    """
+    Add a new book.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    title = request.form["title"]
+    isbn = request.form["isbn"]
+    volume = request.form["volume"]
+    series_id = request.form["series"]
+    author_id = request.form["author"]
+    category = request.form["category"]
+    status = request.form["status"]
+    cover = request.form["cover"]
+    notes = request.form["notes"]
+
+    logger.info("Add book with: [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]",
+                title, isbn, volume, series_id, author_id, category, status, cover, notes)
+    insert_book(title, isbn, volume, series_id, author_id, category, status, cover, notes)
+    return "SUCCESS: Book created", 201

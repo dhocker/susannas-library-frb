@@ -101,6 +101,8 @@ class Collaborations(Base):
     id = Column(Integer, primary_key=True)
     author_id = Column(Integer, ForeignKey('authors.id'))
     book_id = Column(Integer, ForeignKey('books.id'))
+    created_at = Column(Text, default=func.now())
+    updated_at = Column(Text, default=func.now())
 
 
 class Author(Base, ModelMixin):
@@ -179,6 +181,20 @@ class Book(Base, ModelMixin):
     authors = relationship("Author",
                          secondary='collaborations')
 
+
+    def __init__(self, title, isbn, volume, series_id, author, category, status, cover, notes):
+        self.Title = title
+        self.ISBN = isbn
+        self.Volume = volume
+        self.series_id = series_id
+        self.authors.append(author)
+        self.Category = category
+        self.Status = status
+        self.CoverType = cover
+        self.Notes = notes
+        self.created_at = datetime.now()
+        self.updated_at = self.created_at
+
     # Each model must supply these mapping tables for DataTables to work
 
     # These are the column properties that are exposed (see Mixin class)
@@ -200,13 +216,17 @@ class Book(Base, ModelMixin):
                                 Book.Notes.like(like_str)))
 
 
-class Series(Base):
+class Series(Base, ModelMixin):
     __tablename__ = 'series'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     created_at = Column(Text)
     updated_at = Column(Text)
 
+    # These are the column properties that are exposed (see Mixin class)
+    column_props = ["name", "id"]
+    # These are the actual table columns corresponding to the column properties
+    table_column_names = ["name", "id"]
 
 if __name__ == "__main__":
     # Case insensitive ordering

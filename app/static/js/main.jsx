@@ -4,6 +4,7 @@ import * as authorstable from './authors-table';
 import * as bookstable from './books-table';
 import Form from './form';
 import * as NewAuthor from './new-author-dialog';
+import * as NewBook from './new-book-dialog';
 
 /*
     Initialize the home page
@@ -35,11 +36,11 @@ export function initBooksPage(author_id, author_name) {
     // Create and load books table
     bookstable.createBooksTable(author_id, author_name);
 
-    //NewAuthor.initNewAuthorDialog();
+    NewBook.initNewBookDialog();
 
     // When New Book button is clicked, clear dialog fields
     $("#new-book-btn").click(function() {
-        //NewAuthor.clearNewAuthorDialog();
+        NewBook.clearNewBookDialog();
         console.log("New book clicked");
     });
 
