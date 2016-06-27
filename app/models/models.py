@@ -96,10 +96,11 @@ class ModelMixin():
         return d
 
 
-association_table = Table('collaborations', Base.metadata,
-    Column('author_id', Integer, ForeignKey('authors.id')),
-    Column('book_id', Integer, ForeignKey('books.id'))
-)
+class Collaborations(Base):
+    __tablename__ = "collaborations"
+    id = Column(Integer, primary_key=True)
+    author_id = Column(Integer, ForeignKey('authors.id'))
+    book_id = Column(Integer, ForeignKey('books.id'))
 
 
 class Author(Base, ModelMixin):
@@ -113,8 +114,7 @@ class Author(Base, ModelMixin):
     created_at = Column(Text)
     updated_at = Column(Text)
     books = relationship("Book",
-                    secondary=association_table,
-                    backref="authors")
+                    secondary='collaborations')
 
 
     def __init__(self, last_name, first_name, category, try_author, avoid):
@@ -176,7 +176,8 @@ class Book(Base, ModelMixin):
     created_at = Column(Text)
     updated_at = Column(Text)
     series = relationship("Series", uselist=False)
-
+    authors = relationship("Author",
+                         secondary='collaborations')
 
     # Each model must supply these mapping tables for DataTables to work
 

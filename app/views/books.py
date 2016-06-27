@@ -51,11 +51,13 @@ def get_books_for_author():
     The author id is the search parameter a=id
     :return:
     """
+    sort_required = False
     author_id = request.args.get('a', '')
     if author_id:
         logger.info("Books for author: %s", author_id)
         author = get_author(author_id)
         books = author.books
+        sort_required = True
     else:
         logger.info("All books")
         books = get_all_books()
@@ -71,8 +73,9 @@ def get_books_for_author():
             aa["Series"] = ""
         ca.append(aa)
 
-    # Title sort
-    ca = sorted(ca, key=lambda k: k["Title"])
+    # Title sort when required
+    if sort_required:
+        ca = sorted(ca, key=lambda k: k["Title"])
 
     json = jsonify({'data': ca})
     return json
