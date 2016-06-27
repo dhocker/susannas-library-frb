@@ -71,6 +71,13 @@ def get_books_for_author():
             aa["Series"] = b.series.name
         else:
             aa["Series"] = ""
+        author_str = b.authors[0].LastName + ", " + b.authors[0].FirstName
+        # To condense the author field, we only show one author.
+        # If there is more than one author, we mark the name with a "+".
+        if len(b.authors) > 1:
+            author_str += " +"
+        aa["Author"] = author_str
+
         ca.append(aa)
 
     # Title sort when required

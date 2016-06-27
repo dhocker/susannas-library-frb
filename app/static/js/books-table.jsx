@@ -72,6 +72,7 @@ export function createBooksTable(author_id, author_name) {
         { colname: 'Title', label: 'Title', sortable: true },
         { colname: 'Volume', label: 'Volume', sortable: false },
         { colname: 'Series', label: 'Series', sortable: true  },
+        { colname: 'Author', label: 'Author', sortable: true  },
         { colname: 'Category', label: 'Category', sortable: true },
         { colname: 'Status', label: 'Status', sortable: true },
         { colname: 'CoverType', label: 'CoverType', sortable: true },
