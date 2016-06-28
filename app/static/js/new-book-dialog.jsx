@@ -31,12 +31,13 @@ export default class NewBookDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
+        console.log("New book for author_id = " + String(props.author_id));
         this.state = {
             titleValue: "",
             isbnValue: "",
             volumeValue: "",
             seriesValue: 0,
-            authorValue: 0,
+            authorValue: props.author_id ? props.author_id : 0,
             categoryValue: "Mystery",
             statusValue: "",
             coverValue: "",
@@ -73,12 +74,13 @@ export default class NewBookDialog extends ModalDialog {
         Clear all form fields
     */
     clearFormFields() {
+        console.log("Clear fields for author_id = " + String(this.props.author_id));
         this.setState({
             titleValue: "",
             isbnValue: "",
             volumeValue: "",
             seriesValue: this.series_rows[0].id,
-            authorValue: this.author_rows[0].id,
+            authorValue: this.props.author_id ? this.props.author_id : this.author_rows[0].id,
             categoryValue: "Mystery",
             statusValue: "",
             coverValue: "",
@@ -108,7 +110,7 @@ export default class NewBookDialog extends ModalDialog {
             var rows = response.data;
             $this.setState({
                 author_rows: rows,
-                authorValue: rows[0].id
+                authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
             });
         });
     }
@@ -415,9 +417,10 @@ NewBookDialog.defaultProps = {
     Initialize the new book dialog box
 */
 var newBookDialogInstance;
-export function initNewBookDialog() {
+export function initNewBookDialog(author_id) {
     ReactDOM.render(<NewBookDialog
         id={NEW_BOOK_DLG_ID}
+        author_id={author_id}
         ref={function(instance) {
             newBookDialogInstance = instance;
         }}

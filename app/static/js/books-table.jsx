@@ -91,6 +91,7 @@ export function createBooksTable(author_id, author_name) {
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
         title={title}
+        author={author_id}
         cols={bookTableColumns}
         url={url}
         ref={function(instance) {

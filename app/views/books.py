@@ -71,7 +71,11 @@ def get_books_for_author():
             aa["Series"] = b.series.name
         else:
             aa["Series"] = ""
-        author_str = b.authors[0].LastName + ", " + b.authors[0].FirstName
+        author_str = ""
+        if len(b.authors):
+            author_str = b.authors[0].LastName + ", " + b.authors[0].FirstName
+        else:
+            logger.warn("Book id %s has no authors", b.id)
         # To condense the author field, we only show one author.
         # If there is more than one author, we mark the name with a "+".
         if len(b.authors) > 1:

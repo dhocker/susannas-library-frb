@@ -36,12 +36,12 @@ export function initBooksPage(author_id, author_name) {
     // Create and load books table
     bookstable.createBooksTable(author_id, author_name);
 
-    NewBook.initNewBookDialog();
+    NewBook.initNewBookDialog(author_id);
 
     // When New Book button is clicked, clear dialog fields
     $("#new-book-btn").click(function() {
-        NewBook.clearNewBookDialog();
         console.log("New book clicked");
+        NewBook.clearNewBookDialog();
     });
 
     // Set up search button
