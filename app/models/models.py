@@ -116,7 +116,7 @@ class Author(Base, ModelMixin):
     created_at = Column(Text)
     updated_at = Column(Text)
     books = relationship("Book",
-                    secondary='collaborations')
+                    secondary='collaborations', back_populates="authors", cascade="delete")
 
 
     def __init__(self, last_name, first_name, category, try_author, avoid):
@@ -178,8 +178,7 @@ class Book(Base, ModelMixin):
     created_at = Column(Text)
     updated_at = Column(Text)
     series = relationship("Series", uselist=False)
-    authors = relationship("Author",
-                         secondary='collaborations')
+    authors = relationship("Author", secondary='collaborations', back_populates="books")
 
 
     def __init__(self, title, isbn, volume, series_id, author, category, status, cover, notes):
