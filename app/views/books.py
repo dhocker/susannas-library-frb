@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_all_books, insert_book
+from app.models.books import get_all_books, insert_book, get_book, update_book
 from app.models.models import Author, Book
 from app.models.models import db_session
 import logging
@@ -69,6 +69,7 @@ def get_books_for_author():
         # TODO This is model code and needs to be moved there
         if b.series:
             aa["Series"] = b.series.name
+            aa["series_id"] = b.series.id
         else:
             aa["Series"] = ""
         author_str = ""
@@ -81,6 +82,10 @@ def get_books_for_author():
             author_str = b.authors[0].LastName
             if len(b.authors[0].FirstName):
                 author_str += ", " + b.authors[0].FirstName
+            aa["author_id"] = b.authors[0].id
+            # Report books with multiple authors
+            if (len(b.authors) > 1):
+                logger.warn("Book id %s has %d authors", b.id, len(b.authors))
         else:
             logger.warn("Book id %s has no authors", b.id)
         # To condense the author field, we only show one author.
@@ -120,3 +125,32 @@ def add_book():
                 title, isbn, volume, series_id, author_id, category, status, cover, notes)
     insert_book(title, isbn, volume, series_id, author_id, category, status, cover, notes)
     return "SUCCESS: Book created", 201
+
+
+@app.route("/book/<id>", methods=['PUT'])
+def edit_book(id):
+    """
+    Edit an existing book.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    title = request.form["title"]
+    isbn = request.form["isbn"]
+    volume = request.form["volume"]
+    series_id = request.form["series"]
+    author_id = request.form["author"]
+    category = request.form["category"]
+    status = request.form["status"]
+    cover = request.form["cover"]
+    notes = request.form["notes"]
+
+    logger.info("Edit book with: [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]",
+                title, isbn, volume, series_id, author_id, category, status, cover, notes)
+
+    try:
+        update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes)
+    except Exception as ex:
+        logger.info("Book update failed: %s", ex.message)
+        return "ERROR: Book update failed", 409
+
+    return "SUCCESS: Book updated", 200

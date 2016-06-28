@@ -19,7 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
 //import * as DeleteAuthor from './delete-author-dialog';
-//import * as EditAuthor from './edit-author-dialog';
+import * as EditBook from './edit-book-dialog';
 
 /*
     Books table - a specific instance of a table showing
@@ -32,7 +32,7 @@ export default class BooksTable extends Table {
 
     onEditClick(row) {
         console.log("Edit was clicked for id " + String(row.id));
-        //EditAuthor.editAuthorDialog(row);
+        EditBook.editBookDialog(row);
     }
 
     onDeleteClick(row) {

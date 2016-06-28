@@ -18,6 +18,7 @@ from models import Author, Book
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from app.models.models import db_session
+from authors import get_author
 
 
 def get_all_books():
@@ -25,8 +26,25 @@ def get_all_books():
     # want to do this, but it does greatly speed up the overall query.
     return Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
 
+def get_book(id):
+    return Book.query.options(joinedload('authors')).get(id)
 
-def update_book(book):
+
+def update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes):
+    book = get_book(id)
+    book.Title = title
+    book.ISBN = isbn
+    book.Volume = volume
+    book.series_id = series_id
+    # If the author changed, update the association
+    # Technically we can support multiple authors on a book. However, for now we're
+    # only supporting one author.
+    if book.authors[0].id != author_id:
+        book.authors[0] = get_author(author_id)
+    book.Category = category
+    book.Status = status
+    book.CoverType = cover
+    book.Notes = notes
     db_session.commit()
 
 
