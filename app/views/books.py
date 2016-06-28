@@ -72,8 +72,15 @@ def get_books_for_author():
         else:
             aa["Series"] = ""
         author_str = ""
+        # In the existing DB all books DO NOT have an author(s)
+        # TODO This is extremely slow when ALL books are being fetched.
+        # The authors appear to be a lazy secondary query using the
+        # association table. Paging for all books is about the only
+        # way to deal with this.
         if len(b.authors):
-            author_str = b.authors[0].LastName + ", " + b.authors[0].FirstName
+            author_str = b.authors[0].LastName
+            if len(b.authors[0].FirstName):
+                author_str += ", " + b.authors[0].FirstName
         else:
             logger.warn("Book id %s has no authors", b.id)
         # To condense the author field, we only show one author.

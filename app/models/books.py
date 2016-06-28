@@ -16,11 +16,14 @@
 #
 from models import Author, Book
 from sqlalchemy import func, or_
+from sqlalchemy.orm import joinedload
 from app.models.models import db_session
 
 
 def get_all_books():
-    return Book.query.order_by(func.lower(Book.Title)).all()
+    # Here we force eager loading of the book authors. Over the long term, we might not
+    # want to do this, but it does greatly speed up the overall query.
+    return Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
 
 
 def update_book(book):
