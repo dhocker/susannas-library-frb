@@ -18,7 +18,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
-//import * as DeleteAuthor from './delete-author-dialog';
+import * as DeleteBook from './delete-book-dialog';
 import * as EditBook from './edit-book-dialog';
 
 /*
@@ -38,7 +38,7 @@ export default class BooksTable extends Table {
     onDeleteClick(row) {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
-        //DeleteAuthor.deleteAuthor(row);
+        DeleteBook.deleteBook(row);
     }
 
     // Generate the actions for authors

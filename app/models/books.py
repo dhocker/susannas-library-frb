@@ -53,3 +53,9 @@ def insert_book(title, isbn, volume, series_id, author_id, category, status, cov
     b = Book(title, isbn, volume, series_id, author, category, status, cover, notes)
     db_session.add(b)
     db_session.commit()
+
+
+def delete_book_by_id(id):
+    b = Book.query.get(id)
+    db_session.delete(b)
+    db_session.commit()

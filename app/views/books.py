@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_all_books, insert_book, get_book, update_book
+from app.models.books import get_all_books, insert_book, get_book, update_book, delete_book_by_id
 from app.models.models import Author, Book
 from app.models.models import db_session
 import logging
@@ -154,3 +154,10 @@ def edit_book(id):
         return "ERROR: Book update failed", 409
 
     return "SUCCESS: Book updated", 200
+
+
+@app.route("/book/<id>", methods=['DELETE'])
+def delete_book(id):
+    logger.info("Delete book id: [%s]", id)
+    delete_book_by_id(id)
+    return "Book deleted", 200
