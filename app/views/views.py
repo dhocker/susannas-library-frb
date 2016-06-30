@@ -117,9 +117,18 @@ def edit_author(id):
     try_author = normalize_boolean(request.form["try"])
     avoid = normalize_boolean(request.form["avoid"])
 
+    # TODO Duplicate author check needed here. Make sure updated
+    # author does not exist (we are not trying to morph one author
+    # into another existing author).
+    author = get_author(id)
+    if author.FirstName != firstname or author.LastName != lastname:
+        c = author_exists(lastname, firstname)
+        if c > 0:
+            logger.info("Author exists: %s, %s", lastname, firstname)
+            return "ERROR: Author exists", 409
+
     logger.info("Edit author with: [%s] [%s] [%s] [%s] [%s] [%s]", id, firstname, lastname, category, try_author, avoid)
     try:
-        author = get_author(id)
         author.LastName = lastname
         author.FirstName = firstname
         author.category = category

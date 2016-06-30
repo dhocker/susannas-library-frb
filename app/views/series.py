@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.series import get_all_series, insert_series, series_exists
+from app.models.series import get_all_series, get_series, insert_series, series_exists, update_series
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging
@@ -36,7 +36,7 @@ def get_series_page():
 
 @app.route("/series", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
-def get_series():
+def get_all_series_records():
     series = get_all_series()
 
     # TODO This is model code and needs to be moved to the series.py file
@@ -66,3 +66,32 @@ def add_series():
     logger.info("Add series with: [%s]", name)
     insert_series(name)
     return "SUCCESS: Series created", 201
+
+@app.route("/series/<id>", methods=['PUT'])
+def edit_series(id):
+    """
+    Edit an existing series.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    name = request.form["name"]
+
+    # Make sure we aren't trying to morph one series
+    # into another already existing one.
+    series = get_series(id)
+    if series.name != name:
+        # Dup check needed
+        c = series_exists(name)
+        if c > 0:
+            logger.info("Series exists: %s", name)
+            return "ERROR: Series exists", 409
+
+    logger.info("Edit series with: [%s] [%s]", id, name)
+    try:
+        series.name = name
+        update_series(series)
+    except Exception as ex:
+        logger.info("Series update failed: %s", ex.message)
+        return "ERROR: Series update failed", 409
+
+    return "SUCCESS: Series updated", 200

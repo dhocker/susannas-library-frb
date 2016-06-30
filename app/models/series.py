@@ -22,6 +22,9 @@ from app.models.models import db_session
 def get_all_series():
     return Series.query.order_by(func.lower(Series.name)).all()
 
+def get_series(series_id):
+    return Series.query.get(series_id)
+
 def insert_series(name):
     s = Series(name)
     db_session.add(s)
@@ -36,3 +39,6 @@ def series_exists(name):
     """
     c = Series.query.filter(func.lower(Series.name) == func.lower(name)).count()
     return c
+
+def update_series(series):
+    db_session.commit()

@@ -19,7 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
 //import * as DeleteAuthor from './delete-author-dialog';
-//import * as EditAuthor from './edit-author-dialog';
+import * as EditSeries from './edit-series-dialog';
 
 /*
     Series table - a specific instance of a table showing
@@ -32,12 +32,12 @@ export default class SeriesTable extends Table {
 
     onBooksClick(row) {
         console.log("Books was clicked for id " + String(row.id));
-        //window.location.href = "/books-page?s=" + String(row.id);
+        window.location.href = "/books-page?s=" + String(row.id);
     }
 
     onEditClick(row) {
         console.log("Edit was clicked for id " + String(row.id));
-        //EditSeries.editSeriesDialog(row);
+        EditSeries.editSeriesDialog(row);
     }
 
     onDeleteClick(row) {

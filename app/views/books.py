@@ -36,6 +36,13 @@ def get_books_page():
         logger.info("Show books for author: %s", author_id)
         author = get_author(author_id)
         author_name = author.LastName + ", " + author.FirstName
+    elif "s" in request.args:
+        # Show books for series
+        series_id = request.args.get('s', '')
+        logger.info("Show books for series: %s", series_id)
+        #author = get_author(author_id)
+        #author_name = author.LastName + ", " + author.FirstName
+        return "Not implemented", 404
     else:
         # All books
         author_id = ""
