@@ -31,13 +31,25 @@ export default class NewBookDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
-        console.log("New book for author_id = " + String(props.author_id));
+        console.log("New book for filter_by = " + props.filter_by + " " + String(props.filter_by_id));
+
+        // Apply filtering
+        var series_id = 0;
+        var author_id = 0;
+        switch (props.filter_by) {
+            case "author":
+                author_id = props.filter_by_id;
+                break;
+            case "series":
+                series_id = props.filter_by_id;
+                break;
+        }
         this.state = {
             titleValue: "",
             isbnValue: "",
             volumeValue: "",
-            seriesValue: 0,
-            authorValue: props.author_id ? props.author_id : 0,
+            seriesValue: series_id,
+            authorValue: author_id,
             categoryValue: "Mystery",
             statusValue: "",
             coverValue: "",
@@ -74,13 +86,28 @@ export default class NewBookDialog extends ModalDialog {
         Clear all form fields
     */
     clearFormFields() {
-        console.log("Clear fields for author_id = " + String(this.props.author_id));
+        console.log("Clear fields for filter_by = " + this.props.filter_by + " " + String(this.props.filter_by_id));
+
+        // Apply book filtering
+        var series_id = this.state.series_rows[0].id;
+        var author_id = this.state.author_rows[0].id;
+        switch (this.props.filter_by) {
+            case "author":
+                author_id = this.props.filter_by_id;
+                break;
+            case "series":
+                series_id = this.props.filter_by_id;
+                break;
+            default:
+                break;
+        }
+
         this.setState({
             titleValue: "",
             isbnValue: "",
             volumeValue: "",
-            seriesValue: this.state.series_rows[0].id,
-            authorValue: this.props.author_id ? this.props.author_id : this.state.author_rows[0].id,
+            seriesValue: series_id,
+            authorValue: author_id,
             categoryValue: "Mystery",
             statusValue: "",
             coverValue: "",
@@ -417,10 +444,11 @@ NewBookDialog.defaultProps = {
     Initialize the new book dialog box
 */
 var newBookDialogInstance;
-export function initNewBookDialog(author_id) {
+export function initNewBookDialog(filter_by, id) {
     ReactDOM.render(<NewBookDialog
         id={NEW_BOOK_DLG_ID}
-        author_id={author_id}
+        filter_by={filter_by}
+        filter_by_id={id}
         ref={function(instance) {
             newBookDialogInstance = instance;
         }}

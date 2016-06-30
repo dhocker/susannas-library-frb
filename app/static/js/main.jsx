@@ -33,12 +33,12 @@ export function initHomePage() {
 /*
     Initialize the books page
 */
-export function initBooksPage(author_id, author_name) {
-    console.log("Initializing books page for author id: " + author_id);
+export function initBooksPage(filter_by, id, name) {
+    console.log("Initializing books page with filter: " + filter_by + " " + id + " " +name);
     // Create and load books table
-    bookstable.createBooksTable(author_id, author_name);
+    bookstable.createBooksTable(filter_by, id, name);
 
-    NewBook.initNewBookDialog(author_id);
+    NewBook.initNewBookDialog(filter_by, id);
 
     // When New Book button is clicked, clear dialog fields
     $("#new-book-btn").click(function() {
@@ -50,7 +50,7 @@ export function initBooksPage(author_id, author_name) {
     $("#search-button").click(function() {
         var search_arg = $("#search-text").val();
         console.log("Search for books: " + search_arg);
-        //authorstable.searchAuthors(search_arg);
+        //bookstable.searchBooks(search_arg);
     });
 };
 

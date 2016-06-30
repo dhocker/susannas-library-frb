@@ -66,7 +66,7 @@ BooksTable.defaultProps = {
     Create the books table instance on the books page
 */
 var booksTableInstance;
-export function createBooksTable(author_id, author_name) {
+export function createBooksTable(filter_by, id, name) {
     // Defines the columns in the authors table
     var bookTableColumns = [
         { colname: 'Title', label: 'Title', sortable: true },
@@ -80,18 +80,28 @@ export function createBooksTable(author_id, author_name) {
         { colname: 'id', label: 'ID', sortable: true }
     ];
 
+    // Apply filtering
     var url = "/books";
     var title = "Books";
-    if (author_id.length > 0) {
-        url += "?a=" + author_id;
-        title = "Books for " + String(author_name);
+    switch (filter_by) {
+        case "author":
+            url += "?a=" + id;
+            title = "Books for Author: " + name;
+            break;
+        case "series":
+            url += "?s=" + id;
+            title = "Books for Series: " + name;
+            break;
+        default:
+            break;
     }
 
     console.log("Attempting to create Authors table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
         title={title}
-        author={author_id}
+        filter_by={filter_by}
+        filter_by_id={id}
         cols={bookTableColumns}
         url={url}
         ref={function(instance) {

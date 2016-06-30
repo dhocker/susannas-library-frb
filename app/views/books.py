@@ -19,6 +19,7 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
     render_template, flash, jsonify
 from app.models.authors import get_author
 from app.models.books import get_all_books, insert_book, get_books_in_series, update_book, delete_book_by_id
+from app.models.series import get_series
 from app.models.models import Author, Book
 from app.models.models import db_session
 import logging
@@ -32,22 +33,24 @@ def get_books_page():
     # Check for author id first.
     if "a" in request.args:
         # Show books for author
-        author_id = request.args.get('a', '')
-        logger.info("Show books for author: %s", author_id)
-        author = get_author(author_id)
-        author_name = author.LastName + ", " + author.FirstName
+        id = request.args.get('a', '')
+        logger.info("Show books for author: %s", id)
+        author = get_author(id)
+        name = author.LastName + ", " + author.FirstName
+        filter_by = "author"
     elif "s" in request.args:
         # Show books for series
-        series_id = request.args.get('s', '')
-        logger.info("Show books for series: %s", series_id)
-        #author = get_author(author_id)
-        #author_name = author.LastName + ", " + author.FirstName
-        return "Not implemented", 404
+        id = request.args.get('s', '')
+        logger.info("Show books for series: %s", id)
+        series = get_series(id)
+        name = series.name
+        filter_by = "series"
     else:
         # All books
-        author_id = ""
-        author_name = ""
-    return render_template("books.html", author_id=author_id, author_name=author_name)
+        id = ""
+        name = ""
+        filter_by = ""
+    return render_template("books.html", filter_by=filter_by, id=id, name=name)
 
 
 @app.route("/books", methods=['GET'])
