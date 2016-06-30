@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as authorstable from './authors-table';
 import * as bookstable from './books-table';
+import * as seriestable from './series-table';
 import Form from './form';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
@@ -50,6 +51,32 @@ export function initBooksPage(author_id, author_name) {
         console.log("Search for books: " + search_arg);
         //authorstable.searchAuthors(search_arg);
     });
+};
+
+/*
+    Initialize the Series page
+*/
+export function initSeriesPage() {
+    // Create and load series table
+    seriestable.createSeriesTable();
+
+    /*
+
+    NewSeries.initNewSeriesDialog();
+
+    // When New Series button is clicked, clear dialog fields
+    $("#new-series-btn").click(function() {
+        NewAuthor.clearNewSeriesDialog();
+    });
+
+    // Set up search button
+    $("#search-button").click(function() {
+        var search_arg = $("#search-text").val();
+        console.log("Search for series: " + search_arg);
+        seriestable.searchSeries(search_arg);
+    });
+
+    */
 };
 
 /*

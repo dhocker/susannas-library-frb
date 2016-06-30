@@ -25,6 +25,14 @@ import logging
 
 logger = logging.getLogger("app")
 
+@app.route("/series-page", methods=['GET'])
+#@login_required                                 # Use of @login_required decorator
+def get_series_page():
+    """
+    The home page is the series page
+    :return:
+    """
+    return render_template("series.html")
 
 @app.route("/series", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
