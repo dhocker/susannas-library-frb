@@ -31,16 +31,16 @@ logger = logging.getLogger("app")
 #@login_required                                 # Use of @login_required decorator
 def get_books_page():
     # Check for author id first.
-    if "a" in request.args:
+    if "author" in request.args:
         # Show books for author
-        id = request.args.get('a', '')
+        id = request.args.get('author', '')
         logger.info("Show books for author: %s", id)
         author = get_author(id)
         name = author.LastName + ", " + author.FirstName
         filter_by = "author"
-    elif "s" in request.args:
+    elif "series" in request.args:
         # Show books for series
-        id = request.args.get('s', '')
+        id = request.args.get('series', '')
         logger.info("Show books for series: %s", id)
         series = get_series(id)
         name = series.name

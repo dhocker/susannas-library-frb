@@ -32,7 +32,7 @@ export default class SeriesTable extends Table {
 
     onBooksClick(row) {
         console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/books-page?s=" + String(row.id);
+        window.location.href = "/books-page?series=" + String(row.id);
     }
 
     onEditClick(row) {

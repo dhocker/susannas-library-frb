@@ -32,7 +32,7 @@ export default class AuthorsTable extends Table {
 
     onBooksClick(row) {
         console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/books-page?a=" + String(row.id);
+        window.location.href = "/books-page?author=" + String(row.id);
     }
 
     onEditClick(row) {
