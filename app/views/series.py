@@ -18,7 +18,8 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.series import get_all_series, get_series, insert_series, series_exists, update_series
+from app.models.series import get_all_series, get_series, insert_series, series_exists, \
+    update_series, delete_series_by_id
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging
@@ -95,3 +96,9 @@ def edit_series(id):
         return "ERROR: Series update failed", 409
 
     return "SUCCESS: Series updated", 200
+
+@app.route("/series/<id>", methods=['DELETE'])
+def delete_series(id):
+    logger.info("Delete series id: [%s]", id)
+    delete_series_by_id(id)
+    return "Author deleted", 200

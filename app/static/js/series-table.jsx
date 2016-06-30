@@ -18,7 +18,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
-//import * as DeleteAuthor from './delete-author-dialog';
+import * as DeleteSeries from './delete-series-dialog';
 import * as EditSeries from './edit-series-dialog';
 
 /*
@@ -43,7 +43,7 @@ export default class SeriesTable extends Table {
     onDeleteClick(row) {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
-        //DeleteSeries.deleteSeries(row);
+        DeleteSeries.deleteSeries(row);
     }
 
     // Generate the actions for authors

@@ -42,3 +42,8 @@ def series_exists(name):
 
 def update_series(series):
     db_session.commit()
+
+def delete_series_by_id(id):
+    s = Series.query.get(id)
+    db_session.delete(s)
+    db_session.commit()
