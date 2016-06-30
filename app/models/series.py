@@ -25,6 +25,10 @@ def get_all_series():
 def get_series(series_id):
     return Series.query.get(series_id)
 
+def search_for_series(search_arg):
+    sa = "%" + search_arg + "%"
+    return Series.query.filter(Series.name.like(sa)).order_by(func.lower(Series.name)).all()
+
 def insert_series(name):
     s = Series(name)
     db_session.add(s)

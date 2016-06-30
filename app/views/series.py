@@ -19,7 +19,7 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
     render_template, flash, jsonify
 from app.models.authors import get_author
 from app.models.series import get_all_series, get_series, insert_series, series_exists, \
-    update_series, delete_series_by_id
+    update_series, delete_series_by_id, search_for_series
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging
@@ -37,8 +37,12 @@ def get_series_page():
 
 @app.route("/series", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
-def get_all_series_records():
-    series = get_all_series()
+def get_series_records():
+    search_arg = request.args.get('search', '')
+    if search_arg:
+        series = search_for_series(search_arg)
+    else:
+        series = get_all_series()
 
     # TODO This is model code and needs to be moved to the series.py file
     ca = []
