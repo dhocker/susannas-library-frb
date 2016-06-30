@@ -85,11 +85,11 @@ export function createBooksTable(filter_by, id, name) {
     var title = "Books";
     switch (filter_by) {
         case "author":
-            url += "?a=" + id;
+            url += "?author=" + id;
             title = "Books for Author: " + name;
             break;
         case "series":
-            url += "?s=" + id;
+            url += "?series=" + id;
             title = "Books for Series: " + name;
             break;
         default:

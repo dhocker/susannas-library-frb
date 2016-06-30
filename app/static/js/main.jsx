@@ -50,7 +50,7 @@ export function initBooksPage(filter_by, id, name) {
     $("#search-button").click(function() {
         var search_arg = $("#search-text").val();
         console.log("Search for books: " + search_arg);
-        //bookstable.searchBooks(search_arg);
+        bookstable.searchBooks(search_arg);
     });
 };
 

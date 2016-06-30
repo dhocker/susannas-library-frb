@@ -18,7 +18,8 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_all_books, insert_book, get_books_in_series, update_book, delete_book_by_id
+from app.models.books import get_all_books, insert_book, get_books_in_series, \
+    update_book, delete_book_by_id, search_for_books
 from app.models.series import get_series
 from app.models.models import Author, Book
 from app.models.models import db_session
@@ -45,6 +46,12 @@ def get_books_page():
         series = get_series(id)
         name = series.name
         filter_by = "series"
+    elif "search" in request.args:
+        # Show books by search criteria
+        id = ""
+        name = request.args.get('search', '')
+        logger.info("Show books for search criteria: %s", name)
+        filter_by = "search"
     else:
         # All books
         id = ""
@@ -55,26 +62,29 @@ def get_books_page():
 
 @app.route("/books", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
-def get_books_for_author():
+def get_books_with_filter():
     """
-    Get all books with optional search parameters.
+    Get books with optional search parameters.
     No search parameters returns all books.
-    Search parameter a=author_id returns all books for an author.
-    Search parameter s=series_id returns all books in a series.
+    Parameter author=author_id returns all books for an author.
+    Parameter series=series_id returns all books in a series.
+    Parameter search=search_arg returns all books where search_arg is in title.
     :return:
     """
-    sort_required = False
-    author_id = request.args.get('a', '')
-    series_id = request.args.get('s', '')
+    author_id = request.args.get('author', '')
+    series_id = request.args.get('series', '')
+    search_arg = request.args.get('search', '')
     if author_id:
         logger.info("Books for author: %s", author_id)
-        author = get_author(author_id)
-        books = author.books
-        sort_required = True
     elif series_id:
         logger.info("Books for series: %s", series_id)
-        books = get_books_in_series(series_id)
-        sort_required = True
+    elif search_arg:
+        logger.info("Books containing: %s", search_arg)
+    else:
+        pass
+
+    if author_id or series_id or search_arg:
+        books = search_for_books(author_id, series_id, search_arg)
     else:
         logger.info("All books")
         books = get_all_books()
@@ -112,10 +122,6 @@ def get_books_for_author():
         aa["Author"] = author_str
 
         ca.append(aa)
-
-    # Title sort when required
-    if sort_required:
-        ca = sorted(ca, key=lambda k: k["Title"])
 
     json = jsonify({'data': ca})
     return json

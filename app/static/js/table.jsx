@@ -89,7 +89,15 @@ export default class Table extends React.Component {
     // Loads the table with the results of a get + search arg (filter)
     filterTable(arg) {
         var $this = this;
-        var url = this.props.url + "?s=" + arg;
+        var url = this.props.url;
+        console.log("Base filter url: " + url);
+        if (url.includes('?')) {
+            url += "&search=" + arg;
+        }
+        else {
+            url += "?search=" + arg;
+        }
+        console.log("Full filter url: " + url);
         $.ajax({
             type: "GET",
             url: url,

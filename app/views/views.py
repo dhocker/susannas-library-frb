@@ -51,8 +51,8 @@ def get_home():
 #@login_required                                 # Use of @login_required decorator
 def get_authors():
     # Check for search first. Default to all.
-    if "s" in request.args:
-        search_text = request.args.get('s', '')
+    if "search" in request.args:
+        search_text = request.args.get('search', '')
         logger.info("Search authors: %s", search_text)
         authors = search_for_authors(search_text)
     else:

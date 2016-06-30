@@ -16,6 +16,7 @@
 #
 from models import Author
 from sqlalchemy import func, or_
+from sqlalchemy.orm import joinedload
 from app.models.models import db_session
 
 
@@ -34,7 +35,7 @@ def get_page_of_authors(skip, page_size):
 
 
 def get_author(id):
-    return Author.query.get(id)
+    return Author.query.options(joinedload('books')).get(id)
 
 
 def update_author(author):

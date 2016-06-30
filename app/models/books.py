@@ -61,3 +61,15 @@ def delete_book_by_id(id):
     b = Book.query.get(id)
     db_session.delete(b)
     db_session.commit()
+
+def search_for_books(author_id, series_id, search_arg):
+    q = Book.query.options(joinedload('authors'))
+    if author_id:
+        # This appears to be slow, but it works for finding an author's books
+        q = q.filter(Book.authors.any(Author.id==author_id))
+    elif series_id:
+        q = q.filter(Book.series_id==series_id)
+    if search_arg:
+        s = "%" + search_arg + "%"
+        q = q.filter(Book.Title.like(s))
+    return q.order_by(func.lower(Book.Title)).all()
