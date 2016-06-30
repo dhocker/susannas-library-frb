@@ -1,0 +1,8 @@
+/*
+    Bootstrap overrides for this app
+*/
+
+label {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}

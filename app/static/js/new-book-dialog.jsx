@@ -279,53 +279,65 @@ export default class NewBookDialog extends ModalDialog {
             <form id={this.props.id} role="form">
                 <div className="panel panel-default">
                     <div className="panel-body">
-                        <div className="form-group">
-                            <label for="title">Title</label>
-                            <input id="title" type="text" className="form-control"
-                                value={this.state.titleValue} onChange={this.titleChanged}
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label for="title">Title</label>
+                                <input id="title" type="text" className="form-control"
+                                    value={this.state.titleValue} onChange={this.titleChanged}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <label for={this.props.id + "-category"}>Category or Genre</label>
+                                {this.getCategorySelect(this.props.id + "-category")}
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label for="isbn">ISBN</label>
-                            <input id="isbn" type="text" className="form-control"
-                                value={this.state.isbnValue} onChange={this.isbnChanged}
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label for="author">Author</label>
+                                {this.getAuthorSelect(this.props.id + "-author")}
+                            </div>
+                            <div className="col-md-6">
+                                <label for="status">Status</label>
+                                <input id="status" type="text"  className="form-control"
+                                    value={this.state.statusValue} onChange={this.statusChanged}
+                                />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label for="volume">Volume</label>
-                            <input id="volume" type="text" className="form-control"
-                                value={this.state.volumeValue} onChange={this.volumeChanged}
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label for="series">Series</label>
+                                {this.getSeriesSelect(this.props.id + "-series")}
+                            </div>
+                            <div className="col-md-6">
+                                <label for="cover">Cover</label>
+                                <input id="cover" type="text"  className="form-control"
+                                    value={this.state.coverValue} onChange={this.coverChanged}
+                                />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label for="series">Series</label>
-                            {this.getSeriesSelect(this.props.id + "-series")}
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label for="volume">Volume</label>
+                                <input id="volume" type="text" className="form-control"
+                                    value={this.state.volumeValue} onChange={this.volumeChanged}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <label for="notes">Notes</label>
+                                <input id="notes" type="text"  className="form-control"
+                                    value={this.state.notesValue} onChange={this.notesChanged}
+                                />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label for="author">Author</label>
-                            {this.getAuthorSelect(this.props.id + "-author")}
-                        </div>
-                        <div className="form-group">
-                            <label for={this.props.id + "-category"}>Category or Genre</label>
-                            {this.getCategorySelect(this.props.id + "-category")}
-                        </div>
-                        <div className="form-group">
-                            <label for="status">Status</label>
-                            <input id="status" type="text"  className="form-control"
-                                value={this.state.statusValue} onChange={this.statusChanged}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label for="cover">Cover</label>
-                            <input id="cover" type="text"  className="form-control"
-                                value={this.state.coverValue} onChange={this.coverChanged}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label for="notes">Notes</label>
-                            <input id="notes" type="text"  className="form-control"
-                                value={this.state.notesValue} onChange={this.notesChanged}
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                            </div>
+                            <div className="col-md-6">
+                                <label for="isbn">ISBN</label>
+                                <input id="isbn" type="text" className="form-control"
+                                    value={this.state.isbnValue} onChange={this.isbnChanged}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -421,7 +433,7 @@ export default class NewBookDialog extends ModalDialog {
     render() {
         return (
             <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
+                <div className="modal-dialog modal-md">
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
