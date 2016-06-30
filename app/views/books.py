@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_all_books, insert_book, get_book, update_book, delete_book_by_id
+from app.models.books import get_all_books, insert_book, get_books_in_series, update_book, delete_book_by_id
 from app.models.models import Author, Book
 from app.models.models import db_session
 import logging
@@ -47,16 +47,23 @@ def get_books_page():
 #@login_required                                 # Use of @login_required decorator
 def get_books_for_author():
     """
-    Get all books for a given author id
-    The author id is the search parameter a=id
+    Get all books with optional search parameters.
+    No search parameters returns all books.
+    Search parameter a=author_id returns all books for an author.
+    Search parameter s=series_id returns all books in a series.
     :return:
     """
     sort_required = False
     author_id = request.args.get('a', '')
+    series_id = request.args.get('s', '')
     if author_id:
         logger.info("Books for author: %s", author_id)
         author = get_author(author_id)
         books = author.books
+        sort_required = True
+    elif series_id:
+        logger.info("Books for series: %s", series_id)
+        books = get_books_in_series(series_id)
         sort_required = True
     else:
         logger.info("All books")

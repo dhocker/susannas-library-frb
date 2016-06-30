@@ -29,6 +29,8 @@ def get_all_books():
 def get_book(id):
     return Book.query.options(joinedload('authors')).get(id)
 
+def get_books_in_series(series_id):
+    return Book.query.options(joinedload('authors')).filter_by(series_id=series_id)
 
 def update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes):
     book = get_book(id)
