@@ -18,7 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.series import get_all_series
+from app.models.series import get_all_series, insert_series, series_exists
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging
@@ -47,3 +47,22 @@ def get_series():
 
     json = jsonify({'data': ca})
     return json
+
+@app.route("/series", methods=['POST'])
+def add_series():
+    """
+    Add a new series.
+    request.form is a dict containing the data sent by the client ajax call.
+    :return:
+    """
+    name = request.form["name"]
+
+    # Duplicate check
+    c = series_exists(name)
+    if c > 0:
+        logger.info("Series exists: %s", name)
+        return "ERROR: Series exists", 409
+
+    logger.info("Add series with: [%s]", name)
+    insert_series(name)
+    return "SUCCESS: Series created", 201

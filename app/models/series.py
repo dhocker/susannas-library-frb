@@ -21,3 +21,18 @@ from app.models.models import db_session
 
 def get_all_series():
     return Series.query.order_by(func.lower(Series.name)).all()
+
+def insert_series(name):
+    s = Series(name)
+    db_session.add(s)
+    db_session.commit()
+
+def series_exists(name):
+    """
+    Case insensitive check to see if a series exists
+    :param name:
+    :return: Returns the count of existing series. If the series
+    does not exist, returns 0.
+    """
+    c = Series.query.filter(func.lower(Series.name) == func.lower(name)).count()
+    return c

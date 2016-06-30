@@ -6,6 +6,7 @@ import * as seriestable from './series-table';
 import Form from './form';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
+import * as NewSeries from './new-series-dialog';
 
 /*
     Initialize the home page
@@ -60,13 +61,11 @@ export function initSeriesPage() {
     // Create and load series table
     seriestable.createSeriesTable();
 
-    /*
-
     NewSeries.initNewSeriesDialog();
 
     // When New Series button is clicked, clear dialog fields
     $("#new-series-btn").click(function() {
-        NewAuthor.clearNewSeriesDialog();
+        NewSeries.clearNewSeriesDialog();
     });
 
     // Set up search button
@@ -75,8 +74,6 @@ export function initSeriesPage() {
         console.log("Search for series: " + search_arg);
         seriestable.searchSeries(search_arg);
     });
-
-    */
 };
 
 /*
