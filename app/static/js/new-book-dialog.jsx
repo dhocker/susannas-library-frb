@@ -153,7 +153,12 @@ export default class NewBookDialog extends ModalDialog {
         Add book
     */
     onAdd() {
-        // TODO Need validation on required fields (Title)
+        // Validate fields
+        this.setState({error: ""});
+        if (this.state.titleValue.length <= 0) {
+            this.setState({error: "Title is blank"});
+            return;
+        }
 
         /*
             There is a bit of an issue marshalling boolean values (try and avoid).
