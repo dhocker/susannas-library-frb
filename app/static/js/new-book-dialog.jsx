@@ -19,6 +19,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import * as bookstable from './books-table';
+/*
+Could not get this to work. JS runtime errors occurred due to the new series import.
+import * as newauthor from './new-author-dialog';
+import * as newseries from './new-series-dialog';
+*/
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -72,6 +77,8 @@ export default class NewBookDialog extends ModalDialog {
         this.statusChanged = this.statusChanged.bind(this);
         this.coverChanged = this.coverChanged.bind(this);
         this.notesChanged = this.notesChanged.bind(this);
+        this.newAuthorClicked = this.newAuthorClicked.bind(this);
+        this.newSeriesClicked = this.newSeriesClicked.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
@@ -262,6 +269,16 @@ export default class NewBookDialog extends ModalDialog {
         this.setState({notesValue: event.target.value});
     }
 
+    newAuthorClicked(event) {
+        $("#" + NEW_BOOK_DLG_ID).modal("hide");
+        $("#new-author-jsx").modal("show");
+    }
+
+    newSeriesClicked(event) {
+        $("#" + NEW_BOOK_DLG_ID).modal("hide");
+        $("#new-series-jsx").modal("show");
+    }
+
     /*
         Override to customize the dialog header (title)
         In this case, there is a simple error message embedded in the header
@@ -363,6 +380,10 @@ export default class NewBookDialog extends ModalDialog {
                       onClick={this.onAdd}>Add</button>
                   <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
                       onClick={this.onCancel}>Cancel</button>
+                  <button type="button" className="btn btn-default"
+                      onClick={this.newAuthorClicked}>New Author</button>
+                  <button type="button" className="btn btn-default"
+                      onClick={this.newSeriesClicked}>New Series</button>
             </div>
         );
     }

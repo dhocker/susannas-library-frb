@@ -40,6 +40,10 @@ export function initBooksPage(filter_by, id, name) {
 
     NewBook.initNewBookDialog(filter_by, id);
 
+    NewAuthor.initNewAuthorDialog();
+
+    NewSeries.initNewSeriesDialog();
+
     // When New Book button is clicked, clear dialog fields
     $("#new-book-btn").click(function() {
         console.log("New book clicked");

@@ -25,7 +25,7 @@ import * as seriestable from './series-table';
 */
 
 // This is the id of the element that contains the new author dialog box
-const EDIT_SERIES_DLG_ID = "edit-author-jsx";
+const EDIT_SERIES_DLG_ID = "edit-series-jsx";
 
 export default class EditSeriesDialog extends NewSeriesDialog {
     constructor(props) {
@@ -124,7 +124,7 @@ EditSeriesDialog.defaultProps = {
 };
 
 /*
-    Initialize the edit author dialog box
+    Initialize the edit series dialog box
 */
 var editSeriesInstance;
 export function editSeriesDialog(row) {
