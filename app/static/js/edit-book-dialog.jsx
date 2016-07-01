@@ -136,7 +136,9 @@ export default class EditBookDialog extends NewBookDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">Edit Book</h1>
+                <h1 className="modal-title">
+                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                Edit Book</h1>
                 <h2 style={{color:"red"}}>{this.state.error}</h2>
             </div>
         );

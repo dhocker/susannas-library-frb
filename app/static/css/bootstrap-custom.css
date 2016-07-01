@@ -6,3 +6,10 @@ label {
     margin-top: 10px;
     margin-bottom: 0px;
 }
+
+.dialog-logo {
+    height:auto;
+    width:auto;
+    max-width:50px;
+    max-height:50px;
+}

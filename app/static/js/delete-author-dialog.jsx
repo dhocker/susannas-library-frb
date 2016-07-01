@@ -78,7 +78,9 @@ export default class DeleteAuthorDialog extends ModalDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">Delete Author</h1>
+                <h1 className="modal-title">
+                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                Delete Author</h1>
             </div>
         );
     }

@@ -200,7 +200,9 @@ export default class NewAuthorDialog extends ModalDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">New Author</h1>
+                <h1 className="modal-title">
+                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                New Author</h1>
                 <h2 style={{color:"red"}}>{this.state.error}</h2>
             </div>
         );
