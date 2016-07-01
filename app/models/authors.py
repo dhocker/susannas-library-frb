@@ -64,3 +64,23 @@ def author_exists(lastname, firstname):
     c = Author.query.filter(func.lower(Author.LastName) == func.lower(lastname),
                             func.lower(Author.FirstName) == func.lower(firstname)).count()
     return c
+
+def authors_todict(authors):
+    """
+    Convert a set of authors into a list of dicts
+    :param authors:
+    :return:
+    """
+    ca = []
+    for a in authors:
+        aa = Author.row2dict(a)
+        if aa["try_author"] == 1:
+            aa["try_author"] = "Try"
+        else:
+            aa["try_author"] = ""
+        if aa["Avoid"] == 1:
+            aa["Avoid"] = "Avoid"
+        else:
+            aa["Avoid"] = ""
+        ca.append(aa)
+    return ca

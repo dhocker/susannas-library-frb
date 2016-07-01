@@ -19,7 +19,7 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
     render_template, flash, jsonify
 from app.models.authors import get_author
 from app.models.books import get_all_books, insert_book, get_books_in_series, \
-    update_book, delete_book_by_id, search_for_books
+    update_book, delete_book_by_id, search_for_books, books_todict
 from app.models.series import get_series
 from app.models.models import Author, Book
 from app.models.models import db_session
@@ -89,40 +89,8 @@ def get_books_with_filter():
         logger.info("All books")
         books = get_all_books()
 
-    # This is model code and needs to be moved to the authors.py file
-    ca = []
-    for b in books:
-        aa = Book.row2dict(b)
-        # TODO This is model code and needs to be moved there
-        if b.series:
-            aa["Series"] = b.series.name
-            aa["series_id"] = b.series.id
-        else:
-            aa["Series"] = ""
-        author_str = ""
-        # In the existing DB all books DO NOT have an author(s)
-        # TODO This is extremely slow when ALL books are being fetched.
-        # The authors appear to be a lazy secondary query using the
-        # association table. Paging for all books is about the only
-        # way to deal with this.
-        if len(b.authors):
-            author_str = b.authors[0].LastName
-            if len(b.authors[0].FirstName):
-                author_str += ", " + b.authors[0].FirstName
-            aa["author_id"] = b.authors[0].id
-            # Report books with multiple authors
-            if (len(b.authors) > 1):
-                logger.warn("Book id %s has %d authors", b.id, len(b.authors))
-        else:
-            logger.warn("Book id %s has no authors", b.id)
-        # To condense the author field, we only show one author.
-        # If there is more than one author, we mark the name with a "+".
-        if len(b.authors) > 1:
-            author_str += " +"
-        aa["Author"] = author_str
-
-        ca.append(aa)
-
+    # Convert result set to list of dict
+    ca = books_todict(books)
     json = jsonify({'data': ca})
     return json
 

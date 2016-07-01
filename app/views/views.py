@@ -17,7 +17,7 @@
 from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
-from app.models.authors import get_all_authors, insert_author, get_page_of_authors
+from app.models.authors import get_all_authors, insert_author, get_page_of_authors, authors_todict
 from app.models.models import Author, Book
 from app.models.models import db_session
 from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
@@ -58,20 +58,8 @@ def get_authors():
     else:
         authors = get_all_authors()
 
-    # This is model code and needs to be moved to the authors.py file
-    ca = []
-    for a in authors:
-        aa = Author.row2dict(a)
-        if aa["try_author"] == 1:
-            aa["try_author"] = "Try"
-        else:
-            aa["try_author"] = ""
-        if aa["Avoid"] == 1:
-            aa["Avoid"] = "Avoid"
-        else:
-            aa["Avoid"] = ""
-        ca.append(aa)
-
+    # Convert result set to list of dicts
+    ca = authors_todict(authors)
     json = jsonify({'data': ca})
     return json
 

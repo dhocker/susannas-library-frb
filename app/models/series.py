@@ -51,3 +51,15 @@ def delete_series_by_id(id):
     s = Series.query.get(id)
     db_session.delete(s)
     db_session.commit()
+
+def series_todict(series):
+    """
+    Convert series result set to list of dict
+    :param series:
+    :return:
+    """
+    ca = []
+    for s in series:
+        aa = Series.row2dict(s)
+        ca.append(aa)
+    return ca

@@ -19,6 +19,9 @@ from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from app.models.models import db_session
 from authors import get_author
+import logging
+
+logger = logging.getLogger("app")
 
 
 def get_all_books():
@@ -73,3 +76,37 @@ def search_for_books(author_id, series_id, search_arg):
         s = "%" + search_arg + "%"
         q = q.filter(Book.Title.like(s))
     return q.order_by(func.lower(Book.Title)).all()
+
+def books_todict(books):
+    ca = []
+    for b in books:
+        aa = Book.row2dict(b)
+        # TODO This is model code and needs to be moved there
+        if b.series:
+            aa["Series"] = b.series.name
+            aa["series_id"] = b.series.id
+        else:
+            aa["Series"] = ""
+        author_str = ""
+        # In the existing DB all books DO NOT have an author(s)
+        # TODO This is extremely slow when ALL books are being fetched.
+        # The authors appear to be a lazy secondary query using the
+        # association table. Paging for all books is about the only
+        # way to deal with this.
+        if len(b.authors):
+            author_str = b.authors[0].LastName
+            if len(b.authors[0].FirstName):
+                author_str += ", " + b.authors[0].FirstName
+            aa["author_id"] = b.authors[0].id
+            # Report books with multiple authors
+            if (len(b.authors) > 1):
+                logger.warn("Book id %s has %d authors", b.id, len(b.authors))
+        else:
+            logger.warn("Book id %s has no authors", b.id)
+        # To condense the author field, we only show one author.
+        # If there is more than one author, we mark the name with a "+".
+        if len(b.authors) > 1:
+            author_str += " +"
+        aa["Author"] = author_str
+
+        ca.append(aa)
