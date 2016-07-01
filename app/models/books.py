@@ -110,3 +110,4 @@ def books_todict(books):
         aa["Author"] = author_str
 
         ca.append(aa)
+    return ca
