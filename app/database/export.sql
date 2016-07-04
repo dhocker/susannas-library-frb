@@ -456,6 +456,11 @@ INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created
 INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (789,'Han','Mak K.',0,'Mystery',0,'2016-06-01 21:01:25.804042','2016-06-01 21:01:25.804042');
 INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (790,'Kilgrave','J.C.',0,'Mystery',0,'2016-06-01 21:02:55.790924','2016-06-01 21:02:55.790924');
 INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (791,'Sample','Cindy',0,'Mystery',0,'2016-06-14 18:29:20.529072','2016-06-14 18:29:20.529072');
+INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (792,'Alter','Judy',0,'Mystery',0,'2016-07-04 19:22:29.096199','2016-07-04 19:22:29.096199');
+INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (793,'Toussaint','Maggie',0,'Mystery',0,'2016-07-04 19:23:27.920647','2016-07-04 19:23:27.920647');
+INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (794,'Santangelo','Susan',0,'Mystery',0,'2016-07-04 19:26:15.28096','2016-07-04 19:26:15.28096');
+INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (795,'Kennedy','Mary',0,'Mystery',0,'2016-07-04 19:27:13.059611','2016-07-04 19:27:13.059611');
+INSERT INTO authors (id,"LastName","FirstName","Avoid","category","try","created_at","updated_at") VALUES (796,'Hansen','Vinnie',0,'Mystery',0,'2016-07-04 19:29:50.107584','2016-07-04 19:29:50.107584');
 
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1,'So Long, and Thanks for all the Fish','',-1,1,'','SciFi','Trade','Paper','','2012-07-12 19:54:30.939542','2012-07-12 19:54:30.939542');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2,'Restaurant at the End of the Universe, The','',-1,1,'','SciFi','Trade','Hard','','2012-07-12 19:54:31.064343','2012-07-12 19:54:31.064343');
@@ -1900,7 +1905,7 @@ INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category"
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1446,'Grace Among Thieves (2012) 6','',3,156,'','Mystery','Buy','','','2012-07-12 19:58:59.977612','2014-07-25 13:26:03.23459');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1447,'Affairs of Steak (1/2012)','',5,144,'','Mystery','Buy','','','2012-07-12 19:59:00.164812','2012-07-12 19:59:00.164812');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1448,'Murder Among Friends','',2,146,'','Mystery','Buy','','','2012-07-12 19:59:00.476812','2012-07-12 19:59:00.476812');
-INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1449,'Murder Among Neighbors','',1,146,'','Mystery','Buy','','','2012-07-12 19:59:00.679613','2012-07-12 19:59:00.679613');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1449,'Murder Among Neighbors','',1,146,'','Mystery','Have','Nexus','','2012-07-12 19:59:00.679613','2016-07-04 19:19:38.472888');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1450,'Next Victim The','',7,147,'','Mystery','Buy','','','2012-07-12 19:59:00.898013','2012-07-12 19:59:00.898013');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1451,'Murder Among Us','',3,146,'','Mystery','Buy','','','2012-07-12 19:59:01.132014','2012-07-12 19:59:01.132014');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (1452,'Murder Among Strangers','',4,146,'','Mystery','Buy','','','2012-07-12 19:59:01.303614','2012-07-12 19:59:01.303614');
@@ -3255,6 +3260,15 @@ INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category"
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2803,'Cook''s Curiouse Christmas','',null,203,'','Mystery','Have','Nexus','','2016-06-14 18:38:13.181618','2016-06-14 18:38:13.181618');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2804,'Posted to Death','',1,387,'','Mystery','Have','Nexus','','2016-06-14 18:39:37.560108','2016-06-14 18:39:37.560108');
 INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2805,'Cupcakes, Lies and Dead Guys','',1,388,'','Mystery','Have','Nexus','','2016-06-14 18:42:33.822318','2016-06-14 18:42:33.822318');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2806,'Assault With a Deadly Glue Gun','',1,389,'','Mystery','Have','Nexus','','2016-07-04 19:18:33.386278','2016-07-04 19:18:33.386278');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2807,'Skeleton in a Dead Space','',1,391,'','Mystery','Have','Nexus','','2016-07-04 19:23:10.524227','2016-07-04 19:23:10.524227');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2808,'In For a Penny','',1,392,'','Mystery','Have','Nexus','','2016-07-04 19:24:16.618333','2016-07-04 19:24:16.618333');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2809,'The Hydrogen Murder','',1,393,'','Mystery','Have','Nexus','','2016-07-04 19:25:51.824396','2016-07-04 19:25:51.824396');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2810,'Retirement Can be Murder','',1,394,'','Mystery','Have','Nexus','','2016-07-04 19:26:58.816412','2016-07-04 19:26:58.816412');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2811,'Dead Air','',1,395,'','Mystery','Have','Nexus','','2016-07-04 19:27:49.728654','2016-07-04 19:27:49.728654');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2812,'A Dead Red Cadillac','',1,329,'','Mystery','Have','Nexus','','2016-07-04 19:28:43.172542','2016-07-04 19:28:43.172542');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2813,'Murder is a Family Business','',1,331,'','Mystery','Have','Nexus','','2016-07-04 19:29:35.792467','2016-07-04 19:29:35.792467');
+INSERT INTO books (id,"Title","ISBN","Volume","series_id","Published","Category","Status","CoverType","Notes","created_at","updated_at") VALUES (2814,'Murder, Honey','',1,398,'','Mystery','Have','Nexus','','2016-07-04 19:30:36.662529','2016-07-04 19:30:36.662529');
 
 INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (1,326,1,'2012-07-12 19:54:31.001942','2012-07-12 19:54:31.001942');
 INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2,326,2,'2012-07-12 19:54:31.126743','2012-07-12 19:54:31.126743');
@@ -6061,6 +6075,15 @@ INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") 
 INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2807,584,2803,'2016-06-14 18:38:13.189858','2016-06-14 18:38:13.189858');
 INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2808,506,2804,'2016-06-14 18:39:37.564004','2016-06-14 18:39:37.564004');
 INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2809,751,2805,'2016-06-14 18:42:33.828099','2016-06-14 18:42:33.828099');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2810,760,2806,'2016-07-04 19:18:33.397258','2016-07-04 19:18:33.397258');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2811,792,2807,'2016-07-04 19:23:10.526071','2016-07-04 19:23:10.526071');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2812,793,2808,'2016-07-04 19:24:16.619859','2016-07-04 19:24:16.619859');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2813,764,2809,'2016-07-04 19:25:51.826181','2016-07-04 19:25:51.826181');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2814,794,2810,'2016-07-04 19:26:58.818095','2016-07-04 19:26:58.818095');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2815,795,2811,'2016-07-04 19:27:49.730662','2016-07-04 19:27:49.730662');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2816,730,2812,'2016-07-04 19:28:43.174149','2016-07-04 19:28:43.174149');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2817,733,2813,'2016-07-04 19:29:35.794263','2016-07-04 19:29:35.794263');
+INSERT INTO collaborations (id,"author_id","book_id","created_at","updated_at") VALUES (2818,796,2814,'2016-07-04 19:30:36.663996','2016-07-04 19:30:36.663996');
 
 INSERT INTO series (id,"name","created_at","updated_at") VALUES (1,'None','2012-07-12 20:29:46','2012-07-14 10:38:43.2219');
 INSERT INTO series (id,"name","created_at","updated_at") VALUES (2,'Charmed Pie Shoppe','2012-07-12 20:29:47','2012-07-12 20:29:47');
@@ -6450,3 +6473,10 @@ INSERT INTO series (id,"name","created_at","updated_at") VALUES (385,'Diet Club'
 INSERT INTO series (id,"name","created_at","updated_at") VALUES (386,'Cape Bay Cafe','2016-06-14 18:35:43.485099','2016-06-14 18:35:43.485099');
 INSERT INTO series (id,"name","created_at","updated_at") VALUES (387,'Simon Kirby-Jones','2016-06-14 18:38:53.299067','2016-06-14 18:38:53.299067');
 INSERT INTO series (id,"name","created_at","updated_at") VALUES (388,'Annie Graceland','2016-06-14 18:40:17.953535','2016-06-14 18:40:17.953535');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (389,'Anastasia Pollack Crafting','2016-07-04 19:15:24.593164','2016-07-04 19:15:24.593164');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (391,'Kelley O''Connell','2016-07-04 19:15:56.485058','2016-07-04 19:15:56.485058');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (392,'Cleopatra Jones','2016-07-04 19:16:12.220984','2016-07-04 19:16:12.220984');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (393,'Periodic Table','2016-07-04 19:16:25.718651','2016-07-04 19:16:25.718651');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (394,'Baby Boomer','2016-07-04 19:16:37.532068','2016-07-04 19:16:37.532068');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (395,'Talk Radio','2016-07-04 19:16:50.410443','2016-07-04 19:16:50.410443');
+INSERT INTO series (id,"name","created_at","updated_at") VALUES (398,'Carol Sabala','2016-07-04 19:17:29.570119','2016-07-04 19:17:29.570119');
