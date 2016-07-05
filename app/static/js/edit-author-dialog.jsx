@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NewAuthorDialog from './new-author-dialog'
 import * as authorstable from './authors-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -116,7 +117,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
@@ -149,5 +150,5 @@ export function editAuthorDialog(row) {
             />,
             document.querySelector('#edit-author'));
     }
-    $("#" + EDIT_AUTHOR_DLG_ID).modal("show");
+    callstack.callDialog(EDIT_AUTHOR_DLG_ID);
 }

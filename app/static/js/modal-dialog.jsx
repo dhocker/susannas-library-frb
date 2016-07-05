@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -43,7 +44,7 @@ export default class ModalDialog extends React.Component {
         Thid id is the dialog box, NOT the element it was rendered on
     */
     showDialog(id) {
-        $("#" +id).modal("show");
+        callStack.callDialog(id);
     }
 
     /*
@@ -51,7 +52,7 @@ export default class ModalDialog extends React.Component {
         Thid id is the dialog box, NOT the element it was rendered on
     */
     closeDialog(id) {
-        $("#" +id).modal("hide");
+        callstack.returnFromDialog();
     }
 
     componentDidMount() {
@@ -69,6 +70,7 @@ export default class ModalDialog extends React.Component {
 
     onCancel() {
         console.log("Dialog canceled");
+        this.closeDialog();
     }
 
     onClose() {

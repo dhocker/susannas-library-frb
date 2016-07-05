@@ -7,6 +7,7 @@ import Form from './form';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
 import * as NewSeries from './new-series-dialog';
+import * as callstack from './dialog-call-stack';
 
 /*
     Initialize the home page
@@ -17,9 +18,10 @@ export function initHomePage() {
 
     NewAuthor.initNewAuthorDialog();
 
-    // When New Author button is clicked, clear dialog fields
+    // When New Author button is clicked, clear dialog fields and call dialog
     $("#new-author-btn").click(function() {
         NewAuthor.clearNewAuthorDialog();
+        callstack.callDialog("new-author-jsx");
     });
 
     // Set up search button

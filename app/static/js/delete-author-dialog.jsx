@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import Select from './select';
 import * as authorstable from './authors-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -34,7 +35,6 @@ export default class DeleteAuthorDialog extends ModalDialog {
 
         // Bind 'this' to various methods
         this.onDelete = this.onDelete.bind(this);
-        this.onCancel = this.onCancel.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
@@ -50,16 +50,10 @@ export default class DeleteAuthorDialog extends ModalDialog {
     }
 
     /*
-        Cancel the dialog
-    */
-    onCancel() {
-        console.log("Dialog canceled");
-    }
-
-    /*
         Delete author
     */
     onDelete() {
+        var $this = this;
         this.serverRequest = $.ajax({
             type: "DELETE",
             url: "/author/" + String(this.props.row.id),
@@ -68,6 +62,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
                 // Refresh authors table to pick up the new record.
                 // This is a bit of overkill but it is simple.
                 authorstable.refreshAuthorsTable();
+                $this.closeDialog(DELETE_AUTHOR_DLG_ID);
             }
         })
     }
@@ -115,7 +110,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
                       onClick={this.onDelete}>Delete</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
@@ -150,5 +145,5 @@ export function deleteAuthor(row) {
     console.log("Attempting to create DeleteAuthorDialog");
     ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} row={row}/>, document.querySelector('#delete-author'));
     console.log("DeleteAuthorDialog created");
-    $("#" + DELETE_AUTHOR_DLG_ID).modal("show");
+    callstack.callDialog(DELETE_AUTHOR_DLG_ID);
 }

@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import * as authorstable from './authors-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -43,7 +44,6 @@ export default class NewAuthorDialog extends ModalDialog {
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
-        this.onCancel = this.onCancel.bind(this);
         this.firstnameChanged = this.firstnameChanged.bind(this);
         this.lastnameChanged = this.lastnameChanged.bind(this);
         this.categoryChanged = this.categoryChanged.bind(this);
@@ -78,13 +78,6 @@ export default class NewAuthorDialog extends ModalDialog {
             this.setState({rows: response.data});
         }.bind(this));
         */
-    }
-
-    /*
-        Cancel the dialog
-    */
-    onCancel() {
-        console.log("Dialog canceled");
     }
 
     /*
@@ -262,7 +255,7 @@ export default class NewAuthorDialog extends ModalDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
