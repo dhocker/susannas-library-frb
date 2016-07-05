@@ -72,6 +72,7 @@ export function initSeriesPage() {
     // When New Series button is clicked, clear dialog fields
     $("#new-series-btn").click(function() {
         NewSeries.clearNewSeriesDialog();
+        callstack.callDialog("new-series-jsx");
     });
 
     // Set up search button

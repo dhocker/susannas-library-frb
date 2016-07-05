@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import Select from './select';
 import * as seriestable from './series-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -34,7 +35,6 @@ export default class DeleteSeriesDialog extends ModalDialog {
 
         // Bind 'this' to various methods
         this.onDelete = this.onDelete.bind(this);
-        this.onCancel = this.onCancel.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
@@ -44,16 +44,10 @@ export default class DeleteSeriesDialog extends ModalDialog {
     }
 
     /*
-        Cancel the dialog
-    */
-    onCancel() {
-        console.log("Dialog canceled");
-    }
-
-    /*
         Delete series
     */
     onDelete() {
+        var $this = this;
         this.serverRequest = $.ajax({
             type: "DELETE",
             url: "/series/" + String(this.props.row.id),
@@ -62,6 +56,7 @@ export default class DeleteSeriesDialog extends ModalDialog {
                 // Refresh series table to pick up the new record.
                 // This is a bit of overkill but it is simple.
                 seriestable.refreshSeriesTable();
+                $this.closeDialog(DELETE_SERIES_DLG_ID);
             }
         })
     }
@@ -103,9 +98,9 @@ export default class DeleteSeriesDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onDelete}>Delete</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
@@ -140,5 +135,5 @@ export function deleteSeries(row) {
     console.log("Attempting to create DeleteSeriesDialog");
     ReactDOM.render(<DeleteSeriesDialog id={DELETE_SERIES_DLG_ID} row={row}/>, document.querySelector('#delete-series'));
     console.log("DeleteSeriesDialog created");
-    $("#" + DELETE_SERIES_DLG_ID).modal("show");
+    callstack.callDialog(DELETE_SERIES_DLG_ID);
 }

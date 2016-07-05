@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NewSeriesDialog from './new-series-dialog'
 import * as seriestable from './series-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -108,7 +109,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
@@ -141,5 +142,5 @@ export function editSeriesDialog(row) {
             />,
             document.querySelector('#edit-series'));
     }
-    $("#" + EDIT_SERIES_DLG_ID).modal("show");
+    callstack.callDialog(EDIT_SERIES_DLG_ID);
 }

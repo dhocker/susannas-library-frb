@@ -39,7 +39,6 @@ export default class NewSeriesDialog extends ModalDialog {
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
-        this.onCancel = this.onCancel.bind(this);
         this.nameChanged = this.nameChanged.bind(this);
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
@@ -58,13 +57,6 @@ export default class NewSeriesDialog extends ModalDialog {
     }
 
     componentDidMount() {
-    }
-
-    /*
-        Cancel the dialog
-    */
-    onCancel() {
-        console.log("Dialog canceled");
     }
 
     /*
@@ -179,7 +171,7 @@ export default class NewSeriesDialog extends ModalDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
