@@ -76,6 +76,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
                 <h1 className="modal-title">
                     <img className="dialog-logo" src="/static/book_pile2.jpg"/>
                 Delete Author</h1>
+                <h2>and ALL related books</h2>
             </div>
         );
     }

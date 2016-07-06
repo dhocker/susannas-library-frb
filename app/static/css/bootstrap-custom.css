@@ -13,3 +13,11 @@ label {
     max-width:50px;
     max-height:50px;
 }
+
+/*
+    The stock Bootstrap size for a small dialog
+    is just a bit too small for our use.
+*/
+.modal-sm {
+    width: 360px;
+}
