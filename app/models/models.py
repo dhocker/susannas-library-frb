@@ -221,6 +221,7 @@ class Series(Base, ModelMixin):
     name = Column(Text)
     created_at = Column(Text, default=func.now())
     updated_at = Column(Text, default=func.now())
+    books = relationship("Book", cascade="delete")
 
     def __init__(self, name):
         self.name = name
