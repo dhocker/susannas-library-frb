@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import * as authorstable from './authors-table';
 import * as bookstable from './books-table';
 import * as seriestable from './series-table';
-import Form from './form';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
 import * as NewSeries from './new-series-dialog';
@@ -82,17 +81,4 @@ export function initSeriesPage() {
         console.log("Search for series: " + search_arg);
         seriestable.searchSeries(search_arg);
     });
-};
-
-/*
-    Initialize the form page
-*/
-export function initFormPage() {
-    console.log("Attempting to create Form class");
-    var formform = <Form />;
-    ReactDOM.render(
-        <Form />,
-        document.querySelector('#reactform')
-    );
-    console.log("Form class created");
 };

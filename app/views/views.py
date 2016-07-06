@@ -137,27 +137,6 @@ def delete_author(id):
     return "Author deleted", 200
 
 
-@app.route("/form-page", methods=['GET'])
-#@login_required                                 # Use of @login_required decorator
-def get_form():
-    return render_template("form.html")
-
-
-@app.route("/formdata", methods=['PUT'])
-def save_form():
-    # Save form data
-    # args = json.loads(request.data.decode())
-    # request.form is a dict containing the data sent by the client ajax call
-    firstname = request.form["firstname"]
-    lastname = request.form["lastname"]
-    category = request.form["category"]
-    try_author = request.form["try"]
-    avoid = request.form["avoid"]
-    logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
-    insert_author(lastname, firstname, category, try_author, avoid)
-    return "author created"
-
-
 @app.route("/about", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_about():
