@@ -54,8 +54,8 @@ export default class DeleteSeriesDialog extends ModalDialog {
             success: function(result){
                 console.log(result);
                 // Refresh series table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                seriestable.refreshSeriesTable();
+                // Fire series delete event
+                $("#delete-series").trigger("frb.series.delete");
                 $this.closeDialog(DELETE_SERIES_DLG_ID);
             }
         })

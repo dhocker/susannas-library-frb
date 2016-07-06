@@ -28,6 +28,32 @@ import * as EditAuthor from './edit-author-dialog';
 export default class AuthorsTable extends Table {
     constructor(props) {
         super(props);
+
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+        var $this = this;
+
+        $this.loadTable();
+
+        // On author add, reload table
+        $("#new-author").on("frb.author.add", function (event) {
+            console.log("On add event, reload authors");
+            $this.loadTable();
+        });
+
+        // On author delete, reload table
+        $("#delete-author").on("frb.author.delete", function (event) {
+            console.log("On delete event, reload authors");
+            $this.loadTable();
+        });
+
+        // On author edit, reload table
+        $("#edit-author").on("frb.author.edit", function (event) {
+            console.log("On edit event, reload authors");
+            $this.loadTable();
+        });
     }
 
     onBooksClick(row) {
@@ -96,13 +122,6 @@ export function createAuthorsTable() {
         document.querySelector('#authorstable')
     );
     console.log("Authors table created");
-}
-
-/*
-    Reload the authors table
-*/
-export function refreshAuthorsTable() {
-    authorsTableInstance.loadTable();
 }
 
 /*

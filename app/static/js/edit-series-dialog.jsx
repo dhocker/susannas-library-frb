@@ -69,8 +69,8 @@ export default class EditSeriesDialog extends NewSeriesDialog {
                 console.log(result);
                 console.log("Series updated");
                 // Refresh series table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                seriestable.refreshSeriesTable();
+                // Fire series edit event
+                $("#edit-series").trigger("frb.series.edit");
                 // Manually close dialog
                 $this.closeDialog(EDIT_SERIES_DLG_ID);
             },

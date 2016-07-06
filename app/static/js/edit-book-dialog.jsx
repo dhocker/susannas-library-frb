@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NewBookDialog from './new-book-dialog'
 import * as bookstable from './books-table';
+import * as callstack from './dialog-call-stack';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -113,8 +114,8 @@ export default class EditBookDialog extends NewBookDialog {
                 console.log(result);
                 console.log("Book updated");
                 // Refresh books table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                bookstable.refreshBooksTable();
+                // Fire book edit event
+                $("#edit-book").trigger("frb.book.edit");
                 // Manually close dialog
                 $this.closeDialog(EDIT_BOOK_DLG_ID);
             },
@@ -153,7 +154,7 @@ export default class EditBookDialog extends NewBookDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
@@ -186,5 +187,5 @@ export function editBookDialog(row) {
             />,
             document.querySelector('#edit-book'));
     }
-    $("#" + EDIT_BOOK_DLG_ID).modal("show");
+    callstack.callDialog(EDIT_BOOK_DLG_ID);
 }

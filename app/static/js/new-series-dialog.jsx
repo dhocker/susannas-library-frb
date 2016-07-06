@@ -25,7 +25,7 @@ import * as seriestable from './series-table';
 */
 
 // This is the id of the element that contains the new author dialog box
-const NEW_SERIES_DLG_ID = "new-series-jsx";
+export const NEW_SERIES_DLG_ID = "new-series-jsx";
 
 export default class NewSeriesDialog extends ModalDialog {
     constructor(props) {
@@ -101,7 +101,8 @@ export default class NewSeriesDialog extends ModalDialog {
                 console.log("Series added");
                 // Refresh series table to pick up the new record.
                 // This is a bit of overkill but it is simple.
-                seriestable.refreshSeriesTable();
+                // TODO Doesn't work. Thinks it's always used from the Series Page.
+                $("#new-series").trigger("frb.series.add");
                 // Manually close dialog
                 $this.closeDialog(NEW_SERIES_DLG_ID);
             },

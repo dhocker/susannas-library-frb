@@ -50,6 +50,7 @@ export function initBooksPage(filter_by, id, name) {
     $("#new-book-btn").click(function() {
         console.log("New book clicked");
         NewBook.clearNewBookDialog();
+        callstack.callDialog("new-book-jsx");
     });
 
     // Set up search button

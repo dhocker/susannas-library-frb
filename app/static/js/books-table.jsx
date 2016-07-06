@@ -28,6 +28,32 @@ import * as EditBook from './edit-book-dialog';
 export default class BooksTable extends Table {
     constructor(props) {
         super(props);
+
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+        var $this = this;
+
+        $this.loadTable();
+
+        // On book add, reload table
+        $("#new-book").on("frb.book.add", function (event) {
+            console.log("On add event, reload books");
+            $this.loadTable();
+        });
+
+        // On book delete, reload table
+        $("#delete-book").on("frb.book.delete", function (event) {
+            console.log("On delete event, reload books");
+            $this.loadTable();
+        });
+
+        // On book edit, reload table
+        $("#edit-book").on("frb.book.edit", function (event) {
+            console.log("On edit event, reload books");
+            $this.loadTable();
+        });
     }
 
     onEditClick(row) {
@@ -111,13 +137,6 @@ export function createBooksTable(filter_by, id, name) {
         document.querySelector('#bookstable')
     );
     console.log("Books table created");
-}
-
-/*
-    Reload the books table
-*/
-export function refreshBooksTable() {
-    booksTableInstance.loadTable();
 }
 
 /*

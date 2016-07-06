@@ -137,8 +137,8 @@ export default class NewAuthorDialog extends ModalDialog {
                 console.log(result);
                 console.log("Author added");
                 // Refresh authors table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                authorstable.refreshAuthorsTable();
+                // Fire event for new author added
+                $("#new-author").trigger("frb.author.add");
                 // Manually close dialog
                 $this.closeDialog(NEW_AUTHOR_DLG_ID);
             },

@@ -60,8 +60,8 @@ export default class DeleteAuthorDialog extends ModalDialog {
             success: function(result){
                 console.log(result);
                 // Refresh authors table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                authorstable.refreshAuthorsTable();
+                // Fire author delete event
+                $("#delete-author").trigger("frb.author.delete");
                 $this.closeDialog(DELETE_AUTHOR_DLG_ID);
             }
         })

@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import * as bookstable from './books-table';
+import * as callstack from './dialog-call-stack';
 /*
 Could not get this to work. JS runtime errors occurred due to the new series import.
 import * as newauthor from './new-author-dialog';
@@ -67,7 +68,6 @@ export default class NewBookDialog extends ModalDialog {
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
-        this.onCancel = this.onCancel.bind(this);
         this.titleChanged = this.titleChanged.bind(this);
         this.isbnChanged = this.isbnChanged.bind(this);
         this.volumeChanged = this.volumeChanged.bind(this);
@@ -87,6 +87,36 @@ export default class NewBookDialog extends ModalDialog {
         this.getAuthorSelect = this.getAuthorSelect.bind(this);
         this.commitBook = this.commitBook.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.loadAuthors = this.loadAuthors.bind(this);
+        this.loadSeries = this.loadSeries.bind(this);
+    }
+
+    loadAuthors() {
+        // Retrieve all of the authors
+        console.log("Getting all series from url /authors");
+        var $this = this;
+        $.get("/authors", function(response, status){
+            console.log("Author rows received: " + String(response.data.length));
+            var rows = response.data;
+            $this.setState({
+                author_rows: rows,
+                authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
+            });
+        });
+    }
+
+    loadSeries() {
+        // Retrieve all of the series
+        console.log("Getting all series from url /series");
+        var $this = this;
+        $.get("/series", function(response, status){
+            console.log("Series rows received: " + String(response.data.length));
+            var rows = response.data;
+            $this.setState({
+                series_rows: rows,
+                seriesValue: rows[0].id
+            });
+        });
     }
 
     /*
@@ -96,8 +126,14 @@ export default class NewBookDialog extends ModalDialog {
         console.log("Clear fields for filter_by = " + this.props.filter_by + " " + String(this.props.filter_by_id));
 
         // Apply book filtering
-        var series_id = this.state.series_rows[0].id;
-        var author_id = this.state.author_rows[0].id;
+        var series_id = 0;
+        var author_id = 0;
+        if (this.state.series_rows.length) {
+            series_id = this.state.series_rows[0].id;
+        }
+        if (this.state.author_rows.length) {
+            author_id = this.state.author_rows[0].id;
+        }
         switch (this.props.filter_by) {
             case "author":
                 author_id = this.props.filter_by_id;
@@ -124,36 +160,23 @@ export default class NewBookDialog extends ModalDialog {
     }
 
     componentDidMount() {
-        // Retrieve all of the series
-        console.log("Getting all series from url /series");
+        // Set up event handlers so we can reload the combo boxes
+        // We can't set up this event until the component is mounted
         var $this = this;
-        $.get("/series", function(response, status){
-            console.log("Series rows received: " + String(response.data.length));
-            var rows = response.data;
-            $this.setState({
-                series_rows: rows,
-                seriesValue: rows[0].id
-            });
+        $("#" + NEW_BOOK_DLG_ID).on('show.bs.modal', function () {
+            $this.loadAuthors();
+            $this.loadSeries();
         });
 
-        // Retrieve all of the authors
-        console.log("Getting all series from url /authors");
-        var $this = this;
-        $.get("/authors", function(response, status){
-            console.log("Author rows received: " + String(response.data.length));
-            var rows = response.data;
-            $this.setState({
-                author_rows: rows,
-                authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
-            });
+        // Handle new series added event
+        $("#new-series").on("frb.series.add", function(event) {
+            $this.loadSeries();
         });
-    }
 
-    /*
-        Cancel the dialog
-    */
-    onCancel() {
-        console.log("Dialog canceled");
+        // Handle new author added event
+        $("#new-author").on("frb.author.add", function(event) {
+            $this.loadAuthors();
+        });
     }
 
     /*
@@ -203,8 +226,8 @@ export default class NewBookDialog extends ModalDialog {
                 console.log(result);
                 console.log("Book added");
                 // Refresh books table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                bookstable.refreshBooksTable();
+                // Fire event for book add
+                $("#new-book").trigger("frb.book.add");
                 // Manually close dialog
                 $this.closeDialog(NEW_BOOK_DLG_ID);
             },
@@ -270,13 +293,11 @@ export default class NewBookDialog extends ModalDialog {
     }
 
     newAuthorClicked(event) {
-        $("#" + NEW_BOOK_DLG_ID).modal("hide");
-        $("#new-author-jsx").modal("show");
+        callstack.callDialog("new-author-jsx");
     }
 
     newSeriesClicked(event) {
-        $("#" + NEW_BOOK_DLG_ID).modal("hide");
-        $("#new-series-jsx").modal("show");
+        callstack.callDialog("new-series-jsx");
     }
 
     /*
@@ -378,7 +399,7 @@ export default class NewBookDialog extends ModalDialog {
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
                   <button type="button" className="btn btn-default"
                       onClick={this.newAuthorClicked}>New Author</button>

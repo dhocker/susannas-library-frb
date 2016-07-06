@@ -28,6 +28,32 @@ import * as EditSeries from './edit-series-dialog';
 export default class SeriesTable extends Table {
     constructor(props) {
         super(props);
+
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+        var $this = this;
+
+        $this.loadTable();
+
+        // On series add, reload table
+        $("#new-series").on("frb.series.add", function (event) {
+            console.log("On add event, reload series");
+            $this.loadTable();
+        });
+
+        // On series delete, reload table
+        $("#delete-series").on("frb.series.delete", function (event) {
+            console.log("On delete event, reload series");
+            $this.loadTable();
+        });
+
+        // On series edit, reload table
+        $("#edit-series").on("frb.series.edit", function (event) {
+            console.log("On edit event, reload series");
+            $this.loadTable();
+        });
     }
 
     onBooksClick(row) {
@@ -92,13 +118,6 @@ export function createSeriesTable() {
         document.querySelector('#seriestable')
     );
     console.log("Series table created");
-}
-
-/*
-    Reload the series table
-*/
-export function refreshSeriesTable() {
-    seriesTableInstance.loadTable();
 }
 
 /*

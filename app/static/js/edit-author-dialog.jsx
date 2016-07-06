@@ -77,8 +77,8 @@ export default class EditAuthorDialog extends NewAuthorDialog {
                 console.log(result);
                 console.log("Author updated");
                 // Refresh authors table to pick up the new record.
-                // This is a bit of overkill but it is simple.
-                authorstable.refreshAuthorsTable();
+                // Fire author edit event
+                $("#edit-author").trigger("frb.edit.author");
                 // Manually close dialog
                 $this.closeDialog(EDIT_AUTHOR_DLG_ID);
             },
