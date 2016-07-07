@@ -23,6 +23,7 @@ from app.models.models import db_session
 from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
     update_author, search_for_authors
 import logging
+from Version import GetVersion
 
 logger = logging.getLogger("app")
 
@@ -140,8 +141,12 @@ def delete_author(id):
 @app.route("/about", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_about():
-    #return render_template("home.html", authors=authors)
-    return "About"
+    about = {
+        "data": {
+            "version": GetVersion()
+        }
+    }
+    return jsonify(about)
 
 
 def normalize_boolean(str_value):

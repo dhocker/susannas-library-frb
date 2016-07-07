@@ -6,6 +6,7 @@ import * as seriestable from './series-table';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
 import * as NewSeries from './new-series-dialog';
+import * as aboutdialog from './about-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -82,3 +83,18 @@ export function initSeriesPage() {
         seriestable.searchSeries(search_arg);
     });
 };
+
+/*
+    Initialize layout
+*/
+export function initLayout() {
+    aboutdialog.initAboutDialog();
+    console.log("Layout initialized");
+}
+
+/*
+    Show the abut dialog
+*/
+export function showAboutDialog() {
+    callstack.callDialog("about-jsx");
+}
