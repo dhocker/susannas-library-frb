@@ -28,7 +28,8 @@ logger = logging.getLogger("app")
 def get_all_books():
     # Here we force eager loading of the book authors. Over the long term, we might not
     # want to do this, but it does greatly speed up the overall query.
-    return Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
+    books = Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
+    return books_todict(books)
 
 def get_book(id):
     return Book.query.options(joinedload('authors')).get(id)

@@ -32,7 +32,7 @@ import logging
 
 if __name__ == "__main__":
 
-    app.run('0.0.0.0', port=5005, debug=configuration.Configuration.Debug())
+    app.run('0.0.0.0', port=5000, debug=configuration.Configuration.Debug())
 
     logger = logging.getLogger("app")
 
