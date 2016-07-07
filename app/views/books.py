@@ -89,9 +89,7 @@ def get_books_with_filter():
         logger.info("All books")
         books = get_all_books()
 
-    # Convert result set to list of dict
-    ca = books_todict(books)
-    json = jsonify({'data': ca})
+    json = jsonify({'data': books})
     return json
 
 

@@ -14,10 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
-from models import Author, Book
+from models import Author, Book, Collaborations
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
-from app.models.models import db_session
+from sqlalchemy.sql import text
+from app.models.models import db_session, engine
 from authors import get_author
 import logging
 
@@ -69,13 +70,17 @@ def search_for_books(author_id, series_id, search_arg):
     q = Book.query.options(joinedload('authors'))
     if author_id:
         # This appears to be slow, but it works for finding an author's books
-        q = q.filter(Book.authors.any(Author.id==author_id))
+        # q = q.filter(Book.authors.any(Author.id==author_id))
+        # This technique appears to be much faster
+        q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)\
+            .filter(Collaborations.author_id==author_id)
     elif series_id:
         q = q.filter(Book.series_id==series_id)
     if search_arg:
         s = "%" + search_arg + "%"
         q = q.filter(Book.Title.like(s))
-    return q.order_by(func.lower(Book.Title)).all()
+    books = q.order_by(func.lower(Book.Title)).all()
+    return books_todict(books)
 
 def books_todict(books):
     ca = []
