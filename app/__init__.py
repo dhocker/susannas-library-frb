@@ -41,6 +41,7 @@ Logging.EnableServerLogging()
 from views import views
 from views import books
 from views import series
+from views import paged_books
 #from views import login_views
 
 logger = logging.getLogger("app")

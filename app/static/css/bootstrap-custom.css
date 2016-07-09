@@ -21,3 +21,11 @@ label {
 .modal-sm {
     width: 360px;
 }
+
+/*
+    Button additions
+*/
+.btn-extra {
+    margin-left: 5px;
+    margin-right: 5px;
+}

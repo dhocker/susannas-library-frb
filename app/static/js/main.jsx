@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as authorstable from './authors-table';
 import * as bookstable from './books-table';
+import * as pagedbookstable from './paged-books-table';
 import * as seriestable from './series-table';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
@@ -58,6 +59,35 @@ export function initBooksPage(filter_by, id, name) {
         var search_arg = $("#search-text").val();
         console.log("Search for books: " + search_arg);
         bookstable.searchBooks(search_arg);
+    });
+};
+
+/*
+    Initialize the paged books page
+*/
+export function initPagedBooksPage(filter_by, id, name) {
+    console.log("Initializing paged books page with filter: " + filter_by + " " + id + " " +name);
+    // Create and load books table
+    pagedbookstable.createPagedBooksTable(filter_by, id, name);
+
+    NewBook.initNewBookDialog(filter_by, id);
+
+    NewAuthor.initNewAuthorDialog();
+
+    NewSeries.initNewSeriesDialog();
+
+    // When New Book button is clicked, clear dialog fields
+    $("#new-book-btn").click(function() {
+        console.log("New book clicked");
+        NewBook.clearNewBookDialog();
+        callstack.callDialog("new-book-jsx");
+    });
+
+    // Set up search button
+    $("#search-button").click(function() {
+        var search_arg = $("#search-text").val();
+        console.log("Search for books: " + search_arg);
+        pagedbookstable.searchBooks(search_arg);
     });
 };
 

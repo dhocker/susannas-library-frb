@@ -31,6 +31,13 @@ def get_all_books():
     books = Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
     return books_todict(books)
 
+def get_books_by_page(page, pagesize):
+    q = Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title))
+    count = q.count();
+    books = q.offset(page * pagesize).limit(pagesize)
+    dict_books = books_todict(books)
+    return {"rows": dict_books, "count": count}
+
 def get_book(id):
     return Book.query.options(joinedload('authors')).get(id)
 
@@ -82,6 +89,26 @@ def search_for_books(author_id, series_id, search_arg):
         q = q.filter(Book.Title.like(s))
     books = q.order_by(func.lower(Book.Title)).all()
     return books_todict(books)
+
+def search_for_books_by_page(page, page_size, author_id, series_id, search_arg):
+    q = Book.query.options(joinedload('authors'))
+    if author_id:
+        # This appears to be slow, but it works for finding an author's books
+        # q = q.filter(Book.authors.any(Author.id==author_id))
+        # This technique appears to be much faster
+        q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)\
+            .filter(Collaborations.author_id==author_id)
+    elif series_id:
+        q = q.filter(Book.series_id==series_id)
+    if search_arg:
+        s = "%" + search_arg + "%"
+        q = q.filter(Book.Title.like(s))
+
+    count = q.count()
+    books = q.order_by(func.lower(Book.Title)).offset(page * page_size).limit(page_size)
+    dict_books = books_todict(books)
+
+    return {"rows": dict_books, "count": count}
 
 def books_todict(books):
     ca = []
