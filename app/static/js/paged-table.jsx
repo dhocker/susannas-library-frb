@@ -216,6 +216,8 @@ export default class PagedTable extends React.Component {
             RowComponents = this.generateRows(),
             FooterComponents = this.generateFooter();
         var $this = this;
+        var previousDisabled = this.state.current_page > 0 ? "" : "disabled";
+        var nextDisabled = (this.state.current_page + 1) < this.state.total_pages ? "" : "disabled";
 
         return (
             <div className="panel panel-default">
@@ -230,14 +232,14 @@ export default class PagedTable extends React.Component {
                     </table>
                 </div>
                 <div className="panel-footer">
-                    <button type="button" className="btn-extra btn btn-primary" role="button"
+                    <button type="button" className={"btn-extra btn btn-primary " + previousDisabled} role="button"
                         onClick={this.onFirstPage}>First</button>
-                    <button type="button" className="btn-extra btn btn-primary" role="button"
+                    <button type="button" className={"btn-extra btn btn-primary " + previousDisabled} role="button"
                         onClick={this.onPreviousPage}>Previous</button>
                     <span>Page {this.state.current_page + 1} of {this.state.total_pages}</span>
-                    <button type="button" className="btn-extra btn btn-primary" role="button"
+                    <button type="button" className={"btn-extra btn btn-primary " + nextDisabled} role="button"
                         onClick={this.onNextPage}>Next</button>
-                    <button type="button" className="btn-extra btn btn-primary" role="button"
+                    <button type="button" className={"btn-extra btn btn-primary " + nextDisabled} role="button"
                         onClick={this.onLastPage}>Last</button>
                 </div>
             </div>
