@@ -29,3 +29,10 @@ label {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+/*
+    Smaller sized input text box
+*/
+.textbox-sm {
+    width: 30px;
+}

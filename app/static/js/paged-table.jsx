@@ -57,7 +57,7 @@ export default class PagedTable extends React.Component {
         this.state = {
             rows: [],
             current_page: this.current_page,
-            page_size: this.page_size
+            page_size: String(this.page_size)
         };
 
         this.onSortColumn = this.onSortColumn.bind(this);
@@ -66,6 +66,8 @@ export default class PagedTable extends React.Component {
         this.onNextPage = this.onNextPage.bind(this);
         this.onFirstPage = this.onFirstPage.bind(this);
         this.onLastPage = this.onLastPage.bind(this);
+        this.pageSizeChanged = this.pageSizeChanged.bind(this);
+        this.onSetPageSize = this.onSetPageSize.bind(this);
         this.loadTable = this.loadTable.bind(this);
         this.filterTable = this.filterTable.bind(this);
     }
@@ -110,6 +112,33 @@ export default class PagedTable extends React.Component {
             this.setState({current_page: this.current_page});
             this.loadTable();
         }
+    }
+
+    pageSizeChanged(event) {
+        if (event.target.value.length) {
+            var ps = parseInt(event.target.value, 10);
+            // If the new value is not valid, ignore the key stroke
+            if (ps == NaN) {
+            }
+            else if (ps > 0) {
+                this.page_size = ps;
+                this.setState({
+                    page_size: String(ps)
+                });
+            }
+        }
+        else {
+            this.setState({
+                page_size: event.target.value
+            });
+        }
+    }
+
+    onSetPageSize(event) {
+        // Reload the table from the first page
+        this.current_page = 0;
+        this.setState({current_page: this.current_page});
+        this.loadTable();
     }
 
     // This can be called to initially load the table or to refresh the table
@@ -218,6 +247,10 @@ export default class PagedTable extends React.Component {
         var $this = this;
         var previousDisabled = this.state.current_page > 0 ? "" : "disabled";
         var nextDisabled = (this.state.current_page + 1) < this.state.total_pages ? "" : "disabled";
+        var setPageSizeDisabled = "disabled";
+        if ((this.state.page_size.length > 0) && (parseInt(this.state.page_size, 10) != NaN)) {
+            setPageSizeDisabled = "";
+        }
 
         return (
             <div className="panel panel-default">
@@ -241,6 +274,10 @@ export default class PagedTable extends React.Component {
                         onClick={this.onNextPage}>Next</button>
                     <button type="button" className={"btn-extra btn btn-primary " + nextDisabled} role="button"
                         onClick={this.onLastPage}>Last</button>
+                    <button type="button" className={"btn-extra btn btn-primary " + setPageSizeDisabled} role="button"
+                        onClick={this.onSetPageSize}>Page Size</button>
+                    <input type="text" className="textbox-sm" id="page-size"
+                        value={this.state.page_size} onChange={this.pageSizeChanged}/>
                 </div>
             </div>
         );
