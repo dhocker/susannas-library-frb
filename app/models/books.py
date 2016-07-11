@@ -28,21 +28,22 @@ logger = logging.getLogger("app")
 def get_all_books():
     # Here we force eager loading of the book authors. Over the long term, we might not
     # want to do this, but it does greatly speed up the overall query.
-    books = Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title)).all()
+    books = Book.query.order_by(func.lower(Book.Title)).all()
     return books_todict(books)
 
-def get_books_by_page(page, pagesize):
-    q = Book.query.options(joinedload('authors')).order_by(func.lower(Book.Title))
+def get_books_by_page(page, pagesize, sort_col, sort_dir):
+    q = Book.query
+    q = append_order_by_clause(q, sort_col, sort_dir)
     count = q.count();
     books = q.offset(page * pagesize).limit(pagesize)
     dict_books = books_todict(books)
     return {"rows": dict_books, "count": count}
 
 def get_book(id):
-    return Book.query.options(joinedload('authors')).get(id)
+    return Book.query.get(id)
 
 def get_books_in_series(series_id):
-    return Book.query.options(joinedload('authors')).filter_by(series_id=series_id)
+    return Book.query.filter_by(series_id=series_id)
 
 def update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes):
     book = get_book(id)
@@ -75,7 +76,7 @@ def delete_book_by_id(id):
     db_session.commit()
 
 def search_for_books(author_id, series_id, search_arg):
-    q = Book.query.options(joinedload('authors'))
+    q = Book.query
     if author_id:
         # This appears to be slow, but it works for finding an author's books
         # q = q.filter(Book.authors.any(Author.id==author_id))
@@ -90,8 +91,8 @@ def search_for_books(author_id, series_id, search_arg):
     books = q.order_by(func.lower(Book.Title)).all()
     return books_todict(books)
 
-def search_for_books_by_page(page, page_size, author_id, series_id, search_arg):
-    q = Book.query.options(joinedload('authors'))
+def search_for_books_by_page(page, page_size, author_id, series_id, search_arg, sort_col, sort_dir):
+    q = Book.query
     if author_id:
         # This appears to be slow, but it works for finding an author's books
         # q = q.filter(Book.authors.any(Author.id==author_id))
@@ -144,3 +145,30 @@ def books_todict(books):
 
         ca.append(aa)
     return ca
+
+def append_order_by_clause(query, sort_col, sort_dir):
+    # These are the column properties that are exposed (see Mixin class)
+    # column_props = ["Title", "ISBN", "Volume", "series", "Published", "Category", "Status", "CoverType", "Notes", "id"]
+    column_list = {
+        "Title": Book.Title,
+        "ISBN": Book.ISBN,
+        "Volume": Book.Volume,
+        "series": Book.series,
+        "Published": Book.Published,
+        "Category": Book.Category,
+        "Status": Book.Status,
+        "CoverType": Book.CoverType,
+        "Notes": Book.Notes,
+        "id": Book.id
+    }
+
+    # TODO How to sort Author? Is it even possible?
+
+    if sort_col in column_list:
+        if sort_dir == "desc":
+            q = query.order_by(func.lower(column_list[sort_col]).desc())
+        else:
+            q = query.order_by(func.lower(column_list[sort_col]).asc())
+    else:
+        q = query.order_by(func.lower(column_list["Title"]).asc())
+    return q

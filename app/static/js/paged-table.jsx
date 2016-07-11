@@ -39,14 +39,8 @@ export default class PagedTable extends React.Component {
         this.sort_dir = [];
         // 1 = sort asc, -1 = sort desc
         for (var i = 0; i < this.column_count; i++) {
-            // Set up the NEXT sort direction
-            if (i > 0) {
-                this.sort_dir.push(SORT_ASC);
-            }
-            else {
-                // The first column is the default sort column, so it is already sorted asc
-                this.sort_dir.push(SORT_DESC);
-            }
+            // Set up the current sort direction
+            this.sort_dir.push(SORT_ASC);
         }
 
         // Initial state with empty rows
@@ -61,7 +55,6 @@ export default class PagedTable extends React.Component {
         };
 
         this.onSortColumn = this.onSortColumn.bind(this);
-        this.sortRows = this.sortRows.bind(this);
         this.onPreviousPage = this.onPreviousPage.bind(this);
         this.onNextPage = this.onNextPage.bind(this);
         this.onFirstPage = this.onFirstPage.bind(this);
@@ -70,6 +63,7 @@ export default class PagedTable extends React.Component {
         this.onSetPageSize = this.onSetPageSize.bind(this);
         this.loadTable = this.loadTable.bind(this);
         this.filterTable = this.filterTable.bind(this);
+        this.buildUrl = this.buildUrl.bind(this);
     }
 
     // Override in derived class to provide actions for table
@@ -145,11 +139,7 @@ export default class PagedTable extends React.Component {
     // after inserts, updates or deletes
     loadTable() {
         var $this = this;
-        var url = this.props.url + "?page=" + String(this.current_page) + "&pagesize=" + String(this.page_size);
-        if (this.search_arg.length) {
-            url += "&search=" + this.search_arg;
-        }
-        console.log("Getting records from url " + url);
+        var url = this.buildUrl();
         $.get(url, function(response, status){
             console.log("Data rows received: " + String(response.data.rows.length));
             console.log("Total row count: " + String(response.data.count));
@@ -165,14 +155,6 @@ export default class PagedTable extends React.Component {
             }
 
             console.log("Total pages: " + String($this.total_pages));
-
-            // Repeat the last sort
-            if ($this.sort_col == 0 && $this.sort_dir[0] == SORT_DESC) {
-                // Default sort, do nothing
-            }
-            else {
-                $this.sortRows(rows, $this.sort_col, $this.sort_dir[$this.sort_col] * SORT_INVERT);
-            }
             $this.setState({rows: rows, total_pages: $this.total_pages});
         });
     }
@@ -180,13 +162,10 @@ export default class PagedTable extends React.Component {
     // Loads the table with the results of a get + search arg (filter)
     filterTable(arg) {
         var $this = this;
-        var url = this.props.url + "?page=" + String(this.current_page) + "&pagesize=" + String(this.page_size);
-        console.log("Base filter url: " + url);
         if (arg.length) {
-            url += "&search=" + arg;
             this.search_arg = arg;
         }
-        console.log("Full filter url: " + url);
+        var url = this.buildUrl();
         $.ajax({
             type: "GET",
             url: url,
@@ -217,27 +196,31 @@ export default class PagedTable extends React.Component {
         });
     }
 
-    // Sort rows for a given column and direction
-    sortRows(rows, i, dir) {
-        var $this = this;
-        console.log("Sorting");
-        rows.sort(function(left, right) {
-            // Sort direction: 1 = asc, -1 = desc
-            return dir * String(left[$this.props.cols[i].colname]).localeCompare(right[$this.props.cols[i].colname]);
-        });
+    /*
+        Build the base url
+    */
+    buildUrl() {
+        var url = this.props.url;
+        url += "?page=" + String(this.current_page);
+        url += "&pagesize=" + String(this.page_size);
+        // TODO Determine if sort col will be the index or the name
+        url += "&sortcol=" + String(this.props.cols[this.sort_col].colname);
+        url += "&sortdir=" + (this.sort_dir[this.sort_col] > 0 ? "asc" : "desc");
+        if (this.search_arg.length) {
+            url += "&search=" + this.search_arg;
+        }
+        console.log("Getting records from url " + url);
+        return url;
     }
 
     // Sorts the table based on the given column index
     onSortColumn(i) {
         console.log("Sort column: " + String(i));
-        var $this = this;
-        // Sort
-        this.sortRows(this.state.rows, i, this.sort_dir[i]);
-        this.setState({rows: this.state.rows});
         // Flip the sort direction
         this.sort_dir[i] = SORT_INVERT * this.sort_dir[i];
         // Remember last sorted column
         this.sort_col = i;
+        this.loadTable();
     }
 
     render() {

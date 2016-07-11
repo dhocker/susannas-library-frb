@@ -69,6 +69,8 @@ def get_books_with_filter():
     Parameter author=author_id returns all books for an author.
     Parameter series=series_id returns all books in a series.
     Parameter search=search_arg returns all books where search_arg is in title.
+    Parameter sortcol=sort_column returns books sorted by this column
+    Parameter sortdir=sort_direction asc (ascending) or desc (descending)
     :return:
     """
     author_id = request.args.get('author', '')
@@ -83,6 +85,7 @@ def get_books_with_filter():
     else:
         pass
 
+    # TODO Implement sorting
     if author_id or series_id or search_arg:
         books = search_for_books(author_id, series_id, search_arg)
     else:

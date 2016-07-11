@@ -73,6 +73,9 @@ def get_paged_books_with_filter():
     author_id = request.args.get('author', '')
     series_id = request.args.get('series', '')
     search_arg = request.args.get('search', '')
+    sort_col = request.args.get('sortcol', '')
+    sort_dir = request.args.get('sortdir', '')
+
     if author_id:
         logger.info("Books for author: %s", author_id)
     elif series_id:
@@ -83,10 +86,10 @@ def get_paged_books_with_filter():
         pass
 
     if author_id or series_id or search_arg:
-        books = search_for_books_by_page(page_number, page_size, author_id, series_id, search_arg)
+        books = search_for_books_by_page(page_number, page_size, author_id, series_id, search_arg, sort_col, sort_dir)
     else:
         logger.info("All books")
-        books = get_books_by_page(page_number, page_size)
+        books = get_books_by_page(page_number, page_size, sort_col, sort_dir)
 
     json = jsonify({'data': books})
     return json

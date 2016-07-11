@@ -178,7 +178,7 @@ class Book(Base, ModelMixin):
     created_at = Column(Text)
     updated_at = Column(Text)
     series = relationship("Series", uselist=False)
-    authors = relationship("Author", secondary='collaborations', back_populates="books")
+    authors = relationship("Author", secondary='collaborations', back_populates="books", lazy='joined')
 
 
     def __init__(self, title, isbn, volume, series_id, author, category, status, cover, notes):
