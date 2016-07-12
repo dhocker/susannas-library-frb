@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
-from models import Author, Book, Collaborations
+from models import Author, Book, Collaborations, Series
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql import text
@@ -32,7 +32,8 @@ def get_all_books():
     return books_todict(books)
 
 def get_books_by_page(page, pagesize, sort_col, sort_dir):
-    q = Book.query
+    q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)
+    q = q.join(Series, Series.id==Book.series_id)
     q = append_order_by_clause(q, sort_col, sort_dir)
     count = q.count();
     books = q.offset(page * pagesize).limit(pagesize)
@@ -76,13 +77,13 @@ def delete_book_by_id(id):
     db_session.commit()
 
 def search_for_books(author_id, series_id, search_arg):
-    q = Book.query
+    q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)
+    q = q.join(Series, Series.id==Book.series_id)
     if author_id:
         # This appears to be slow, but it works for finding an author's books
         # q = q.filter(Book.authors.any(Author.id==author_id))
         # This technique appears to be much faster
-        q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)\
-            .filter(Collaborations.author_id==author_id)
+        q = q.filter(Collaborations.author_id==author_id)
     elif series_id:
         q = q.filter(Book.series_id==series_id)
     if search_arg:
@@ -92,13 +93,14 @@ def search_for_books(author_id, series_id, search_arg):
     return books_todict(books)
 
 def search_for_books_by_page(page, page_size, author_id, series_id, search_arg, sort_col, sort_dir):
-    q = Book.query
+    q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)
+    q = q.join(Author, Author.id==Collaborations.author_id)
+    q = q.join(Series, Series.id==Book.series_id)
     if author_id:
         # This appears to be slow, but it works for finding an author's books
         # q = q.filter(Book.authors.any(Author.id==author_id))
         # This technique appears to be much faster
-        q = db_session.query(Book).join(Collaborations, Collaborations.book_id==Book.id)\
-            .filter(Collaborations.author_id==author_id)
+        q = q.filter(Book.series_id==series_id)
     elif series_id:
         q = q.filter(Book.series_id==series_id)
     if search_arg:
@@ -153,7 +155,7 @@ def append_order_by_clause(query, sort_col, sort_dir):
         "Title": Book.Title,
         "ISBN": Book.ISBN,
         "Volume": Book.Volume,
-        "series": Book.series,
+        "Series": Series.name,
         "Published": Book.Published,
         "Category": Book.Category,
         "Status": Book.Status,
