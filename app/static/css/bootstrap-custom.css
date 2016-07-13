@@ -34,6 +34,6 @@ label {
     Smaller sized input text box
 */
 .textbox-sm {
-    width: 30px;
-    margin-top: 3px;
+    width: 40px;
+    margin-top: 1px;
 }

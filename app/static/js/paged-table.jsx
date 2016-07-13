@@ -256,18 +256,18 @@ export default class PagedTable extends React.Component {
                 <div className="panel-footer">
                     <div className="row">
                         <div className="col-md-9">
-                            <button type="button" className={"btn-extra btn btn-primary " + previousDisabled} role="button"
+                            <button type="button" className={"btn-extra btn btn-primary btn-sm " + previousDisabled} role="button"
                                 onClick={this.onFirstPage}>First</button>
-                            <button type="button" className={"btn-extra btn btn-primary " + previousDisabled} role="button"
+                            <button type="button" className={"btn-extra btn btn-primary btn-sm " + previousDisabled} role="button"
                                 onClick={this.onPreviousPage}>Previous</button>
                             <span>Page {this.state.current_page + 1} of {this.state.total_pages}</span>
-                            <button type="button" className={"btn-extra btn btn-primary " + nextDisabled} role="button"
+                            <button type="button" className={"btn-extra btn btn-primary btn-sm " + nextDisabled} role="button"
                                 onClick={this.onNextPage}>Next</button>
-                            <button type="button" className={"btn-extra btn btn-primary " + nextDisabled} role="button"
+                            <button type="button" className={"btn-extra btn btn-primary btn-sm " + nextDisabled} role="button"
                                 onClick={this.onLastPage}>Last</button>
                         </div>
                         <div className="col-md-3">
-                            <button type="button" className={"btn-extra btn btn-primary pull-right" + setPageSizeDisabled} role="button"
+                            <button type="button" className={"btn-extra btn btn-primary pull-right btn-sm " + setPageSizeDisabled} role="button"
                                 onClick={this.onSetPageSize}>Page Size</button>
                             <input type="text" className="textbox-sm pull-right" id="page-size"
                                 value={this.state.page_size} onChange={this.pageSizeChanged}/>
