@@ -47,11 +47,18 @@ def append_order_by_clause(query, sort_col, sort_dir):
     }
 
     if sort_col in column_list:
-        # TODO Handle LastName as a special case
         if sort_dir == "desc":
-            q = query.order_by(func.lower(column_list[sort_col]).desc())
+            # Handle LastName as a special case (sort last, first name)
+            if sort_col == "LastName":
+                q = query.order_by(func.lower(Author.LastName).desc(), func.lower(Author.FirstName).desc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).desc())
         else:
-            q = query.order_by(func.lower(column_list[sort_col]).asc())
+            # Handle LastName as a special case (sort last, first name)
+            if sort_col == "LastName":
+                q = query.order_by(func.lower(Author.LastName).asc(), func.lower(Author.FirstName).asc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).asc())
     else:
         q = query.order_by(func.lower(column_list["LastName"]).asc())
     return q
