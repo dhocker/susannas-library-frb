@@ -18,7 +18,8 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_author
-from app.models.books import get_books_by_page, search_for_books_by_page
+#from app.models.books import get_books_by_page, search_for_books_by_page
+from app.models.sql_books import get_books_by_page, search_for_books_by_page
 from app.models.series import get_series
 import logging
 
