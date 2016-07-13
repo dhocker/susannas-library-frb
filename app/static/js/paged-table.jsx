@@ -201,7 +201,13 @@ export default class PagedTable extends React.Component {
     */
     buildUrl() {
         var url = this.props.url;
-        url += "?page=" + String(this.current_page);
+        if (url.includes("?")) {
+            url += "&";
+        }
+        else {
+            url += "?";
+        }
+        url += "page=" + String(this.current_page);
         url += "&pagesize=" + String(this.page_size);
         // TODO Determine if sort col will be the index or the name
         url += "&sortcol=" + String(this.props.cols[this.sort_col].colname);
