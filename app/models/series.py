@@ -21,7 +21,10 @@ from app.models.models import db_session
 
 def get_all_series(page, pagesize, sort_col, sort_dir):
     q = append_order_by_clause(Series.query, sort_col, sort_dir)
-    series = q.limit(pagesize).offset(page * pagesize).all()
+    if pagesize > 0:
+        series = q.limit(pagesize).offset(page * pagesize).all()
+    else:
+        series = q.offset(page * pagesize).all()
     count = q.count()
     return {"rows": series_todict(series), "count": count}
 

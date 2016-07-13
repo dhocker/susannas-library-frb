@@ -96,8 +96,8 @@ export default class NewBookDialog extends ModalDialog {
         console.log("Getting all series from url /authors");
         var $this = this;
         $.get("/authors", function(response, status){
-            console.log("Author rows received: " + String(response.data.length));
-            var rows = response.data;
+            console.log("Author rows received: " + String(response.data.rows.length));
+            var rows = response.data.rows;
             $this.setState({
                 author_rows: rows,
                 authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
@@ -110,8 +110,8 @@ export default class NewBookDialog extends ModalDialog {
         console.log("Getting all series from url /series");
         var $this = this;
         $.get("/series", function(response, status){
-            console.log("Series rows received: " + String(response.data.length));
-            var rows = response.data;
+            console.log("Series rows received: " + String(response.data.rows.length));
+            var rows = response.data.rows;
             $this.setState({
                 series_rows: rows,
                 seriesValue: rows[0].id

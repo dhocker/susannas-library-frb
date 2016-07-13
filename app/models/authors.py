@@ -22,7 +22,10 @@ from app.models.models import db_session
 
 def get_all_authors(page, pagesize, sort_col, sort_dir):
     q = append_order_by_clause(Author.query, sort_col, sort_dir)
-    authors = q.limit(pagesize).offset(page * pagesize).all()
+    if pagesize > 0:
+        authors = q.limit(pagesize).offset(page * pagesize).all()
+    else:
+        authors = q.offset(page * pagesize).all()
     count = q.count()
     return {"rows": authors_todict(authors), "count": count}
 

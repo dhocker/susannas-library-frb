@@ -38,8 +38,8 @@ def get_series_page():
 @app.route("/series", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_series_records():
-    page_number = int(request.args.get('page', ''))
-    page_size = int(request.args.get('pagesize', ''))
+    page_number = int(request.args.get('page', 0))
+    page_size = int(request.args.get('pagesize', 0))
     search_arg = request.args.get('search', '')
     sort_col = request.args.get('sortcol', '')
     sort_dir = request.args.get('sortdir', '')
