@@ -28,7 +28,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js --progress --profile --colors",
-    "build-w": "webpack -w --config webpack.config.js --progress --profile --colors"
+    "build-w": "webpack -w --config webpack.config.js --progress --profile --colors",
+    "build-p": "webpack --config production.webpack.config.js --progress --profile --colors"
   },
   "author": "",
   "license": "GPL-3.0"
