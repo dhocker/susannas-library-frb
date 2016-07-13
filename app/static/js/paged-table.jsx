@@ -162,9 +162,7 @@ export default class PagedTable extends React.Component {
     // Loads the table with the results of a get + search arg (filter)
     filterTable(arg) {
         var $this = this;
-        if (arg.length) {
-            this.search_arg = arg;
-        }
+        this.search_arg = arg;
         var url = this.buildUrl();
         $.ajax({
             type: "GET",
