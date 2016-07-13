@@ -28,11 +28,12 @@ def get_all_authors(page, pagesize, sort_col, sort_dir):
 
 
 def search_for_authors(page_number, page_size, search_arg, sort_col, sort_dir):
-    like = '%' + search_arg + '%'
     q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    if search_arg:
+        like = '%' + search_arg + '%'
+        q = q.filter(or_(Author.LastName.like(like), Author.FirstName.like(like)))
     count = q.count()
-    authors =  q.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)) \
-        .limit(page_size).offset(page_number * page_size)
+    authors =  q.limit(page_size).offset(page_number * page_size)
     return {"rows": authors_todict(authors), "count": count}
 
 def append_order_by_clause(query, sort_col, sort_dir):
@@ -52,7 +53,7 @@ def append_order_by_clause(query, sort_col, sort_dir):
         else:
             q = query.order_by(func.lower(column_list[sort_col]).asc())
     else:
-        q = query.order_by(func.lower(column_list["Title"]).asc())
+        q = query.order_by(func.lower(column_list["LastName"]).asc())
     return q
 
 def get_author(id):

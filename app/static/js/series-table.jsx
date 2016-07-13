@@ -17,7 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Table from './table';
+import PagedTable from './paged-table';
 import * as DeleteSeries from './delete-series-dialog';
 import * as EditSeries from './edit-series-dialog';
 
@@ -25,7 +25,7 @@ import * as EditSeries from './edit-series-dialog';
     Series table - a specific instance of a table showing
     all of the series in the database.
 */
-export default class SeriesTable extends Table {
+export default class SeriesTable extends PagedTable {
     constructor(props) {
         super(props);
 
@@ -101,7 +101,7 @@ var seriesTableInstance;
 export function createSeriesTable() {
     // Defines the columns in the series table
     var seriesTableColumns = [
-        { colname: 'name', label: 'Last Name', sortable: true },
+        { colname: 'name', label: 'Name', sortable: true },
         { colname: 'id', label: 'ID', sortable: true }
     ];
 

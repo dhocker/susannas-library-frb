@@ -38,15 +38,18 @@ def get_series_page():
 @app.route("/series", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_series_records():
+    page_number = int(request.args.get('page', ''))
+    page_size = int(request.args.get('pagesize', ''))
     search_arg = request.args.get('search', '')
-    if search_arg:
-        series = search_for_series(search_arg)
-    else:
-        series = get_all_series()
+    sort_col = request.args.get('sortcol', '')
+    sort_dir = request.args.get('sortdir', '')
 
-    # Convert result set to list of dict
-    ca = series_todict(series)
-    json = jsonify({'data': ca})
+    if search_arg:
+        series = search_for_series(page_number, page_size, search_arg, sort_col, sort_dir)
+    else:
+        series = get_all_series(page_number, page_size, sort_col, sort_dir)
+
+    json = jsonify({'data': series})
     return json
 
 @app.route("/series", methods=['POST'])

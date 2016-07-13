@@ -19,15 +19,44 @@ from sqlalchemy import func, or_
 from app.models.models import db_session
 
 
-def get_all_series():
-    return Series.query.order_by(func.lower(Series.name)).all()
+def get_all_series(page, pagesize, sort_col, sort_dir):
+    q = append_order_by_clause(Series.query, sort_col, sort_dir)
+    series = q.limit(pagesize).offset(page * pagesize).all()
+    count = q.count()
+    return {"rows": series_todict(series), "count": count}
+
+def append_order_by_clause(query, sort_col, sort_dir):
+    column_list = {
+        "name": Series.name,
+        "id": Series.id
+    }
+
+    if sort_col in column_list:
+        if sort_dir == "desc":
+            if sort_col == "id":
+                q = query.order_by(column_list[sort_col].desc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).desc())
+        else:
+            if sort_col == "id":
+                q = query.order_by(column_list[sort_col].asc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).asc())
+    else:
+        q = query.order_by(func.lower(column_list["name"]).asc())
+    return q
 
 def get_series(series_id):
     return Series.query.get(series_id)
 
-def search_for_series(search_arg):
-    sa = "%" + search_arg + "%"
-    return Series.query.filter(Series.name.like(sa)).order_by(func.lower(Series.name)).all()
+def search_for_series(page, pagesize, search_arg, sort_col, sort_dir):
+    q = append_order_by_clause(Series.query, sort_col, sort_dir)
+    if search_arg:
+        like = '%' + search_arg + '%'
+        q = q.filter(Series.name.like(like))
+    count = q.count()
+    series =  q.limit(pagesize).offset(page * pagesize)
+    return {"rows": series_todict(series), "count": count}
 
 def insert_series(name):
     s = Series(name)
