@@ -20,19 +20,40 @@ from sqlalchemy.orm import joinedload
 from app.models.models import db_session
 
 
-def get_all_authors():
-    return Author.query.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
+def get_all_authors(page, pagesize, sort_col, sort_dir):
+    q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    authors = q.limit(pagesize).offset(page * pagesize).all()
+    count = q.count()
+    return {"rows": authors_todict(authors), "count": count}
 
 
-def search_for_authors(search_text):
-    like = '%' + search_text + '%'
-    return Author.query.filter(or_(Author.LastName.like(like), Author.FirstName.like(like)))\
-        .order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
+def search_for_authors(page_number, page_size, search_arg, sort_col, sort_dir):
+    like = '%' + search_arg + '%'
+    q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    count = q.count()
+    authors =  q.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)) \
+        .limit(page_size).offset(page_number * page_size)
+    return {"rows": authors_todict(authors), "count": count}
 
+def append_order_by_clause(query, sort_col, sort_dir):
+    column_list = {
+        "LastName": Author.LastName,
+        "FirstName": Author.FirstName,
+        "category": Author.category,
+        "try_author": Author.try_author,
+        "Avoid": Author.Avoid,
+        "id": Author.id
+    }
 
-def get_page_of_authors(skip, page_size):
-    return Author.query.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).slice(skip + 1, skip + page_size)
-
+    if sort_col in column_list:
+        # TODO Handle LastName as a special case
+        if sort_dir == "desc":
+            q = query.order_by(func.lower(column_list[sort_col]).desc())
+        else:
+            q = query.order_by(func.lower(column_list[sort_col]).asc())
+    else:
+        q = query.order_by(func.lower(column_list["Title"]).asc())
+    return q
 
 def get_author(id):
     return Author.query.options(joinedload('books')).get(id)

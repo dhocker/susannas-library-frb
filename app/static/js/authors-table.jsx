@@ -17,7 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Table from './table';
+import PagedTable from './paged-table';
 import * as DeleteAuthor from './delete-author-dialog';
 import * as EditAuthor from './edit-author-dialog';
 
@@ -25,7 +25,7 @@ import * as EditAuthor from './edit-author-dialog';
     Authors table - a specific instance of a table showing
     all of the authors in the authors database.
 */
-export default class AuthorsTable extends Table {
+export default class AuthorsTable extends PagedTable {
     constructor(props) {
         super(props);
 

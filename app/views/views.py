@@ -17,7 +17,7 @@
 from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
-from app.models.authors import get_all_authors, insert_author, get_page_of_authors, authors_todict
+from app.models.authors import get_all_authors, insert_author, authors_todict
 from app.models.models import Author, Book
 from app.models.models import db_session
 from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
@@ -51,17 +51,26 @@ def get_home():
 @app.route("/authors", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_authors():
-    # Check for search first. Default to all.
-    if "search" in request.args:
-        search_text = request.args.get('search', '')
-        logger.info("Search authors: %s", search_text)
-        authors = search_for_authors(search_text)
-    else:
-        authors = get_all_authors()
+    """
+    Get authors with optional search parameters.
+    No search parameters returns all authors.
+    Parameter search=search_arg returns all books where search_arg is in title.
+    :return:
+    """
+    page_number = int(request.args.get('page', ''))
+    page_size = int(request.args.get('pagesize', ''))
+    search_arg = request.args.get('search', '')
+    sort_col = request.args.get('sortcol', '')
+    sort_dir = request.args.get('sortdir', '')
 
-    # Convert result set to list of dicts
-    ca = authors_todict(authors)
-    json = jsonify({'data': ca})
+    # Check for search first. Default to all.
+    if search_arg:
+        logger.info("Search authors: %s", search_arg)
+        authors = search_for_authors(page_number, page_size, search_arg, sort_col, sort_dir)
+    else:
+        authors = get_all_authors(page_number, page_size, sort_col, sort_dir)
+
+    json = jsonify({"data": authors})
     return json
 
 
