@@ -91,6 +91,7 @@ export default class NewBookDialog extends ModalDialog {
         this.componentDidMount = this.componentDidMount.bind(this);
         this.loadAuthors = this.loadAuthors.bind(this);
         this.loadSeries = this.loadSeries.bind(this);
+        this.setFocus = this.setFocus.bind(this);
     }
 
     loadAuthors() {
@@ -104,8 +105,7 @@ export default class NewBookDialog extends ModalDialog {
                 author_rows: rows,
                 authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
             });
-            // This puts the focus back as it seems the state update changes it
-            ReactDOM.findDOMNode($this.refs.titleInput).focus();
+            $this.setFocus();
         });
     }
 
@@ -120,8 +120,7 @@ export default class NewBookDialog extends ModalDialog {
                 series_rows: rows,
                 seriesValue: rows[0].id
             });
-            // This puts the focus back as it seems the state update changes it
-            ReactDOM.findDOMNode($this.refs.titleInput).focus();
+            $this.setFocus();
         });
     }
 
@@ -163,6 +162,14 @@ export default class NewBookDialog extends ModalDialog {
             notesValue: "",
             error: ""
         });
+    }
+
+    setFocus() {
+        var $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function() {
+            $this.refs.titleInput.focus();
+        }, 0);
     }
 
     componentDidMount() {
