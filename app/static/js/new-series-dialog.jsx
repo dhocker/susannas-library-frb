@@ -54,9 +54,17 @@ export default class NewSeriesDialog extends ModalDialog {
             nameValue: "",
             error: ""
         });
+        this.refs.inputName.focus();
     }
 
     componentDidMount() {
+        var $this = this;
+        $("#" + NEW_SERIES_DLG_ID).on('show.bs.modal', function () {
+            // Trick to get focus into input text box
+            setTimeout(function() {
+                $this.refs.inputName.focus();
+            }, 0);
+        });
     }
 
     /*
@@ -152,9 +160,9 @@ export default class NewSeriesDialog extends ModalDialog {
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label for="name">Series Name</label>
-                            <input id="name" type="text"  className="form-control"
-                                value={this.state.nameValue} onChange={this.nameChanged}
+                            <label for="input-name">Series Name</label>
+                            <input id="input-name" type="text" className="form-control" ref="inputName"
+                                value={this.state.nameValue} onChange={this.nameChanged} autoFocus={true}
                             />
                         </div>
                     </div>

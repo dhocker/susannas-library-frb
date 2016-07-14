@@ -72,12 +72,13 @@ export default class NewAuthorDialog extends ModalDialog {
     }
 
     componentDidMount() {
-        /*
-        this.serverRequest = $.get(this.props.url, function(response, status){
-            console.log("Data rows received: " + String(response.data.length));
-            this.setState({rows: response.data});
-        }.bind(this));
-        */
+        var $this = this;
+        $("#" + NEW_AUTHOR_DLG_ID).on('show.bs.modal', function () {
+            // Trick to get focus into input text box
+            setTimeout(function() {
+                $this.refs.lastName.focus();
+            }, 0);
+        });
     }
 
     /*
@@ -212,7 +213,7 @@ export default class NewAuthorDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="form-group">
                             <label for="lastname">Last Name</label>
-                            <input id="lastname" type="text"  className="form-control"
+                            <input id="lastname" type="text"  className="form-control" ref="lastName"
                                 value={this.state.lastnameValue} onChange={this.lastnameChanged}
                             />
                         </div>

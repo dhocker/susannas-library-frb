@@ -78,8 +78,6 @@ export default class EditBookDialog extends NewBookDialog {
         $("#" + EDIT_BOOK_DLG_ID).on('show.bs.modal', function () {
             $this.loadAuthors();
             $this.loadSeries();
-            // Does not work
-            ReactDOM.findDOMNode($this.refs.titleInput).focus();
         });
     }
 
