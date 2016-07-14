@@ -73,28 +73,13 @@ export default class EditBookDialog extends NewBookDialog {
     }
 
     componentDidMount() {
-        // Retrieve all of the series
-        console.log("Getting all series from url /series");
+        // Load combo boxes
         var $this = this;
-        $.get("/series", function(response, status){
-            console.log("Series rows received: " + String(response.data.length));
-            var rows = response.data;
-            $this.setState({
-                series_rows: rows,
-                seriesValue: $this.state.seriesValue
-            });
-        });
-
-        // Retrieve all of the authors
-        console.log("Getting all series from url /authors");
-        var $this = this;
-        $.get("/authors", function(response, status){
-            console.log("Author rows received: " + String(response.data.length));
-            var rows = response.data;
-            $this.setState({
-                author_rows: rows,
-                authorValue: $this.state.authorValue
-            });
+        $("#" + EDIT_BOOK_DLG_ID).on('show.bs.modal', function () {
+            $this.loadAuthors();
+            $this.loadSeries();
+            // Does not work
+            ReactDOM.findDOMNode($this.refs.titleInput).focus();
         });
     }
 

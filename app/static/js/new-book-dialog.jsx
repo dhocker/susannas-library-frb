@@ -37,7 +37,9 @@ export default class NewBookDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
-        console.log("New book for filter_by = " + props.filter_by + " " + String(props.filter_by_id));
+        if (props.filter_by && props.filter_by_id) {
+            console.log("NewBookDialog filter_by = " + props.filter_by + " " + String(props.filter_by_id));
+        }
 
         // Apply filtering
         var series_id = 0;
