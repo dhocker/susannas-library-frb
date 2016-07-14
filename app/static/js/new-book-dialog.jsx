@@ -102,6 +102,8 @@ export default class NewBookDialog extends ModalDialog {
                 author_rows: rows,
                 authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
             });
+            // This puts the focus back as it seems the state update changes it
+            ReactDOM.findDOMNode($this.refs.titleInput).focus();
         });
     }
 
@@ -116,6 +118,8 @@ export default class NewBookDialog extends ModalDialog {
                 series_rows: rows,
                 seriesValue: rows[0].id
             });
+            // This puts the focus back as it seems the state update changes it
+            ReactDOM.findDOMNode($this.refs.titleInput).focus();
         });
     }
 
@@ -166,6 +170,8 @@ export default class NewBookDialog extends ModalDialog {
         $("#" + NEW_BOOK_DLG_ID).on('show.bs.modal', function () {
             $this.loadAuthors();
             $this.loadSeries();
+            // Does not work
+            ReactDOM.findDOMNode($this.refs.titleInput).focus();
         });
 
         // Handle new series added event
@@ -326,8 +332,8 @@ export default class NewBookDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-md-6">
-                                <label for="title">Title</label>
-                                <input id="title" type="text" className="form-control"
+                                <label for="title-input">Title</label>
+                                <input id="title-input" type="text" className="form-control" ref="titleInput"
                                     value={this.state.titleValue} onChange={this.titleChanged}
                                 />
                             </div>

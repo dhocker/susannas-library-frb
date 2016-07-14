@@ -2,7 +2,11 @@ var webpack = require('webpack');
 var path = require("path");
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
-console.log("process.env.WEBPACK_DEVTOOL: " + process.env.WEBPACK_DEVTOOL)
+console.log("");
+console.log("Webpack Production Build");
+console.log("------------------------");
+console.log("process.env.WEBPACK_DEVTOOL: " + process.env.WEBPACK_DEVTOOL);
+console.log("");
 
 /*
     Initial config: http://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
