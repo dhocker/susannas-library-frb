@@ -61,16 +61,6 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         });
     }
 
-    componentDidMount() {
-        var $this = this;
-        $("#" + EDIT_AUTHOR_DLG_ID).on('show.bs.modal', function () {
-            // Trick to get focus into input text box
-            setTimeout(function() {
-                $this.refs.lastName.focus();
-            }, 0);
-        });
-    }
-
     /*
         Send author data to server
     */

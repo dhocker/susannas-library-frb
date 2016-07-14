@@ -53,15 +53,6 @@ export default class EditSeriesDialog extends NewSeriesDialog {
         });
     }
 
-    componentDidMount() {
-        var $this = this;
-        $("#" + EDIT_SERIES_DLG_ID).on('show.bs.modal', function () {
-            setTimeout(function() {
-                $this.refs.inputName.focus();
-            }, 0);
-        });
-    }
-
     /*
         Send series data to server
     */

@@ -73,7 +73,7 @@ export default class NewAuthorDialog extends ModalDialog {
 
     componentDidMount() {
         var $this = this;
-        $("#" + NEW_AUTHOR_DLG_ID).on('show.bs.modal', function () {
+        $("#" + $this.dialog_id).on('show.bs.modal', function () {
             // Trick to get focus into input text box
             setTimeout(function() {
                 $this.refs.lastName.focus();

@@ -26,6 +26,10 @@ import * as callstack from './dialog-call-stack';
 export default class ModalDialog extends React.Component {
     constructor(props) {
         super(props);
+
+        // Dialog ID
+        this.dialog_id = this.props.id;
+
         // Initial state
         this.state = {};
 
@@ -117,7 +121,7 @@ export default class ModalDialog extends React.Component {
 
     render() {
         return (
-            <div id={this.props.id} className="modal" role="dialog">
+            <div id={this.dialog_id} className="modal" role="dialog">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         {this.getHeader()}
