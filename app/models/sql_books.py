@@ -29,6 +29,7 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
             then (a.LastName || ", " || a.FirstName)
             else a.LastName
             end as Author,
+        a.id as author_id,
         s.name as Series from books as b
         left outer join collaborations as c on c.book_id=b.id
         left outer join authors as a on a.id=c.author_id
