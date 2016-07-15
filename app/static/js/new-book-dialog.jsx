@@ -103,7 +103,7 @@ export default class NewBookDialog extends ModalDialog {
             var rows = response.data.rows;
             $this.setState({
                 author_rows: rows,
-                authorValue: $this.props.author_id ? $this.props.author_id : rows[0].id
+                authorValue: $this.state.authorValue
             });
             $this.setFocus();
         });
@@ -118,7 +118,7 @@ export default class NewBookDialog extends ModalDialog {
             var rows = response.data.rows;
             $this.setState({
                 series_rows: rows,
-                seriesValue: rows[0].id
+                seriesValue: $this.state.seriesValue
             });
             $this.setFocus();
         });
