@@ -177,8 +177,14 @@ export default class NewBookDialog extends ModalDialog {
         // We can't set up this event until the component is mounted
         var $this = this;
         $("#" + NEW_BOOK_DLG_ID).on('show.bs.modal', function () {
-            $this.loadAuthors();
-            $this.loadSeries();
+            // Only load the tables once
+            if ($this.state.author_rows.length == 0) {
+                $this.loadAuthors();
+            }
+            if ($this.state.series_rows.length == 0) {
+                $this.loadSeries();
+            }
+            $this.setFocus();
         });
 
         // Handle new series added event

@@ -76,8 +76,14 @@ export default class EditBookDialog extends NewBookDialog {
         // Load combo boxes
         var $this = this;
         $("#" + EDIT_BOOK_DLG_ID).on('show.bs.modal', function () {
-            $this.loadAuthors();
-            $this.loadSeries();
+            // Only load the tables once
+            if ($this.state.author_rows.length == 0) {
+                $this.loadAuthors();
+            }
+            if ($this.state.series_rows.length == 0) {
+                $this.loadSeries();
+            }
+            $this.setFocus();
         });
     }
 
