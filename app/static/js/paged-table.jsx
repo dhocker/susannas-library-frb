@@ -18,6 +18,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './table';
+import * as sitecookies from './site-cookies';
 
 /*
     This is the beginning of a basic React component that can render a table with actions.
@@ -45,7 +46,7 @@ export default class PagedTable extends React.Component {
 
         // Initial state with empty rows
         this.current_page = 0;
-        this.page_size = 15;
+        this.page_size = sitecookies.getPageSize();;
         this.total_count = 0;
         this.search_arg = "";
         this.state = {
@@ -131,6 +132,7 @@ export default class PagedTable extends React.Component {
     onSetPageSize(event) {
         // Reload the table from the first page
         this.current_page = 0;
+        sitecookies.setPageSize(this.page_size);
         this.setState({current_page: this.current_page});
         this.loadTable();
     }
