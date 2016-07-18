@@ -26,8 +26,10 @@ const ERROR_DLG_ID = "error-dialog-jsx";
 export default class ErrorDialog extends ModalDialog {
     constructor(props) {
         super(props);
+
         // Initial state
-        this.state = {message: props.message, title: props.title};
+        this.state.message = props.message;
+        this.state.title = props.title;
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);
@@ -82,7 +84,8 @@ export default class ErrorDialog extends ModalDialog {
 ErrorDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
     title: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string.isRequired
+    message: React.PropTypes.string.isRequired,
+    size: React.PropTypes.string
 };
 
 ErrorDialog.defaultProps = {
@@ -99,6 +102,7 @@ export function showErrorDialog(title, message) {
     else {
         ReactDOM.render(<ErrorDialog
             id={ERROR_DLG_ID}
+            size={"md"}
             message={message}
             ref={function(instance) {
                 dialogInstance = instance;

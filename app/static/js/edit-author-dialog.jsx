@@ -31,16 +31,15 @@ const EDIT_AUTHOR_DLG_ID = "edit-author-jsx";
 export default class EditAuthorDialog extends NewAuthorDialog {
     constructor(props) {
         super(props);
+
         // Initial state
-        this.state = {
-            lastnameValue: props.row.LastName,
-            firstnameValue: props.row.FirstName,
-            categoryValue: props.row.category,
-            tryValue: !props.row.try_author == "",
-            avoidValue: !props.row.Avoid == "",
-            id: props.row.id,
-            error: ""
-        };
+        this.state.lastnameValue = props.row.LastName;
+        this.state.firstnameValue = props.row.FirstName;
+        this.state.categoryValue = props.row.category;
+        this.state.tryValue = !props.row.try_author == "";
+        this.state.avoidValue = !props.row.Avoid == "";
+        this.state.id = props.row.id;
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);
@@ -143,6 +142,7 @@ export function editAuthorDialog(row) {
     else {
         ReactDOM.render(<EditAuthorDialog
             id={EDIT_AUTHOR_DLG_ID}
+            size={"sm"}
             row={row}
             ref={function(instance) {
                 editAuthorInstance = instance;

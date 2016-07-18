@@ -33,14 +33,13 @@ export default class NewAuthorDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
-        this.state = {
-            lastnameValue: "",
-            firstnameValue: "",
-            categoryValue: "Mystery",
-            tryValue: false,
-            avoidValue: false,
-            error: ""
-        };
+
+        this.state.lastnameValue = "";
+        this.state.firstnameValue = "";
+        this.state.categoryValue = "Mystery";
+        this.state.tryValue = false;
+        this.state.avoidValue = false;
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
@@ -284,24 +283,11 @@ export default class NewAuthorDialog extends ModalDialog {
             </select>
         )
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 NewAuthorDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
+    size: React.PropTypes.string
 };
 
 NewAuthorDialog.defaultProps = {
@@ -314,6 +300,7 @@ var newAuthorDialogInstance;
 export function initNewAuthorDialog() {
     ReactDOM.render(<NewAuthorDialog
         id={NEW_AUTHOR_DLG_ID}
+        size={"sm"}
         ref={function(instance) {
             newAuthorDialogInstance = instance;
         }}

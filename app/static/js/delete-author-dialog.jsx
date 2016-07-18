@@ -116,20 +116,6 @@ export default class DeleteAuthorDialog extends ModalDialog {
             </div>
         );
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 DeleteAuthorDialog.propTypes = {
@@ -144,7 +130,8 @@ DeleteAuthorDialog.defaultProps = {
 */
 export function deleteAuthor(row) {
     console.log("Attempting to create DeleteAuthorDialog");
-    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} row={row}/>, document.querySelector('#delete-author'));
+    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} size={"sm"} row={row}/>,
+        document.querySelector('#delete-author'));
     console.log("DeleteAuthorDialog created");
     callstack.callDialog(DELETE_AUTHOR_DLG_ID);
 }

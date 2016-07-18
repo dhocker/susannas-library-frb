@@ -26,12 +26,20 @@ import * as callstack from './dialog-call-stack';
 export default class ModalDialog extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {};
 
         // Dialog ID
         this.dialog_id = this.props.id;
 
+        // Dialog box size
+        var sizeClass = "modal-md";
+        // size = sm, md, lg
+        if (props.size) {
+            sizeClass = "modal-" + props.size;
+        }
+
         // Initial state
-        this.state = {};
+        this.state.sizeClass = sizeClass;
 
         // Bind 'this' to various methods
         this.onClose = this.onClose.bind(this);
@@ -123,7 +131,7 @@ export default class ModalDialog extends React.Component {
     render() {
         return (
             <div id={this.dialog_id} className="modal" role="dialog">
-                <div className="modal-dialog modal-md">
+                <div className={"modal-dialog " + this.state.sizeClass}>
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
@@ -137,6 +145,7 @@ export default class ModalDialog extends React.Component {
 
 ModalDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
+    size: React.PropTypes.string
 };
 
 ModalDialog.defaultProps = {
