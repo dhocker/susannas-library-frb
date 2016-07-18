@@ -232,6 +232,23 @@ class Series(Base, ModelMixin):
     table_column_names = ["name", "id"]
     default_sorting = "name asc"
 
+
+class Category(Base, ModelMixin):
+    __tablename__ = 'categories'
+    id = Column(Integer, primary_key=True)
+    name = Column(Text)
+    created_at = Column(Text, default=func.now())
+    updated_at = Column(Text, default=func.now())
+
+    def __init__(self, name):
+        self.name = name
+
+    # These are the column properties that are exposed (see Mixin class)
+    column_props = ["name", "id"]
+    # These are the actual table columns corresponding to the column properties
+    table_column_names = ["name", "id"]
+    default_sorting = "name asc"
+
 if __name__ == "__main__":
     # Case insensitive ordering
     authors = Author.query.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
