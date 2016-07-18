@@ -32,21 +32,20 @@ export default class EditBookDialog extends NewBookDialog {
     constructor(props) {
         super(props);
         // Initial state from props.row
-        this.state = {
-            id: props.row.id,
-            titleValue: props.row.Title,
-            isbnValue: props.row.ISBN,
-            volumeValue: props.row.Volume,
-            seriesValue: props.row.series_id,
-            authorValue: props.row.author_id ? props.row.author_id : 0,
-            categoryValue: props.row.Category,
-            statusValue: props.row.Status,
-            coverValue: props.row.CoverType,
-            notesValue: props.row.Notes,
-            series_rows: [],
-            author_rows: [],
-            error: ""
-        };
+        
+        this.state.id = props.row.id;
+        this.state.titleValue = props.row.Title;
+        this.state.isbnValue = props.row.ISBN;
+        this.state.volumeValue = props.row.Volume;
+        this.state.seriesValue = props.row.series_id;
+        this.state.authorValue = props.row.author_id ? props.row.author_id : 0;
+        this.state.categoryValue = props.row.Category;
+        this.state.statusValue = props.row.Status;
+        this.state.coverValue = props.row.CoverType;
+        this.state.notesValue = props.row.Notes;
+        this.state.series_rows = [];
+        this.state.author_rows = [];
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);

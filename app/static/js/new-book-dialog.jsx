@@ -48,20 +48,19 @@ export default class NewBookDialog extends ModalDialog {
                 series_id = props.filter_by_id;
                 break;
         }
-        this.state = {
-            titleValue: "",
-            isbnValue: "",
-            volumeValue: "",
-            seriesValue: series_id,
-            authorValue: author_id,
-            categoryValue: "Mystery",
-            statusValue: "",
-            coverValue: "",
-            notesValue: "",
-            series_rows: [],
-            author_rows: [],
-            error: ""
-        };
+        
+        this.state.titleValue = "";
+        this.state.isbnValue = "";
+        this.state.volumeValue = "";
+        this.state.seriesValue = series_id;
+        this.state.authorValue = author_id;
+        this.state.categoryValue = "Mystery";
+        this.state.statusValue = "";
+        this.state.coverValue = "";
+        this.state.notesValue = "";
+        this.state.series_rows = [];
+        this.state.author_rows = [];
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
