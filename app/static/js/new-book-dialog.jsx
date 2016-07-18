@@ -60,6 +60,7 @@ export default class NewBookDialog extends ModalDialog {
         this.state.notesValue = "";
         this.state.series_rows = [];
         this.state.author_rows = [];
+        this.state.category_rows = [];
         this.state.error = "";
 
         // Bind 'this' to various methods
@@ -114,6 +115,21 @@ export default class NewBookDialog extends ModalDialog {
             $this.setState({
                 series_rows: rows,
                 seriesValue: $this.state.seriesValue
+            });
+            $this.setFocus();
+        });
+    }
+
+    loadCategories() {
+        // Retrieve all of the categories
+        console.log("Getting all categories from url /categories");
+        var $this = this;
+        $.get("/categories", function(response, status){
+            console.log("Category rows received: " + String(response.data.rows.length));
+            var rows = response.data.rows;
+            $this.setState({
+                category_rows: rows,
+                categoryValue: $this.state.categoryValue
             });
             $this.setFocus();
         });
@@ -178,6 +194,9 @@ export default class NewBookDialog extends ModalDialog {
             }
             if ($this.state.series_rows.length == 0) {
                 $this.loadSeries();
+            }
+            if ($this.state.category_rows.length == 0) {
+                $this.loadCategories();
             }
             $this.setFocus();
         });
@@ -428,11 +447,11 @@ export default class NewBookDialog extends ModalDialog {
         Generate a select element for the categories
     */
     getCategorySelect(select_id) {
-        var options_list = ["Mystery", "SciFi", "Fantasy", ""];
+        var options_list = this.state.category_rows;
         var option_elements = options_list.map(function(optionValue) {
             return (
-                <option key={optionValue} value={optionValue}>
-                    {optionValue}
+                <option key={optionValue.id} value={optionValue.name}>
+                    {optionValue.name}
                 </option>
             )
         });

@@ -285,7 +285,6 @@ export default class NewAuthorDialog extends ModalDialog {
         Generate a select element for the categories
     */
     getCategorySelect(select_id) {
-        //var options_list = ["Mystery", "SciFi", "Fantasy", ""];
         var options_list = this.state.category_rows;
         var option_elements = options_list.map(function(optionValue) {
             return (

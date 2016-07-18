@@ -82,6 +82,9 @@ export default class EditBookDialog extends NewBookDialog {
             if ($this.state.series_rows.length == 0) {
                 $this.loadSeries();
             }
+            if ($this.state.category_rows.length == 0) {
+                $this.loadCategories();
+            }
             $this.setFocus();
         });
     }
