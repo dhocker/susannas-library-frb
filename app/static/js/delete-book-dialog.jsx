@@ -112,20 +112,6 @@ export default class DeleteBookDialog extends ModalDialog {
             </div>
         );
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 DeleteBookDialog.propTypes = {
@@ -140,7 +126,7 @@ DeleteBookDialog.defaultProps = {
 */
 export function deleteBook(row) {
     console.log("Attempting to create DeleteBookDialog");
-    ReactDOM.render(<DeleteBookDialog id={DELETE_BOOK_DLG_ID} row={row}/>, document.querySelector('#delete-book'));
+    ReactDOM.render(<DeleteBookDialog id={DELETE_BOOK_DLG_ID} size={"sm"} row={row}/>, document.querySelector('#delete-book'));
     console.log("DeleteBookDialog created");
     callstack.callDialog(DELETE_BOOK_DLG_ID);
 }

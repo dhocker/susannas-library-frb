@@ -169,6 +169,7 @@ export function editBookDialog(row) {
     else {
         ReactDOM.render(<EditBookDialog
             id={EDIT_BOOK_DLG_ID}
+            size={"md"}
             row={row}
             ref={function(instance) {
                 editBookInstance = instance;

@@ -494,20 +494,6 @@ export default class NewBookDialog extends ModalDialog {
             </select>
         )
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-md">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 NewBookDialog.propTypes = {
@@ -524,6 +510,7 @@ var newBookDialogInstance;
 export function initNewBookDialog(filter_by, id) {
     ReactDOM.render(<NewBookDialog
         id={NEW_BOOK_DLG_ID}
+        size={"md"}
         filter_by={filter_by}
         filter_by_id={id}
         ref={function(instance) {
