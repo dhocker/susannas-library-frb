@@ -25,6 +25,9 @@ def get_all_categories():
     count = q.count()
     return {"rows": categories_todict(q.all()), "count": count}
 
+def get_category(category_id):
+    return Category.query.get(category_id)
+
 def insert_category(name):
     s = Category(name)
     db_session.add(s)
