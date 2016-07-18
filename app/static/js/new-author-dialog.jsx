@@ -40,6 +40,7 @@ export default class NewAuthorDialog extends ModalDialog {
         this.state.tryValue = false;
         this.state.avoidValue = false;
         this.state.error = "";
+        this.state.category_rows = [];
 
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
@@ -74,6 +75,10 @@ export default class NewAuthorDialog extends ModalDialog {
     componentDidMount() {
         var $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
+            // Only load the tables once
+            if ($this.state.category_rows.length == 0) {
+                $this.loadCategories();
+            }
             // Trick to get focus into input text box
             setTimeout(function() {
                 $this.refs.lastName.focus();
@@ -152,6 +157,20 @@ export default class NewAuthorDialog extends ModalDialog {
                 // Note that the dialog box is left open so the user can fix the error
             }
         })
+    }
+
+    loadCategories() {
+        // Retrieve all of the categories
+        console.log("Getting all categories from url /categories");
+        var $this = this;
+        $.get("/categories", function(response, status){
+            console.log("Category rows received: " + String(response.data.rows.length));
+            var rows = response.data.rows;
+            $this.setState({
+                category_rows: rows,
+                categoryValue: $this.state.categoryValue
+            });
+        });
     }
 
     /*
@@ -266,11 +285,12 @@ export default class NewAuthorDialog extends ModalDialog {
         Generate a select element for the categories
     */
     getCategorySelect(select_id) {
-        var options_list = ["Mystery", "SciFi", "Fantasy", ""];
+        //var options_list = ["Mystery", "SciFi", "Fantasy", ""];
+        var options_list = this.state.category_rows;
         var option_elements = options_list.map(function(optionValue) {
             return (
-                <option key={optionValue} value={optionValue}>
-                    {optionValue}
+                <option key={optionValue.id} value={optionValue.name}>
+                    {optionValue.name}
                 </option>
             )
         });
