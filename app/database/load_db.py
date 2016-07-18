@@ -26,8 +26,29 @@ def seed_db(filename):
     """Seeds the database."""
     db = connect_db()
     line_count = 0
-    with open(filename , mode='r') as f:
+    with open(filename, mode='r') as f:
         print 'Executing seed script {0}...'.format(filename)
+        for line in f:
+            db.cursor().execute(line)
+            line_count += 1
+            if line_count % 100 == 0:
+                print "\r", line_count,
+    db.commit()
+    db.close()
+    print ""
+
+
+def seed_categories():
+    """
+    Seedsthe categories table. This table did not exist in
+    the Rails version of Susanna's Library, so there is
+    no data for it in the Heroku export.
+    :return:
+    """
+    db = connect_db()
+    line_count = 0
+    with open('categories.sql', mode='r') as f:
+        print 'Executing seed script {0}...'.format('categories.sql')
         for line in f:
             db.cursor().execute(line)
             line_count += 1
@@ -47,5 +68,6 @@ if __name__ == "__main__":
     # Seed database
     print ''
     seed_db("export.sql")
+    seed_categories();
     print 'Loading complete'
     print ''
