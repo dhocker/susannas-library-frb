@@ -48,7 +48,7 @@ export default class ModalDialog extends React.Component {
         Thid id is the dialog box, NOT the element it was rendered on
     */
     showDialog(id) {
-        callStack.callDialog(id);
+        callstack.callDialog(id);
     }
 
     /*
@@ -79,6 +79,7 @@ export default class ModalDialog extends React.Component {
 
     onClose() {
         console.log("Dialog closed");
+        this.closeDialog();
     }
 
     /*
@@ -122,7 +123,7 @@ export default class ModalDialog extends React.Component {
     render() {
         return (
             <div id={this.dialog_id} className="modal" role="dialog">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-md">
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}

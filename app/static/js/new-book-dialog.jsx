@@ -20,11 +20,7 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import * as bookstable from './books-table';
 import * as callstack from './dialog-call-stack';
-/*
-Could not get this to work. JS runtime errors occurred due to the new series import.
-import * as newauthor from './new-author-dialog';
-import * as newseries from './new-series-dialog';
-*/
+import * as errordlg from './error-dialog';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -255,7 +251,8 @@ export default class NewBookDialog extends ModalDialog {
                 console.log(errorThrown);
                 // Show user error
                 // TODO It would be nice if this were another dialog box
-                $this.setState({error: errorThrown});
+                // $this.setState({error: errorThrown});
+                errordlg.showErrorDialog("New Book Error", errorThrown);
                 // Note that the dialog box is left open so the user can fix the error
             }
         })

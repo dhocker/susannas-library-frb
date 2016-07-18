@@ -1,5 +1,5 @@
 /*
-    React + Bootstrap modal dialog box
+    React + Bootstrap error message dialog box
     Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
+import * as callstack from './dialog-call-stack';
 
 // This is the id of the element that contains the error dialog box
 const ERROR_DLG_ID = "error-dialog-jsx";
@@ -26,12 +27,18 @@ export default class ErrorDialog extends ModalDialog {
     constructor(props) {
         super(props);
         // Initial state
-        this.state = {};
+        this.state = {message: props.message, title: props.title};
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
+        this.showDialog = this.showDialog.bind(this);
+    }
+
+    showDialog(title, message) {
+        this.setState({message: message, title: title});
+        callstack.callDialog(this.props.id);
     }
 
     /*
@@ -40,7 +47,7 @@ export default class ErrorDialog extends ModalDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">Error</h1>
+                <h1 className="modal-title">{this.state.title}</h1>
             </div>
         );
     }
@@ -52,7 +59,7 @@ export default class ErrorDialog extends ModalDialog {
     getBody() {
         return (
             <div className="modal-body">
-                <p>{this.props.message}</p>
+                <p>{this.state.message}</p>
             </div>
         );
     }
@@ -64,7 +71,7 @@ export default class ErrorDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-danger pull-left" data-dismiss="modal"
+                  <button type="button" className="btn btn-danger pull-left" onClick={this.onClose}
                       >Close</button>
             </div>
         );
@@ -74,6 +81,7 @@ export default class ErrorDialog extends ModalDialog {
 
 ErrorDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired
 };
 
@@ -83,10 +91,10 @@ ErrorDialog.defaultProps = {
 /*
     Fire error dialog
 */
-export function showErrorDialog(message) {
-    var dialogInstance;
+var dialogInstance;
+export function showErrorDialog(title, message) {
     if (dialogInstance) {
-        dialogInstance.showDialog(ERROR_DLG_ID);
+        dialogInstance.showDialog(title, message);
     }
     else {
         ReactDOM.render(<ErrorDialog
@@ -94,7 +102,7 @@ export function showErrorDialog(message) {
             message={message}
             ref={function(instance) {
                 dialogInstance = instance;
-                dialogInstance.showDialog(ERROR_DLG_ID);
+                dialogInstance.showDialog(title, message);
             }}
             />,
             document.querySelector('#error-dialog'));

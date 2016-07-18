@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
 import * as authorstable from './authors-table';
 import * as callstack from './dialog-call-stack';
+import * as errordlg from './error-dialog';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -147,8 +148,8 @@ export default class NewAuthorDialog extends ModalDialog {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                // TODO It would be nice if this were another dialog box
-                $this.setState({error: "That author already exists"});
+                var errormsg = "That author already exists: " + $this.state.lastnameValue + ", " + $this.state.firstnameValue;
+                errordlg.showErrorDialog("Duplicate Author", errormsg);
                 // Note that the dialog box is left open so the user can fix the error
             }
         })
