@@ -106,20 +106,6 @@ export default class DeleteSeriesDialog extends ModalDialog {
             </div>
         );
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 DeleteSeriesDialog.propTypes = {
@@ -134,7 +120,8 @@ DeleteSeriesDialog.defaultProps = {
 */
 export function deleteSeries(row) {
     console.log("Attempting to create DeleteSeriesDialog");
-    ReactDOM.render(<DeleteSeriesDialog id={DELETE_SERIES_DLG_ID} row={row}/>, document.querySelector('#delete-series'));
+    ReactDOM.render(<DeleteSeriesDialog id={DELETE_SERIES_DLG_ID} size={"sm"} row={row}/>,
+        document.querySelector('#delete-series'));
     console.log("DeleteSeriesDialog created");
     callstack.callDialog(DELETE_SERIES_DLG_ID);
 }

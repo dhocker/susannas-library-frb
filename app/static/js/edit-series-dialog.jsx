@@ -31,12 +31,11 @@ const EDIT_SERIES_DLG_ID = "edit-series-jsx";
 export default class EditSeriesDialog extends NewSeriesDialog {
     constructor(props) {
         super(props);
+
         // Initial state
-        this.state = {
-            nameValue: props.row.name,
-            id: props.row.id,
-            error: ""
-        };
+        this.state.nameValue = props.row.name;
+        this.state.id = props.row.id;
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);
@@ -135,6 +134,7 @@ export function editSeriesDialog(row) {
     else {
         ReactDOM.render(<EditSeriesDialog
             id={EDIT_SERIES_DLG_ID}
+            size={"sm"}
             row={row}
             ref={function(instance) {
                 editSeriesInstance = instance;

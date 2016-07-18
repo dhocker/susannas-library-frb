@@ -30,11 +30,10 @@ export const NEW_SERIES_DLG_ID = "new-series-jsx";
 export default class NewSeriesDialog extends ModalDialog {
     constructor(props) {
         super(props);
+
         // Initial state
-        this.state = {
-            nameValue: "",
-            error: ""
-        };
+        this.state.nameValue = "";
+        this.state.error = "";
 
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
@@ -185,20 +184,6 @@ export default class NewSeriesDialog extends ModalDialog {
             </div>
         );
     }
-
-    render() {
-        return (
-            <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        {this.getHeader()}
-                        {this.getBody()}
-                        {this.getFooter()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 }
 
 NewSeriesDialog.propTypes = {
@@ -215,6 +200,7 @@ var newSeriesDialogInstance;
 export function initNewSeriesDialog() {
     ReactDOM.render(<NewSeriesDialog
         id={NEW_SERIES_DLG_ID}
+        size={"sm"}
         ref={function(instance) {
             newSeriesDialogInstance = instance;
         }}
