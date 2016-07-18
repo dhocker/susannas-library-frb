@@ -129,8 +129,8 @@ def edit_book(id):
     title = request.form["title"]
     isbn = request.form["isbn"]
     volume = request.form["volume"]
-    series_id = request.form["series"]
-    author_id = request.form["author"]
+    series_id = int(request.form["series"].encode('utf-8'))
+    author_id = int(request.form["author"].encode('utf-8'))
     category = request.form["category"]
     status = request.form["status"]
     cover = request.form["cover"]

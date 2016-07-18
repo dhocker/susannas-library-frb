@@ -68,7 +68,8 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, search_arg, s
             then (a.LastName || ", " || a.FirstName)
             else a.LastName
             end as Author,
-        s.name as Series from books as b
+        a.id as author_id,
+        s.name as Series, s.id as series_id from books as b
         left outer join collaborations as c on c.book_id=b.id
         left outer join authors as a on a.id=c.author_id
         left join series as s on s.id=b.series_id

@@ -41,7 +41,7 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
     return {"rows": dict_books, "count": count}
 
 def get_book(id):
-    return Book.query.get(id)
+    return Book.query.options(joinedload('authors')).get(id)
 
 def get_books_in_series(series_id):
     return Book.query.filter_by(series_id=series_id)
