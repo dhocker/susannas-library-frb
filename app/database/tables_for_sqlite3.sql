@@ -2,12 +2,13 @@ DROP TABLE if exists collaborations;
 DROP TABLE if exists books;
 DROP TABLE if exists series;
 DROP TABLE if exists authors;
+DROP TABLE if exists categories;
 
 CREATE TABLE series (
     id integer primary key autoincrement,
     name text NULL,
-    created_at text NOT NULL (datetime('now','localtime')),
-    updated_at text NOT NULL (datetime('now','localtime'))
+    created_at text NOT NULL default (datetime('now','localtime')),
+    updated_at text NOT NULL default (datetime('now','localtime'))
 );
 
 CREATE TABLE authors (
@@ -17,8 +18,8 @@ CREATE TABLE authors (
     Avoid integer NULL,
     category text NULL,
     try integer NULL,
-    created_at text NOT NULL (datetime('now','localtime')),
-    updated_at text NOT NULL (datetime('now','localtime'))
+    created_at text NOT NULL default (datetime('now','localtime')),
+    updated_at text NOT NULL default (datetime('now','localtime'))
 );
 
 CREATE TABLE books (
@@ -32,8 +33,8 @@ CREATE TABLE books (
     Status text NULL,
     CoverType text NULL,
     Notes text NULL,
-    created_at text NOT NULL (datetime('now','localtime')),
-    updated_at text NOT NULL (datetime('now','localtime')),
+    created_at text NOT NULL default (datetime('now','localtime')),
+    updated_at text NOT NULL default (datetime('now','localtime')),
     FOREIGN KEY (series_id) REFERENCES series(id)
 );
 
@@ -41,8 +42,8 @@ CREATE TABLE collaborations (
     id integer primary key autoincrement,
     author_id integer NULL,
     book_id integer NULL,
-    created_at text NOT NULL (datetime('now','localtime')),
-    updated_at text NOT NULL (datetime('now','localtime')),
+    created_at text NOT NULL default (datetime('now','localtime')),
+    updated_at text NOT NULL default (datetime('now','localtime')),
     FOREIGN KEY (author_id) REFERENCES authors(id),
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
