@@ -122,11 +122,15 @@ export function createPagedBooksTable(filter_by, id, name) {
             url += "?series=" + id;
             title = "Books for Series: " + name;
             break;
+        case "category":
+            url += "?category=" + id;
+            title = "Books for Category: " + name;
+            break;
         default:
             break;
     }
 
-    console.log("Attempting to create Authors table");
+    console.log("Attempting to create PagedBooks table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(<PagedBooksTable class={"table table-striped table-condensed"}
         title={title}

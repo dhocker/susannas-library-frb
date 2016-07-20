@@ -21,6 +21,7 @@ from app.models.authors import get_author
 #from app.models.books import get_books_by_page, search_for_books_by_page
 from app.models.sql_books import get_books_by_page, search_for_books_by_page
 from app.models.series import get_series
+from app.models.categories import get_category
 import logging
 
 logger = logging.getLogger("app")
@@ -50,6 +51,13 @@ def get_paged_books_page():
         name = request.args.get('search', '')
         logger.info("Show books for search criteria: %s", name)
         filter_by = "search"
+    elif "category" in request.args:
+        # Show books for category
+        id = request.args.get('category', '')
+        logger.info("Show books for category: %s", id)
+        category = get_category(id)
+        name = category.name
+        filter_by = "category"
     else:
         # All books
         id = ""
@@ -73,6 +81,7 @@ def get_paged_books_with_filter():
     page_size = int(request.args.get('pagesize', ''))
     author_id = request.args.get('author', '')
     series_id = request.args.get('series', '')
+    category_id = request.args.get('category', '')
     search_arg = request.args.get('search', '')
     sort_col = request.args.get('sortcol', '')
     sort_dir = request.args.get('sortdir', '')
@@ -81,13 +90,16 @@ def get_paged_books_with_filter():
         logger.info("Books for author: %s", author_id)
     elif series_id:
         logger.info("Books for series: %s", series_id)
+    elif category_id:
+        logger.info("Books for category: %s", category_id)
     elif search_arg:
         logger.info("Books containing: %s", search_arg)
     else:
         pass
 
-    if author_id or series_id or search_arg:
-        books = search_for_books_by_page(page_number, page_size, author_id, series_id, search_arg, sort_col, sort_dir)
+    if author_id or series_id or category_id or search_arg:
+        books = search_for_books_by_page(page_number, page_size, author_id, series_id, category_id,
+                                         search_arg, sort_col, sort_dir)
     else:
         logger.info("All books")
         books = get_books_by_page(page_number, page_size, sort_col, sort_dir)

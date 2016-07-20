@@ -16,8 +16,7 @@
 #
 
 from app.database.connection import get_db, get_cursor
-#import sqlite3
-from types import *
+from app.models.categories import get_category
 import app.database.utils as utils
 
 def get_books_by_page(page, pagesize, sort_col, sort_dir):
@@ -44,9 +43,9 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
     rst = csr.execute(stmt, parameters)
     rows = utils.rows2list(rst)
 
-    return {"rows": rows, "count": get_filtered_books_count(None, None, None)}
+    return {"rows": rows, "count": get_filtered_books_count(None, None, None, None)}
 
-def search_for_books_by_page(page, pagesize, author_id, series_id, search_arg, sort_col, sort_dir):
+def search_for_books_by_page(page, pagesize, author_id, series_id, category_id, search_arg, sort_col, sort_dir):
     # Build where clause based on filter inputs
     # We used named parameters to prevent Sql injection vulnerabilities
     parameters = {"limit": pagesize, "offset": int(page * pagesize)}
@@ -57,6 +56,10 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, search_arg, s
     elif series_id:
         wh = "where b.series_id=:series_id"
         parameters["series_id"] = str(int(series_id))
+    elif category_id:
+        category = get_category(category_id)
+        wh = "where b.category=:category_name"
+        parameters["category_name"] = category.name
     if search_arg:
         # Sql injection prevention on search arg
         s = "%" + search_arg + "%"
@@ -83,9 +86,9 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, search_arg, s
     rst = csr.execute(stmt, parameters)
     rows = utils.rows2list(rst)
 
-    return {"rows": rows, "count": get_filtered_books_count(author_id, series_id, search_arg)}
+    return {"rows": rows, "count": get_filtered_books_count(author_id, series_id, category_id, search_arg)}
 
-def get_filtered_books_count(author_id, series_id, search_arg):
+def get_filtered_books_count(author_id, series_id, category_id, search_arg):
     # Build where clause based on filter inputs
     # We used named parameters to prevent Sql injection vulnerabilities
     wh = ""
@@ -96,6 +99,10 @@ def get_filtered_books_count(author_id, series_id, search_arg):
     elif series_id:
         wh = "where b.series_id=:series_id"
         parameters["series_id"] = str(int(series_id))
+    elif category_id:
+        category = get_category(category_id)
+        wh = "where b.category=:category_name"
+        parameters["category_name"] = category.name
     if search_arg:
         # Sql injection prevention on search arg
         s = "%" + search_arg + "%"

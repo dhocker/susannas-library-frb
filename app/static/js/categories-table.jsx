@@ -63,7 +63,7 @@ export default class CategoriesTable extends PagedTable {
 
     onAuthorsClick(row) {
         console.log("Authors was clicked for id " + String(row.id));
-        //window.location.href = "/authors-page?category=" + String(row.id);
+        window.location.href = "/authors-page?category=" + String(row.id);
     }
 
     onEditClick(row) {
