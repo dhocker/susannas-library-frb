@@ -18,6 +18,7 @@
 from app.database.connection import get_db, get_cursor
 #import sqlite3
 from types import *
+import app.database.utils as utils
 
 def get_books_by_page(page, pagesize, sort_col, sort_dir):
     # Column sorting
@@ -41,7 +42,7 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
 
     csr = get_cursor()
     rst = csr.execute(stmt, parameters)
-    rows = rows2list(rst)
+    rows = utils.rows2list(rst)
 
     return {"rows": rows, "count": get_filtered_books_count(None, None, None)}
 
@@ -80,7 +81,7 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, search_arg, s
 
     csr = get_cursor()
     rst = csr.execute(stmt, parameters)
-    rows = rows2list(rst)
+    rows = utils.rows2list(rst)
 
     return {"rows": rows, "count": get_filtered_books_count(author_id, series_id, search_arg)}
 
@@ -139,27 +140,3 @@ def get_sort_clause(sort_col, sort_dir):
         sd = "desc"
 
     return column_sort_list[sort_col].format(sd)
-
-def rows2list(rows):
-    rlist = []
-    for r in rows:
-        rlist.append(row2dict(r))
-    return rlist
-
-def row2dict(row):
-    '''
-    Convert a row object to a dict. Used to return JSON to the client.
-    :param row:
-    :return:
-    '''
-    d = {}
-    for column_name in row.keys():
-        v = row[column_name]
-        if type(v) == UnicodeType:
-            d[column_name] = v.encode('utf-8')
-        elif type(v) == IntType:
-            d[column_name] = v
-        else:
-            d[column_name] = str(v)
-
-    return d
