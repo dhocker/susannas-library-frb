@@ -30,7 +30,7 @@ def get_categories_page():
     The home page is the series page
     :return:
     """
-    return "Not implemented"
+    return render_template("categories.html")
 
 @app.route("/categories", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
@@ -78,13 +78,13 @@ def edit_category(id):
             logger.info("Category exists: %s", name)
             return "ERROR: Category exists", 409
 
-    logger.info("Edit category with: [%s] [%s]", id, name)
-    try:
-        category.name = name
-        update_category(category)
-    except Exception as ex:
-        logger.info("Category update failed: %s", ex.message)
-        return "ERROR: Category update failed", 409
+        logger.info("Edit category with: [%s] [%s]", id, name)
+        try:
+            category.name = name
+            update_category(category)
+        except Exception as ex:
+            logger.info("Category update failed: %s", ex.message)
+            return "ERROR: Category update failed", 409
 
     return "SUCCESS: Category updated", 200
 

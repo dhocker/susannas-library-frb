@@ -236,7 +236,7 @@ class Series(Base, ModelMixin):
 class Category(Base, ModelMixin):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
+    name = Column(Text, unique=True)
     created_at = Column(Text, default=func.now())
     updated_at = Column(Text, default=func.now())
 

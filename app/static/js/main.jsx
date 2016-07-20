@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import * as authorstable from './authors-table';
 import * as pagedbookstable from './paged-books-table';
 import * as seriestable from './series-table';
+import * as categoriestable from './categories-table';
 import * as NewAuthor from './new-author-dialog';
 import * as NewBook from './new-book-dialog';
 import * as NewSeries from './new-series-dialog';
+import * as NewCategory from './new-category-dialog';
 import * as aboutdialog from './about-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -81,6 +83,29 @@ export function initSeriesPage() {
         var search_arg = $("#search-text").val();
         console.log("Search for series: " + search_arg);
         seriestable.searchSeries(search_arg);
+    });
+};
+
+/*
+    Initialize the Categories page
+*/
+export function initCategoriesPage() {
+    // Create and load categories table
+    categoriestable.createCategoriesTable();
+
+    NewCategory.initNewCategoryDialog();
+
+    // When New Category button is clicked, clear dialog fields
+    $("#new-category-btn").click(function() {
+        NewCategory.clearNewCategoryDialog();
+        callstack.callDialog("new-category-jsx");
+    });
+
+    // Set up search button
+    $("#search-button").click(function() {
+        var search_arg = $("#search-text").val();
+        console.log("Search for category: " + search_arg);
+        categoriestable.searchSeries(search_arg);
     });
 };
 

@@ -52,5 +52,6 @@ CREATE TABLE categories (
     id integer primary key autoincrement,
     name text NOT NULL,
     created_at text NOT NULL default (datetime('now','localtime')),
-    updated_at text NOT NULL default (datetime('now','localtime'))
+    updated_at text NOT NULL default (datetime('now','localtime')),
+    CONSTRAINT unique_name UNIQUE (name)
 );

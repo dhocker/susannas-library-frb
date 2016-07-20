@@ -23,7 +23,8 @@ from app.models.models import db_session
 def get_all_categories():
     q = Category.query
     count = q.count()
-    return {"rows": categories_todict(q.all()), "count": count}
+    rst = q.order_by(func.lower(Category.name).asc()).all()
+    return {"rows": categories_todict(rst), "count": count}
 
 def get_category(category_id):
     return Category.query.get(category_id)
