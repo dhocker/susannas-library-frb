@@ -98,7 +98,7 @@ AuthorsTable.defaultProps = {
     Create the authors table instance on the authors page
 */
 var authorsTableInstance;
-export function createAuthorsTable() {
+export function createAuthorsTable(filter_by, id, name) {
     // Defines the columns in the authors table
     var authorTableColumns = [
         { colname: 'LastName', label: 'Last Name', sortable: true },
@@ -109,12 +109,27 @@ export function createAuthorsTable() {
         { colname: 'id', label: 'ID', sortable: true }
     ];
 
+    // Apply filtering
+    var url = "/authors";
+    var title = "Authors";
+    switch (filter_by) {
+        case "category":
+            url += "?category=" + id;
+            title = "Authors for Category: " + name;
+            break;
+        default:
+            title = "Authors";
+            break;
+    }
+
     console.log("Attempting to create Authors table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
-        title={"Authors"}
+        title={title}
         cols={authorTableColumns}
-        url={"/authors"}
+        filter_by={filter_by}
+        filter_by_id={id}
+        url={url}
         ref={function(instance) {
             authorsTableInstance = instance;
         }}

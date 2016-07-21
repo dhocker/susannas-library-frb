@@ -18,6 +18,7 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.authors import get_all_authors, insert_author, authors_todict
+from app.models.categories import get_category
 from app.models.models import Author, Book
 from app.models.models import db_session
 from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
@@ -45,7 +46,19 @@ def get_home():
     The home page is the authors page
     :return:
     """
-    return render_template("authors.html")
+    if "category" in request.args:
+        # Show authors for category
+        id = request.args.get('category', '')
+        logger.info("Show authors for category: %s", id)
+        category = get_category(id)
+        name = category.name
+        filter_by = "category"
+    else:
+        # All authors
+        id = ""
+        name = ""
+        filter_by = ""
+    return render_template("authors.html", filter_by=filter_by, id=id, name=name)
 
 
 @app.route("/authors", methods=['GET'])
@@ -59,14 +72,15 @@ def get_authors():
     """
     page_number = int(request.args.get('page', 0))
     page_size = int(request.args.get('pagesize', 0))
+    category_id = int(request.args.get('category', 0))
     search_arg = request.args.get('search', '')
     sort_col = request.args.get('sortcol', '')
     sort_dir = request.args.get('sortdir', '')
 
     # Check for search first. Default to all.
-    if search_arg:
+    if search_arg or category_id:
         logger.info("Search authors: %s", search_arg)
-        authors = search_for_authors(page_number, page_size, search_arg, sort_col, sort_dir)
+        authors = search_for_authors(page_number, page_size, category_id, search_arg, sort_col, sort_dir)
     else:
         authors = get_all_authors(page_number, page_size, sort_col, sort_dir)
 

@@ -14,11 +14,12 @@ import * as callstack from './dialog-call-stack';
 /*
     Initialize the home page
 */
-export function initHomePage() {
+export function initHomePage(filter_by, id, name) {
+    console.log("Initializing authors page with filter: " + filter_by + " " + id + " " +name);
     // Create and load authors table
-    authorstable.createAuthorsTable();
+    authorstable.createAuthorsTable(filter_by, id, name);
 
-    NewAuthor.initNewAuthorDialog();
+    NewAuthor.initNewAuthorDialog(filter_by, id);
 
     // When New Author button is clicked, clear dialog fields and call dialog
     $("#new-author-btn").click(function() {

@@ -18,6 +18,7 @@ from models import Author
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from app.models.models import db_session
+from app.models.categories import get_category
 
 
 def get_all_authors(page, pagesize, sort_col, sort_dir):
@@ -30,8 +31,11 @@ def get_all_authors(page, pagesize, sort_col, sort_dir):
     return {"rows": authors_todict(authors), "count": count}
 
 
-def search_for_authors(page_number, page_size, search_arg, sort_col, sort_dir):
+def search_for_authors(page_number, page_size, category_id, search_arg, sort_col, sort_dir):
     q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    if category_id:
+        category = get_category(category_id)
+        q = q.filter(Author.category==category.name)
     if search_arg:
         like = '%' + search_arg + '%'
         q = q.filter(or_(Author.LastName.like(like), Author.FirstName.like(like)))
