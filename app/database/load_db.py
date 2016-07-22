@@ -18,6 +18,7 @@
 import os
 from sqlite3 import dbapi2 as sqlite3
 import sys
+import argparse
 
 dbname = 'susannas_library.sqlite3'
 
@@ -53,6 +54,7 @@ def seed_db(filename):
                 db.cursor().execute(line)
             except Exception as ex:
                 print ex
+                print line
                 raise ex
             line_count += 1
             if line_count % 100 == 0:
@@ -64,22 +66,29 @@ def seed_db(filename):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2 and sys.argv[1] == '--help':
-        print ""
-        print "Create and load a fresh library database"
-        print ""
-        print "\tload_db.py [db_name]"
-        print ""
-        print "\tdb_name defaults to tables_for_sqlite3.sql"
-        print "\tAny existing database will be deleted and recreated"
-        print ""
-        exit(0)
+    arg_parser = argparse.ArgumentParser(description='Create and load a fresh Sqlite3 library database')
+    # Just a single schema file
+    arg_parser.add_argument('--schema', dest='schema_file', default='tables_for_sqlite3.sql',
+                            help='Name of schema script file to use to create the database')
+    # We allow multiple seed files
+    arg_parser.add_argument('--seed', dest='seed_file', default=['export_db.sql'], action='append',
+                            help='Name of a seed script file to use to load the database')
+    # The output database file
+    arg_parser.add_argument('db_file', nargs='?', default='susannas_library.sqlite3',
+                            help='Name of the output Sqlite3 database file')
+    # Parse the command line
+    args = arg_parser.parse_args()
 
-    # Resolve schema init script
-    if len(sys.argv) > 1:
-        schema_script_name = sys.argv[1]
-    else:
-        schema_script_name = "tables_for_sqlite3.sql"
+    print ""
+    print "Using the following files:"
+    print "\tdatabase:\t", args.db_file
+    print "\tschema:\t\t", args.schema_file
+    print "\tseed(s):\t\t", args.seed_file
+    print ""
+
+    dbname = args.db_file
+    schema_script_name = args.schema_file
+    # exit(0)
 
     # Delete existing database
     try:
@@ -90,11 +99,13 @@ if __name__ == "__main__":
 
     # Recreate the database and schema
     init_db(schema_script_name)
-    print "Database created"
+    print "New database file created"
 
     # Seed database
     print ''
-    seed_db("export.sql")
-    seed_db("categories.sql")
+    # Execute each seed script file
+    for f in args.seed_file:
+        seed_db(f)
+
     print 'Loading complete'
     print ''
