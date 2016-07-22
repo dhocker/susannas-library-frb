@@ -72,7 +72,7 @@ if __name__ == "__main__":
                             help='Name of schema script file to use to create the database. '
                             'The default schema script file is tables_for_sqlite3.sql.')
     # We allow multiple seed files
-    arg_parser.add_argument('--seed', dest='seed_file', default=['export_db.sql'], action='append',
+    arg_parser.add_argument('--seed', dest='seed_file', default=[], action='append',
                             help='Name of a seed script file to use to load the database. '
                             'Multiple occurences of this option can be used to specify more than one seed file. '
                             'The default seed script file is export_db.sql.')
@@ -92,6 +92,9 @@ if __name__ == "__main__":
 
     dbname = args.db_file
     schema_script_name = args.schema_file
+    # ArgParser doesnot support this sort of default
+    if len(args.seed_file) == 0:
+        args.seed_file = ['export_db.sql']
     # exit(0)
 
     # Delete existing database
