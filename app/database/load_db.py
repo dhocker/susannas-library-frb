@@ -69,13 +69,17 @@ if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(description='Create and load a fresh Sqlite3 library database')
     # Just a single schema file
     arg_parser.add_argument('--schema', dest='schema_file', default='tables_for_sqlite3.sql',
-                            help='Name of schema script file to use to create the database')
+                            help='Name of schema script file to use to create the database. '
+                            'The default schema script file is tables_for_sqlite3.sql.')
     # We allow multiple seed files
     arg_parser.add_argument('--seed', dest='seed_file', default=['export_db.sql'], action='append',
-                            help='Name of a seed script file to use to load the database')
+                            help='Name of a seed script file to use to load the database. '
+                            'Multiple occurences of this option can be used to specify more than one seed file. '
+                            'The default seed script file is export_db.sql.')
     # The output database file
     arg_parser.add_argument('db_file', nargs='?', default='susannas_library.sqlite3',
-                            help='Name of the output Sqlite3 database file')
+                            help='Name of the output Sqlite3 database file. '
+                            'The default database file is susannas_library.sqlite3.')
     # Parse the command line
     args = arg_parser.parse_args()
 
@@ -83,7 +87,7 @@ if __name__ == "__main__":
     print "Using the following files:"
     print "\tdatabase:\t", args.db_file
     print "\tschema:\t\t", args.schema_file
-    print "\tseed(s):\t\t", args.seed_file
+    print "\tseed(s):\t", args.seed_file
     print ""
 
     dbname = args.db_file
