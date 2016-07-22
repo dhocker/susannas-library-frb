@@ -1,8 +1,9 @@
 secret_key
 *.pyc
+*.rb
 *.log*
 .idea/
-susannas_library.sqlite3
+*.sqlite3
 susannas-library-frb.conf
 *~
 node_modules/
