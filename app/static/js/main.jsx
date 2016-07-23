@@ -33,6 +33,9 @@ export function initHomePage(filter_by, id, name) {
         console.log("Search for authors: " + search_arg);
         authorstable.searchAuthors(search_arg);
     });
+
+    // Make search be the default action for Enter when in the search text box
+    searchDefault();
 };
 
 /*
@@ -62,6 +65,9 @@ export function initPagedBooksPage(filter_by, id, name) {
         console.log("Search for books: " + search_arg);
         pagedbookstable.searchBooks(search_arg);
     });
+
+    // Make search be the default action for Enter when in the search text box
+    searchDefault();
 };
 
 /*
@@ -85,6 +91,9 @@ export function initSeriesPage() {
         console.log("Search for series: " + search_arg);
         seriestable.searchSeries(search_arg);
     });
+
+    // Make search be the default action for Enter when in the search text box
+    searchDefault();
 };
 
 /*
@@ -108,6 +117,9 @@ export function initCategoriesPage() {
         console.log("Search for category: " + search_arg);
         categoriestable.searchSeries(search_arg);
     });
+
+    // Make search be the default action for Enter when in the search text box
+    searchDefault();
 };
 
 /*
@@ -123,4 +135,16 @@ export function initLayout() {
 */
 export function showAboutDialog() {
     callstack.callDialog("about-jsx");
+}
+
+/*
+    Search default
+*/
+function searchDefault() {
+    $("#search-text").keypress(function(event) {
+        if(event.keyCode == 13) {
+            $("#search-button").click();
+            event.preventDefault();
+        }
+    });
 }
