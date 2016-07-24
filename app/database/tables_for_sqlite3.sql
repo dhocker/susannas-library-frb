@@ -17,9 +17,11 @@ CREATE TABLE authors (
     FirstName text NULL,
     Avoid integer NULL,
     category text NULL,
+    category_id integer NOT NULL default 0,
     try integer NULL,
     created_at text NOT NULL default (datetime('now','localtime')),
-    updated_at text NOT NULL default (datetime('now','localtime'))
+    updated_at text NOT NULL default (datetime('now','localtime')),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE TABLE books (
@@ -33,9 +35,11 @@ CREATE TABLE books (
     Status text NULL,
     CoverType text NULL,
     Notes text NULL,
+    category_id integer NOT NULL default 0,
     created_at text NOT NULL default (datetime('now','localtime')),
     updated_at text NOT NULL default (datetime('now','localtime')),
-    FOREIGN KEY (series_id) REFERENCES series(id)
+    FOREIGN KEY (series_id) REFERENCES series(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE TABLE collaborations (

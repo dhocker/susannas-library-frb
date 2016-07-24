@@ -112,9 +112,11 @@ class Author(Base, ModelMixin):
     FirstName = Column(Text)
     Avoid = Column(Integer)
     category = Column(Text)
+    category_id = Column(Integer, ForeignKey('categories.id'))
     try_author = Column('try', Integer)
     created_at = Column(Text)
     updated_at = Column(Text)
+    category_link = relationship("Category", uselist=False)
     books = relationship("Book",
                     secondary='collaborations', back_populates="authors", cascade="delete")
 
@@ -145,9 +147,9 @@ class Author(Base, ModelMixin):
     # Each model must supply these mapping tables for DataTables to work
 
     # These are the column properties that are exposed (see Mixin class)
-    column_props = ["LastName", "FirstName", "category", "try_author", "Avoid", "id"]
+    column_props = ["LastName", "FirstName", "category", "category_id", "try_author", "Avoid", "id"]
     # These are the actual table columns corresponding to the column properties
-    table_column_names = ["LastName", "FirstName", "category", "try", "Avoid", "id"]
+    table_column_names = ["LastName", "FirstName", "category", "category_id", "try", "Avoid", "id"]
     default_sorting = "LastName asc, FirstName asc"
 
     @classmethod
@@ -177,6 +179,8 @@ class Book(Base, ModelMixin):
     Notes = Column(Text)
     created_at = Column(Text)
     updated_at = Column(Text)
+    category_id = Column(Integer, ForeignKey('categories.id'))
+    category_link = relationship("Category", uselist=False)
     series = relationship("Series", uselist=False)
     authors = relationship("Author", secondary='collaborations', back_populates="books", lazy='joined')
 
@@ -197,9 +201,9 @@ class Book(Base, ModelMixin):
     # Each model must supply these mapping tables for DataTables to work
 
     # These are the column properties that are exposed (see Mixin class)
-    column_props = ["Title", "ISBN", "Volume", "series", "Published", "Category", "Status", "CoverType", "Notes", "id"]
+    column_props = ["Title", "ISBN", "Volume", "series", "Published", "Category", "category_id", "Status", "CoverType", "Notes", "id"]
     # These are the actual table columns corresponding to the column properties
-    table_column_names = ["Title", "ISBN", "Volume", "series", "Published", "Category", "Status", "CoverType", "Notes", "id"]
+    table_column_names = ["Title", "ISBN", "Volume", "series", "Published", "Category", "category_id", "Status", "CoverType", "Notes", "id"]
     default_sorting = "Title asc"
 
     @classmethod

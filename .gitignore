@@ -8,3 +8,4 @@ susannas-library-frb.conf
 *~
 node_modules/
 app/static/dist/
+export_db.sql
