@@ -20,8 +20,7 @@ import sys
 import types
 
 
-#dbname = 'susannas_library.sqlite3'
-dbname = 'susannas_library.backup.sqlite3'
+dbname = 'susannas_library.sqlite3'
 
 
 def connect_db(database_name):
@@ -35,7 +34,7 @@ def escape_quote(v):
     return v.replace("'", "''")
 
 
-def export_table(csr, table_name, field_list, file_handle):
+def export_table(csr, table_name, file_handle):
     stmt = "SELECT * FROM {0}".format(table_name)
     rst = csr.execute(stmt)
     csf = None
@@ -80,17 +79,17 @@ def export_database(db_name, export_file):
     cnn = connect_db(db_name)
     csr = cnn.cursor()
     fh = open(export_file, mode='w')
-    export_table(csr, "authors", [], fh)
-    export_table(csr, "books", [], fh)
-    export_table(csr, "series", [], fh)
-    export_table(csr, "collaborations", [], fh)
-    export_table(csr, "categories", [], fh)
+    export_table(csr, "authors", fh)
+    export_table(csr, "books", fh)
+    export_table(csr, "series", fh)
+    export_table(csr, "collaborations", fh)
+    export_table(csr, "categories", fh)
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == '--help':
         print ""
-        print "Export the library database as a SQL script"
+        print "Export the library database {0} as a SQL script".format(dbname)
         print ""
         print "\texport_db.py [export_name]"
         print ""

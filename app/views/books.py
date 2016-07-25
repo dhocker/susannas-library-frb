@@ -108,14 +108,14 @@ def add_book():
     volume = request.form["volume"]
     series_id = request.form["series"]
     author_id = request.form["author"]
-    category = request.form["category"]
+    category_id = request.form["category"]
     status = request.form["status"]
     cover = request.form["cover"]
     notes = request.form["notes"]
 
     logger.info("Add book with: [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]",
-                title, isbn, volume, series_id, author_id, category, status, cover, notes)
-    insert_book(title, isbn, volume, series_id, author_id, category, status, cover, notes)
+                title, isbn, volume, series_id, author_id, category_id, status, cover, notes)
+    insert_book(title, isbn, volume, series_id, author_id, category_id, status, cover, notes)
     return "SUCCESS: Book created", 201
 
 
@@ -131,16 +131,16 @@ def edit_book(id):
     volume = request.form["volume"]
     series_id = int(request.form["series"].encode('utf-8'))
     author_id = int(request.form["author"].encode('utf-8'))
-    category = request.form["category"]
+    category_id = request.form["category"]
     status = request.form["status"]
     cover = request.form["cover"]
     notes = request.form["notes"]
 
     logger.info("Edit book with: [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s] [%s]",
-                title, isbn, volume, series_id, author_id, category, status, cover, notes)
+                title, isbn, volume, series_id, author_id, category_id, status, cover, notes)
 
     try:
-        update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes)
+        update_book(id, title, isbn, volume, series_id, author_id, category_id, status, cover, notes)
     except Exception as ex:
         logger.info("Book update failed: %s", ex.message)
         return "ERROR: Book update failed", 409

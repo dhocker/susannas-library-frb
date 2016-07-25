@@ -111,7 +111,7 @@ class Author(Base, ModelMixin):
     LastName = Column(Text)
     FirstName = Column(Text)
     Avoid = Column(Integer)
-    category = Column(Text)
+    #category = Column(Text)
     category_id = Column(Integer, ForeignKey('categories.id'))
     try_author = Column('try', Integer)
     created_at = Column(Text)
@@ -121,10 +121,10 @@ class Author(Base, ModelMixin):
                     secondary='collaborations', back_populates="authors", cascade="delete")
 
 
-    def __init__(self, last_name, first_name, category, try_author, avoid):
+    def __init__(self, last_name, first_name, category_id, try_author, avoid):
         self.LastName = last_name
         self.FirstName = first_name
-        self.category = category
+        self.category_id = category_id
         # This bizarre encoding of booleans comes from the way the existing
         # library database was exported from Heroku and Postgres.
         # SQLite prefers using integers with true == 1 and false == 0
@@ -140,16 +140,16 @@ class Author(Base, ModelMixin):
         self.updated_at = self.created_at
 
     def __repr__(self):
-        return "<Author(id=%s, LastName='%s', FirstName='%s', category='%s', Avoid=%s, try=%s)>" \
-            % (str(self.id), self.LastName, self.FirstName, self.category, str(self.Avoid), str(self.try_author))
+        return "<Author(id=%s, LastName='%s', FirstName='%s', category='%s', category_id=%s, Avoid=%s, try=%s)>" \
+            % (str(self.id), self.LastName, self.FirstName, self.category, self.category_id, str(self.Avoid), str(self.try_author))
 
 
     # Each model must supply these mapping tables for DataTables to work
 
     # These are the column properties that are exposed (see Mixin class)
-    column_props = ["LastName", "FirstName", "category", "category_id", "try_author", "Avoid", "id"]
+    column_props = ["LastName", "FirstName", "category_id", "try_author", "Avoid", "id"]
     # These are the actual table columns corresponding to the column properties
-    table_column_names = ["LastName", "FirstName", "category", "category_id", "try", "Avoid", "id"]
+    table_column_names = ["LastName", "FirstName", "category_id", "try", "Avoid", "id"]
     default_sorting = "LastName asc, FirstName asc"
 
     @classmethod
@@ -185,16 +185,17 @@ class Book(Base, ModelMixin):
     authors = relationship("Author", secondary='collaborations', back_populates="books", lazy='joined')
 
 
-    def __init__(self, title, isbn, volume, series_id, author, category, status, cover, notes):
+    def __init__(self, title, isbn, volume, series_id, author, category_id, status, cover, notes):
         self.Title = title
         self.ISBN = isbn
         self.Volume = volume
         self.series_id = series_id
         self.authors.append(author)
-        self.Category = category
+        self.Category = ""
         self.Status = status
         self.CoverType = cover
         self.Notes = notes
+        self.category_id = category_id
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 

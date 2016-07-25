@@ -35,7 +35,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         // Initial state
         this.state.lastnameValue = props.row.LastName;
         this.state.firstnameValue = props.row.FirstName;
-        this.state.categoryValue = props.row.category;
+        this.state.categoryValue = props.row.category_id;
         this.state.tryValue = !props.row.try_author == "";
         this.state.avoidValue = !props.row.Avoid == "";
         this.state.id = props.row.id;
@@ -52,7 +52,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         this.setState({
             lastnameValue: row.LastName,
             firstnameValue: row.FirstName,
-            categoryValue: row.category,
+            categoryValue: row.category_id,
             tryValue: !row.try_author == "",
             avoidValue: !row.Avoid == "",
             id: row.id,

@@ -54,7 +54,7 @@ export default class NewBookDialog extends ModalDialog {
         this.state.volumeValue = "";
         this.state.seriesValue = series_id;
         this.state.authorValue = author_id;
-        this.state.categoryValue = "Mystery";
+        this.state.categoryValue = 1;
         this.state.statusValue = "";
         this.state.coverValue = "";
         this.state.notesValue = "";
@@ -167,7 +167,7 @@ export default class NewBookDialog extends ModalDialog {
             volumeValue: "",
             seriesValue: series_id,
             authorValue: author_id,
-            categoryValue: "Mystery",
+            categoryValue: 1,
             statusValue: "",
             coverValue: "",
             notesValue: "",
@@ -450,7 +450,7 @@ export default class NewBookDialog extends ModalDialog {
         var options_list = this.state.category_rows;
         var option_elements = options_list.map(function(optionValue) {
             return (
-                <option key={optionValue.id} value={optionValue.name}>
+                <option key={optionValue.id} value={optionValue.id}>
                     {optionValue.name}
                 </option>
             )

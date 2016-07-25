@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
-from models import Author
+from models import Author, Category
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from app.models.models import db_session
@@ -47,7 +47,8 @@ def append_order_by_clause(query, sort_col, sort_dir):
     column_list = {
         "LastName": Author.LastName,
         "FirstName": Author.FirstName,
-        "category": Author.category,
+        # TODO Category does not work
+        # "category": Category.name,
         "try_author": Author.try_author,
         "Avoid": Author.Avoid,
         "id": Author.id
@@ -110,6 +111,11 @@ def authors_todict(authors):
     ca = []
     for a in authors:
         aa = Author.row2dict(a)
+        # This replaces the original category field
+        if a.category_link:
+            aa["category"] = a.category_link.name
+        else:
+            aa["category"] = '<Empty>'
         if aa["try_author"] == 1:
             aa["try_author"] = "Try"
         else:

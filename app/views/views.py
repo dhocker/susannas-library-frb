@@ -97,7 +97,8 @@ def add_author():
     """
     firstname = request.form["firstname"]
     lastname = request.form["lastname"]
-    category = request.form["category"]
+    # It's really the category ID
+    category_id = request.form["category"]
 
     # Marshal boolean values
     try_author = normalize_boolean(request.form["try"])
@@ -109,8 +110,8 @@ def add_author():
         logger.info("Author exists: %s, %s", lastname, firstname)
         return "ERROR: Author exists", 409
 
-    logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category, try_author, avoid)
-    insert_author(lastname, firstname, category, try_author, avoid)
+    logger.info("Add author with: [%s] [%s] [%s] [%s] [%s]", firstname, lastname, category_id, try_author, avoid)
+    insert_author(lastname, firstname, category_id, try_author, avoid)
     return "SUCCESS: Author created", 201
 
 
@@ -123,13 +124,14 @@ def edit_author(id):
     """
     firstname = request.form["firstname"]
     lastname = request.form["lastname"]
-    category = request.form["category"]
+    # It's really the category ID
+    category_id = request.form["category"]
 
     # Marshal boolean values
     try_author = normalize_boolean(request.form["try"])
     avoid = normalize_boolean(request.form["avoid"])
 
-    # TODO Duplicate author check needed here. Make sure updated
+    # Duplicate author check here. Make sure updated
     # author does not exist (we are not trying to morph one author
     # into another existing author).
     author = get_author(id)
@@ -139,11 +141,11 @@ def edit_author(id):
             logger.info("Author exists: %s, %s", lastname, firstname)
             return "ERROR: Author exists", 409
 
-    logger.info("Edit author with: [%s] [%s] [%s] [%s] [%s] [%s]", id, firstname, lastname, category, try_author, avoid)
+    logger.info("Edit author with: [%s] [%s] [%s] [%s] [%s] [%s]", id, firstname, lastname, category_id, try_author, avoid)
     try:
         author.LastName = lastname
         author.FirstName = firstname
-        author.category = category
+        author.category_id = category_id
         author.try_author = try_author
         author.Avoid = avoid
         update_author(author)

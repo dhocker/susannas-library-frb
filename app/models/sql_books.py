@@ -23,17 +23,36 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
     # Column sorting
     # TODO There are consistency issues. Collab records with no book or no author.
     # We use left outer joins here to get all books regardless of collaborations status.
+    # The following alias table names are used:
+    #   b = books
+    #   collab = collaborations
+    #   a = authors
+    #   s = series
+    #   cat = categories
     stmt = """
-        select b.*,
-        case when length(a.FirstName) > 0
-            then (a.LastName || ", " || a.FirstName)
-            else a.LastName
-            end as Author,
-        a.id as author_id,
-        s.name as Series from books as b
-        left outer join collaborations as c on c.book_id=b.id
-        left outer join authors as a on a.id=c.author_id
+        select
+            b.id,
+            b.Title,
+            b.ISBN,
+            b.Volume,
+            b.series_id,
+            b.Published,
+            cat.name as Category,
+            b.Status,
+            b.CoverType,
+            b.Notes,
+            b.category_id,
+            case when length(a.FirstName) > 0
+                then (a.LastName || ", " || a.FirstName)
+                else a.LastName
+                end as Author,
+            a.id as author_id,
+            s.name as Series
+        from books as b
+        left outer join collaborations as collab on collab.book_id=b.id
+        left outer join authors as a on a.id=collab.author_id
         left outer join series as s on s.id=b.series_id
+        left outer join categories as cat on cat.id=b.category_id
         order by {0}
         limit :limit offset :offset
         """.format(get_sort_clause(sort_col, sort_dir))
@@ -51,7 +70,7 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, category_id, 
     parameters = {"limit": pagesize, "offset": int(page * pagesize)}
     wh = ""
     if author_id:
-        wh = "where c.author_id=:author_id"
+        wh = "where collab.author_id=:author_id"
         parameters["author_id"] = str(int(author_id))
     elif series_id:
         wh = "where b.series_id=:series_id"
@@ -66,17 +85,36 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, category_id, 
         parameters["like"] = s
         wh = 'where b.Title like :like'
 
+    # The following alias table names are used:
+    #   b = books
+    #   collab = collaborations
+    #   a = authors
+    #   s = series
+    #   cat = categories
     stmt = """
-        select b.*,
-        case when length(a.FirstName) > 0
-            then (a.LastName || ", " || a.FirstName)
-            else a.LastName
-            end as Author,
-        a.id as author_id,
-        s.name as Series, s.id as series_id from books as b
-        left outer join collaborations as c on c.book_id=b.id
-        left outer join authors as a on a.id=c.author_id
-        left join series as s on s.id=b.series_id
+        select
+            b.id,
+            b.Title,
+            b.ISBN,
+            b.Volume,
+            b.series_id,
+            b.Published,
+            cat.name as Category,
+            b.Status,
+            b.CoverType,
+            b.Notes,
+            b.category_id,
+            case when length(a.FirstName) > 0
+                then (a.LastName || ", " || a.FirstName)
+                else a.LastName
+                end as Author,
+            a.id as author_id,
+            s.name as Series
+        from books as b
+        left outer join collaborations as collab on collab.book_id=b.id
+        left outer join authors as a on a.id=collab.author_id
+        left outer join series as s on s.id=b.series_id
+        left outer join categories as cat on cat.id=b.category_id
         {1}
         order by {0}
         limit :limit offset :offset
@@ -127,13 +165,14 @@ def get_sort_clause(sort_col, sort_dir):
     # b = books
     # a = authors
     # s = series
+    # cat = categories
     column_sort_list = {
         "Title": "lower(b.Title) {0}",
         "ISBN": "b.ISBN {0}",
         "Volume": "b.Volume {0}",
         "Series": "lower(s.name) {0}",
         "Published": "b.Published {0}",
-        "Category": "lower(b.Category) {0}",
+        "Category": "lower(cat.name) {0}",
         "Status": "lower(b.Status) {0}",
         "CoverType": "lower(b.CoverType) {0}",
         "Notes": "lower(b.Notes) {0}",

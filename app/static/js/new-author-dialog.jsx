@@ -36,7 +36,7 @@ export default class NewAuthorDialog extends ModalDialog {
 
         this.state.lastnameValue = "";
         this.state.firstnameValue = "";
-        this.state.categoryValue = "Mystery";
+        this.state.categoryValue = 1;
         this.state.tryValue = false;
         this.state.avoidValue = false;
         this.state.error = "";
@@ -288,7 +288,7 @@ export default class NewAuthorDialog extends ModalDialog {
         var options_list = this.state.category_rows;
         var option_elements = options_list.map(function(optionValue) {
             return (
-                <option key={optionValue.id} value={optionValue.name}>
+                <option key={optionValue.id} value={optionValue.id}>
                     {optionValue.name}
                 </option>
             )

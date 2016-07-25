@@ -46,7 +46,7 @@ def get_book(id):
 def get_books_in_series(series_id):
     return Book.query.filter_by(series_id=series_id)
 
-def update_book(id, title, isbn, volume, series_id, author_id, category, status, cover, notes):
+def update_book(id, title, isbn, volume, series_id, author_id, category_id, status, cover, notes):
     book = get_book(id)
     book.Title = title
     book.ISBN = isbn
@@ -55,18 +55,23 @@ def update_book(id, title, isbn, volume, series_id, author_id, category, status,
     # If the author changed, update the association
     # Technically we can support multiple authors on a book. However, for now we're
     # only supporting one author.
-    if book.authors[0].id != author_id:
-        book.authors[0] = get_author(author_id)
-    book.Category = category
+    if len(book.authors) > 0:
+        if book.authors[0].id != author_id:
+            book.authors[0] = get_author(author_id)
+    else:
+        # No existing author. This should never be the case.
+        # but the old database had some of these cases.
+        book.authors.append(get_author(author_id))
+    book.category_id = category_id
     book.Status = status
     book.CoverType = cover
     book.Notes = notes
     db_session.commit()
 
 
-def insert_book(title, isbn, volume, series_id, author_id, category, status, cover, notes):
+def insert_book(title, isbn, volume, series_id, author_id, category_id, status, cover, notes):
     author = Author.query.get(author_id)
-    b = Book(title, isbn, volume, series_id, author, category, status, cover, notes)
+    b = Book(title, isbn, volume, series_id, author, category_id, status, cover, notes)
     db_session.add(b)
     db_session.commit()
 

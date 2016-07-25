@@ -39,7 +39,7 @@ export default class EditBookDialog extends NewBookDialog {
         this.state.volumeValue = props.row.Volume;
         this.state.seriesValue = props.row.series_id;
         this.state.authorValue = props.row.author_id ? props.row.author_id : 0;
-        this.state.categoryValue = props.row.Category;
+        this.state.categoryValue = props.row.category_id;
         this.state.statusValue = props.row.Status;
         this.state.coverValue = props.row.CoverType;
         this.state.notesValue = props.row.Notes;
@@ -62,7 +62,7 @@ export default class EditBookDialog extends NewBookDialog {
             volumeValue: row.Volume,
             seriesValue: row.series_id,
             authorValue: row.author_id ? row.author_id : 0,
-            categoryValue: row.Category,
+            categoryValue: row.category_id,
             statusValue: row.Status,
             coverValue: row.CoverType,
             notesValue: row.Notes,
