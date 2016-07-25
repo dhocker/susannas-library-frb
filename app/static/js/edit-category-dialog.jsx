@@ -53,6 +53,26 @@ export default class EditCategoryDialog extends NewCategoryDialog {
     }
 
     /*
+        Save category
+    */
+    onSave() {
+        console.log("Saving category " + String(this.state.id) + " " + this.state.nameValue);
+
+        // Validate fields
+        this.setState({error: ""});
+        if (this.state.nameValue.length <= 0) {
+            this.setState({error: "Name is blank"});
+            return;
+        }
+
+        var data = {
+            name: this.state.nameValue,
+        };
+        // The data object will be request.form on the server
+        this.commitCategory(data);
+    }
+
+    /*
         Send category data to server
     */
     commitCategory(data) {
@@ -107,7 +127,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         return (
             <div className="modal-footer">
                   <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Save</button>
+                      onClick={this.onSave}>Save</button>
                   <button type="button" className="btn btn-default pull-left"
                       onClick={this.onCancel}>Cancel</button>
             </div>

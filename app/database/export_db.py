@@ -34,9 +34,60 @@ def escape_quote(v):
     return v.replace("'", "''")
 
 
+def export_authors(csr, file_handle):
+    stmt = """SELECT a.id,
+        a.LastName,
+        a.FirstName,
+        a.Avoid,
+        a.category_id,
+        a.try,
+        a.created_at,
+        a.updated_at
+        FROM authors as a;
+    """
+    rst = csr.execute(stmt)
+    export_row_set(rst, "authors", file_handle)
+
+
+def export_books(csr, file_handle):
+    stmt = """SELECT b.id,
+        b.Title,
+        b.ISBN,
+        b.Volume,
+        b.series_id,
+        b.Published,
+        b.Status,
+        b.CoverType,
+        b.Notes,
+        b.category_id,
+        b.created_at,
+        b.updated_at
+        FROM books as b;
+    """
+    rst = csr.execute(stmt)
+    export_row_set(rst, "books", file_handle)
+
+
 def export_table(csr, table_name, file_handle):
+    """
+    Export ALL columns of a table to a file
+    :param csr:
+    :param table_name:
+    :param file_handle:
+    :return:
+    """
     stmt = "SELECT * FROM {0}".format(table_name)
     rst = csr.execute(stmt)
+    export_row_set(rst, table_name, file_handle)
+
+
+def export_row_set(rst, table_name, file_handle):
+    """
+    Export a list of rows to a given file
+    :param rst:
+    :param file_handle:
+    :return:
+    """
     csf = None
     for row in rst:
         # Build field list
@@ -79,8 +130,10 @@ def export_database(db_name, export_file):
     cnn = connect_db(db_name)
     csr = cnn.cursor()
     fh = open(export_file, mode='w')
-    export_table(csr, "authors", fh)
-    export_table(csr, "books", fh)
+    #export_table(csr, "authors", fh)
+    export_authors(csr, fh)
+    #export_table(csr, "books", fh)
+    export_books(csr, fh)
     export_table(csr, "series", fh)
     export_table(csr, "collaborations", fh)
     export_table(csr, "categories", fh)

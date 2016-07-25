@@ -34,8 +34,7 @@ def get_all_authors(page, pagesize, sort_col, sort_dir):
 def search_for_authors(page_number, page_size, category_id, search_arg, sort_col, sort_dir):
     q = append_order_by_clause(Author.query, sort_col, sort_dir)
     if category_id:
-        category = get_category(category_id)
-        q = q.filter(Author.category==category.name)
+        q = q.filter(Author.category_id==category_id)
     if search_arg:
         like = '%' + search_arg + '%'
         q = q.filter(or_(Author.LastName.like(like), Author.FirstName.like(like)))

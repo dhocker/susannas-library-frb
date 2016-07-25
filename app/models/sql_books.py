@@ -76,9 +76,8 @@ def search_for_books_by_page(page, pagesize, author_id, series_id, category_id, 
         wh = "where b.series_id=:series_id"
         parameters["series_id"] = str(int(series_id))
     elif category_id:
-        category = get_category(category_id)
-        wh = "where b.category=:category_name"
-        parameters["category_name"] = category.name
+        wh = "where b.category_id=:category_id"
+        parameters["category_id"] = category_id
     if search_arg:
         # Sql injection prevention on search arg
         s = "%" + search_arg + "%"
@@ -138,9 +137,8 @@ def get_filtered_books_count(author_id, series_id, category_id, search_arg):
         wh = "where b.series_id=:series_id"
         parameters["series_id"] = str(int(series_id))
     elif category_id:
-        category = get_category(category_id)
-        wh = "where b.category=:category_name"
-        parameters["category_name"] = category.name
+        wh = "where b.category_id=:category_id"
+        parameters["category_id"] = category_id
     if search_arg:
         # Sql injection prevention on search arg
         s = "%" + search_arg + "%"
