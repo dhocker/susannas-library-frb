@@ -68,6 +68,8 @@ class ModelMixin():
                 d[column_prop] = str(v)
             elif type(v) == IntType:
                 d[column_prop] = v
+            elif type(v) == NoneType:
+                d[column_prop] = ''
             else:
                 d[column_prop] = str(v)
 
@@ -87,6 +89,8 @@ class ModelMixin():
                 d.append = str(v)
             elif type(v) == IntType:
                 d.append = v
+            elif type(v) == NoneType:
+                d[column_prop] = ''
             else:
                 d.append = str(v)
 

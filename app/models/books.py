@@ -50,7 +50,10 @@ def update_book(id, title, isbn, volume, series_id, author_id, category_id, stat
     book = get_book(id)
     book.Title = title
     book.ISBN = isbn
-    book.Volume = volume
+    if len(volume) == 0:
+        book.Volume = None
+    else:
+        book.Volume = int(volume)
     book.series_id = series_id
     # If the author changed, update the association
     # Technically we can support multiple authors on a book. However, for now we're

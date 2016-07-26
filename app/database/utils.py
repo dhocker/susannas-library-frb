@@ -43,6 +43,8 @@ def row2dict(row):
             d[column_name] = v.encode('utf-8')
         elif type(v) == IntType:
             d[column_name] = v
+        elif type(v) == NoneType:
+            d[column_name] = ''
         else:
             d[column_name] = str(v)
 

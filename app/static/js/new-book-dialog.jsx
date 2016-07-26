@@ -222,6 +222,13 @@ export default class NewBookDialog extends ModalDialog {
             this.setState({error: "Title is blank"});
             return;
         }
+        if (this.state.volumeValue.length > 0) {
+            var v = Number(this.state.volumeValue);
+            if (isNaN(v)) {
+                this.setState({error: "Volume must be a number or empty"});
+                return;
+            }
+        }
 
         /*
             There is a bit of an issue marshalling boolean values (try and avoid).
@@ -294,10 +301,28 @@ export default class NewBookDialog extends ModalDialog {
     }
 
     volumeChanged(event) {
-        this.setState({
-            volumeValue: event.target.value,
-            error: ""
-        });
+        // Validate volume as a number
+        if (event.target.value.length > 0) {
+            var v = Number(event.target.value);
+            if (!isNaN(v)) {
+                this.setState({
+                    volumeValue: event.target.value,
+                    error: ""
+                });
+            }
+            else {
+                this.setState({
+                    volumeValue: event.target.value,
+                    error: "Volume must be a numbers or empty"
+                });
+            }
+        }
+        else {
+            this.setState({
+                volumeValue: event.target.value,
+                error: ""
+            });
+        }
     }
 
     seriesChanged(event) {
