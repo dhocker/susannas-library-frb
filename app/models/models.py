@@ -115,7 +115,7 @@ class Author(Base, ModelMixin):
     try_author = Column('try', Integer)
     created_at = Column(Text)
     updated_at = Column(Text)
-    category_link = relationship("Category", uselist=False)
+    category_link = relationship("Category", uselist=False, primaryjoin="Category.id==Author.category_id")
     books = relationship("Book",
                     secondary='collaborations', back_populates="authors", cascade="delete")
 

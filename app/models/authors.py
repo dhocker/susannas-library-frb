@@ -22,7 +22,7 @@ from app.models.categories import get_category
 
 
 def get_all_authors(page, pagesize, sort_col, sort_dir):
-    q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    q = append_order_by_clause(Author.query.join(Category, Author.category_link), sort_col, sort_dir)
     if pagesize > 0:
         authors = q.limit(pagesize).offset(page * pagesize).all()
     else:
@@ -32,7 +32,7 @@ def get_all_authors(page, pagesize, sort_col, sort_dir):
 
 
 def search_for_authors(page_number, page_size, category_id, search_arg, sort_col, sort_dir):
-    q = append_order_by_clause(Author.query, sort_col, sort_dir)
+    q = append_order_by_clause(Author.query.join(Category, Author.category_link), sort_col, sort_dir)
     if category_id:
         q = q.filter(Author.category_id==category_id)
     if search_arg:
@@ -47,7 +47,7 @@ def append_order_by_clause(query, sort_col, sort_dir):
         "LastName": Author.LastName,
         "FirstName": Author.FirstName,
         # TODO Category does not work
-        # "category": Category.name,
+        "category": Category.name,
         "try_author": Author.try_author,
         "Avoid": Author.Avoid,
         "id": Author.id
