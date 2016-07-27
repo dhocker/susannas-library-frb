@@ -19,7 +19,7 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
     render_template, flash, jsonify
 from app.models.authors import get_author
 from app.models.series import get_all_series, get_series, insert_series, series_exists, \
-    update_series, delete_series_by_id, search_for_series, series_todict
+    update_series, delete_series_by_id, search_for_series
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging

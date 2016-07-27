@@ -24,7 +24,7 @@ def get_all_categories():
     q = Category.query
     count = q.count()
     rst = q.order_by(func.lower(Category.name).asc()).all()
-    return {"rows": categories_todict(rst), "count": count}
+    return {"rows": Category.rows2dictlist(rst), "count": count}
 
 def get_category(category_id):
     return Category.query.get(category_id)
@@ -57,15 +57,3 @@ def delete_category_by_id(id):
     s = Category.query.get(id)
     db_session.delete(s)
     db_session.commit()
-
-def categories_todict(categories):
-    """
-    Convert series result set to list of dict
-    :param series:
-    :return:
-    """
-    ca = []
-    for c in categories:
-        aa = Category.row2dict(c)
-        ca.append(aa)
-    return ca

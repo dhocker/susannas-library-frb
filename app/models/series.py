@@ -26,7 +26,7 @@ def get_all_series(page, pagesize, sort_col, sort_dir):
     else:
         series = q.offset(page * pagesize).all()
     count = q.count()
-    return {"rows": series_todict(series), "count": count}
+    return {"rows": Series.rows2dictlist(series), "count": count}
 
 def append_order_by_clause(query, sort_col, sort_dir):
     column_list = {
@@ -59,7 +59,7 @@ def search_for_series(page, pagesize, search_arg, sort_col, sort_dir):
         q = q.filter(Series.name.like(like))
     count = q.count()
     series =  q.limit(pagesize).offset(page * pagesize)
-    return {"rows": series_todict(series), "count": count}
+    return {"rows": Series.rows2dictlist(series), "count": count}
 
 def insert_series(name):
     s = Series(name)
@@ -89,15 +89,3 @@ def delete_series_by_id(id):
     s = Series.query.get(id)
     db_session.delete(s)
     db_session.commit()
-
-def series_todict(series):
-    """
-    Convert series result set to list of dict
-    :param series:
-    :return:
-    """
-    ca = []
-    for s in series:
-        aa = Series.row2dict(s)
-        ca.append(aa)
-    return ca
