@@ -107,21 +107,28 @@ def authors_todict(authors):
     :param authors:
     :return:
     """
-    ca = []
-    for a in authors:
-        aa = Author.row2dict(a)
-        # This replaces the original category field
-        if a.category_link:
-            aa["category"] = a.category_link.name
-        else:
-            aa["category"] = '<Empty>'
-        if aa["try_author"] == 1:
-            aa["try_author"] = "Try"
-        else:
-            aa["try_author"] = ""
-        if aa["Avoid"] == 1:
-            aa["Avoid"] = "Avoid"
-        else:
-            aa["Avoid"] = ""
-        ca.append(aa)
+    ca = Author.rows2dictlist(authors, row_converter=authors_row_converter)
     return ca
+
+
+def authors_row_converter(a, d):
+    """
+    Custom function to convert an author row object to a dict.
+    Basically manufactures columns based on row contents.
+    :param a: Author row object
+    :param d: dict representing converted row object
+    :return:
+    """
+    # This replaces the original category field
+    if a.category_link:
+        d["category"] = a.category_link.name
+    else:
+        d["category"] = '<Empty>'
+    if d["try_author"] == 1:
+        d["try_author"] = "Try"
+    else:
+        d["try_author"] = ""
+    if d["Avoid"] == 1:
+        d["Avoid"] = "Avoid"
+    else:
+        d["Avoid"] = ""

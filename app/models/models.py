@@ -54,21 +54,22 @@ class ModelMixin():
     Methods for all models
     '''
     @classmethod
-    def rows2dictlist(cls, rows):
+    def rows2dictlist(cls, rows, row_converter=None):
         """
         Convert a list of row objects into a list of dicts where each
         item in the list is a dict representing a row object.
         :return:
         """
-        result = map(lambda row: cls.row2dict(row), rows)
+        result = map(lambda row: cls.row2dict(row, row_converter), rows)
         return result
 
 
     @classmethod
-    def row2dict(cls, row):
+    def row2dict(cls, row, row_converter=None):
         '''
         Convert a row object to a dict. Used to return JSON to the client.
         :param row:
+        :param row_converter:
         :return:
         '''
         d = {}
@@ -87,6 +88,10 @@ class ModelMixin():
 
         # This is a dummy column that can be used by the client
         d["Actions"] = ""
+
+        # Run any provided custom row converter
+        if row_converter:
+            row_converter(row, d)
 
         return d
 
