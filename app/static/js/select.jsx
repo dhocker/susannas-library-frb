@@ -2,26 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /*
-    ABANDONED: Could not get this to work as a reusable component. There were issues with
-    how it handled the selected value. Once instantiated, you could not programatically
-    change the selected value.
-*/
-
-/*
-    This is the beginning of a basic React component that can render a select element.
-    The next step is to figure out how to make this reusable.
+    This is a basic React component that can render a select element.
 
     props
-        id - element id, string
-        class - element class list, string
-        options - [] array/list of option values
-        defaultOption - string
-        onChange - event handler for selection changes
-
-    Future changes
-        Make options prop a list of objects.
-        Add a new prop to specify the value field in the object.
-        Add a new prop to specify the option label (human readable)
+        id - Select element id, string
+        selectClass - select element class list, string
+        optionClass - option element class list to be applied to each option in select list. String.
+        options - [{}...{}] array/list of objects containing at least a key/value pair
+        keyProp - name of key property in option list
+        valueProp - name of value property in option list
+        labelProp - name of label property in option list. Can be the same as the value.
+        defaultValue - the initial value of the select, string
+        onChange(event) - event handler for selection changes. The event is an object
+            with oldValue and newValue properties.
 */
 
 export default class Select extends React.Component {
@@ -29,7 +22,7 @@ export default class Select extends React.Component {
         super(props);
         // Initial state of form inputs
         this.state = {
-            selectValue: props.value ? props.value : props.defaultOption
+            selectValue: props.defaultValue ? props.defaultValue : props.options[0][props.valueProp]
         };
         this.handleChange = this.handleChange.bind(this);
         this.setSelectedOption = this.setSelectedOption.bind(this);
@@ -55,14 +48,16 @@ export default class Select extends React.Component {
         var self = this;
         var options = self.props.options.map(function(optionValue) {
             return (
-                <option key={optionValue} value={optionValue}>
-                    {optionValue}
+                <option key={optionValue[self.props.keyProp]}
+                    className={self.props.optionClass}
+                    value={optionValue[self.props.valueProp]}>
+                    {optionValue[self.props.labelProp]}
                 </option>
             )
         });
         return (
             <select id={this.props.id}
-                    className={this.props.class}
+                    className={this.props.selectClass}
                     value={this.state.selectValue}
                     onChange={this.handleChange}>
                 {options}
@@ -73,14 +68,18 @@ export default class Select extends React.Component {
 
 Select.propTypes = {
     id: React.PropTypes.string,
-    class: React.PropTypes.string,
-    options: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    defaultOption: React.PropTypes.string,
-    value: React.PropTypes.string.isRequired,
+    selectClass: React.PropTypes.string,
+    optionClass: React.PropTypes.string,
+    options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    defaultValue: React.PropTypes.string,
+    keyProp: React.PropTypes.string.isRequired,
+    valueProp: React.PropTypes.string.isRequired,
+    labelProp: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func
 };
 
 Select.defaultProps = {
     id: "select",
-    class: "form-control"
+    selectClass: "form-control",
+    optionClass: ""
 };
