@@ -61,6 +61,7 @@ export default class NewCategoryDialog extends ModalDialog {
             // Trick to get focus into input text box
             setTimeout(function() {
                 $this.refs.inputName.focus();
+                $this.refs.inputName.select();
             }, 0);
         });
     }
