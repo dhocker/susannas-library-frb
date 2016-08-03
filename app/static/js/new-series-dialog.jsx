@@ -159,7 +159,7 @@ export default class NewSeriesDialog extends ModalDialog {
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label for="input-name">Series Name</label>
+                            <label htmlFor="input-name">Series Name</label>
                             <input id="input-name" type="text" className="form-control" ref="inputName"
                                 value={this.state.nameValue} onChange={this.nameChanged} autoFocus={true}
                             />

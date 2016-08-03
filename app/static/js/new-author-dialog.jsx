@@ -18,6 +18,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalDialog from './modal-dialog'
+import SelectCategory from './select-category';
 import * as authorstable from './authors-table';
 import * as callstack from './dialog-call-stack';
 import * as errordlg from './error-dialog';
@@ -40,7 +41,6 @@ export default class NewAuthorDialog extends ModalDialog {
         this.state.tryValue = false;
         this.state.avoidValue = false;
         this.state.error = "";
-        this.state.category_rows = [];
 
         // Bind 'this' to various methods
         this.clearFormFields = this.clearFormFields.bind(this);
@@ -54,8 +54,8 @@ export default class NewAuthorDialog extends ModalDialog {
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
-        this.getCategorySelect = this.getCategorySelect.bind(this);
         this.commitAuthor = this.commitAuthor.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     /*
@@ -65,23 +65,24 @@ export default class NewAuthorDialog extends ModalDialog {
         this.setState({
             lastnameValue: "",
             firstnameValue: "",
-            categoryValue: "Mystery",
+            categoryValue: 1,
             tryValue: false,
             avoidValue: false,
             error: ""
         });
+
+        // Reset the categories combo box to its default value
+        this.refs.selectCategoryInstance.resetSelectedCategory();
     }
 
     componentDidMount() {
         var $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
-            // Only load the tables once
-            if ($this.state.category_rows.length == 0) {
-                $this.loadCategories();
-            }
+            $this.refs.selectCategoryInstance.setSelectedCategory($this.state.categoryValue);
             // Trick to get focus into input text box
             setTimeout(function() {
                 $this.refs.lastName.focus();
+                $this.refs.lastName.select();
             }, 0);
         });
     }
@@ -159,20 +160,6 @@ export default class NewAuthorDialog extends ModalDialog {
         })
     }
 
-    loadCategories() {
-        // Retrieve all of the categories
-        console.log("Getting all categories from url /categories");
-        var $this = this;
-        $.get("/categories", function(response, status){
-            console.log("Category rows received: " + String(response.data.rows.length));
-            var rows = response.data.rows;
-            $this.setState({
-                category_rows: rows,
-                categoryValue: $this.state.categoryValue
-            });
-        });
-    }
-
     /*
         Control event handlers
     */
@@ -231,20 +218,24 @@ export default class NewAuthorDialog extends ModalDialog {
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label for="lastname">Last Name</label>
+                            <label htmlFor="lastname">Last Name</label>
                             <input id="lastname" type="text"  className="form-control" ref="lastName"
                                 value={this.state.lastnameValue} onChange={this.lastnameChanged}
                             />
                         </div>
                         <div className="form-group">
-                            <label for="firstname">First Name</label>
+                            <label htmlFor="firstname">First Name</label>
                             <input id="firstname" type="text"  className="form-control"
                                 value={this.state.firstnameValue} onChange={this.firstnameChanged}
                             />
                         </div>
                         <div className="form-group">
-                            <label for={this.props.id + "-category"}>Category or Genre</label>
-                            {this.getCategorySelect(this.props.id + "-category")}
+                            <label htmlFor={this.props.id + "-category"}>Category or Genre</label>
+                            <SelectCategory
+                                id={this.props.id + "-category"}
+                                onChange={this.categoryChanged}
+                                ref={"selectCategoryInstance"}
+                            />
                         </div>
                         <div className="checkbox">
                             <label>
@@ -279,28 +270,6 @@ export default class NewAuthorDialog extends ModalDialog {
                       onClick={this.onCancel}>Cancel</button>
             </div>
         );
-    }
-
-    /*
-        Generate a select element for the categories
-    */
-    getCategorySelect(select_id) {
-        var options_list = this.state.category_rows;
-        var option_elements = options_list.map(function(optionValue) {
-            return (
-                <option key={optionValue.id} value={optionValue.id}>
-                    {optionValue.name}
-                </option>
-            )
-        });
-        return (
-            <select id={select_id}
-                    className="form-control"
-                    value={this.state.categoryValue}
-                    onChange={this.handleCategoryChange}>
-                {option_elements}
-            </select>
-        )
     }
 }
 

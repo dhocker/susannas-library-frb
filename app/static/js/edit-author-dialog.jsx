@@ -33,6 +33,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         super(props);
 
         // Initial state
+        this.row = props.row;
         this.state.lastnameValue = props.row.LastName;
         this.state.firstnameValue = props.row.FirstName;
         this.state.categoryValue = props.row.category_id;
@@ -49,6 +50,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
     }
 
     initState(row) {
+        this.row = row;
         this.setState({
             lastnameValue: row.LastName,
             firstnameValue: row.FirstName,
@@ -57,6 +59,18 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             avoidValue: !row.Avoid == "",
             id: row.id,
             error: ""
+        });
+    }
+
+    componentDidMount() {
+        var $this = this;
+        $("#" + $this.dialog_id).on('show.bs.modal', function () {
+            $this.refs.selectCategoryInstance.setSelectedCategory($this.row.category_id);
+            // Trick to get focus into input text box
+            setTimeout(function() {
+                $this.refs.lastName.focus();
+                $this.refs.lastName.select();
+            }, 0);
         });
     }
 
@@ -85,7 +99,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                // TODO It would be nice if this were another dialog box
+                // TODO This needs to be changed to use the error dialog
                 $this.setState({error: "That author already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }

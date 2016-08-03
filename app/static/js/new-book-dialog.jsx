@@ -21,6 +21,7 @@ import ModalDialog from './modal-dialog'
 import * as bookstable from './books-table';
 import * as callstack from './dialog-call-stack';
 import * as errordlg from './error-dialog';
+import SelectCategory from './select-category';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -80,7 +81,6 @@ export default class NewBookDialog extends ModalDialog {
         this.getHeader = this.getHeader.bind(this);
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
-        this.getCategorySelect = this.getCategorySelect.bind(this);
         this.getSeriesSelect = this.getSeriesSelect.bind(this);
         this.getAuthorSelect = this.getAuthorSelect.bind(this);
         this.commitBook = this.commitBook.bind(this);
@@ -115,21 +115,6 @@ export default class NewBookDialog extends ModalDialog {
             $this.setState({
                 series_rows: rows,
                 seriesValue: $this.state.seriesValue
-            });
-            $this.setFocus();
-        });
-    }
-
-    loadCategories() {
-        // Retrieve all of the categories
-        console.log("Getting all categories from url /categories");
-        var $this = this;
-        $.get("/categories", function(response, status){
-            console.log("Category rows received: " + String(response.data.rows.length));
-            var rows = response.data.rows;
-            $this.setState({
-                category_rows: rows,
-                categoryValue: $this.state.categoryValue
             });
             $this.setFocus();
         });
@@ -173,6 +158,9 @@ export default class NewBookDialog extends ModalDialog {
             notesValue: "",
             error: ""
         });
+
+        // Reset the categories combo box to its default value
+        this.refs.selectCategoryInstance.resetSelectedCategory();
     }
 
     setFocus() {
@@ -180,6 +168,7 @@ export default class NewBookDialog extends ModalDialog {
         // Trick to get focus into input text box
         setTimeout(function() {
             $this.refs.titleInput.focus();
+            $this.refs.titleInput.select();
         }, 0);
     }
 
@@ -195,10 +184,6 @@ export default class NewBookDialog extends ModalDialog {
             if ($this.state.series_rows.length == 0) {
                 $this.loadSeries();
             }
-            if ($this.state.category_rows.length == 0) {
-                $this.loadCategories();
-            }
-            $this.setFocus();
         });
 
         // Handle new series added event
@@ -336,7 +321,7 @@ export default class NewBookDialog extends ModalDialog {
     }
 
     categoryChanged(event) {
-        this.setState({categoryValue: event.target.value});
+        this.setState({categoryValue: event.newValue});
     }
 
     statusChanged(event) {
@@ -385,50 +370,54 @@ export default class NewBookDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-md-6">
-                                <label for="title-input">Title</label>
-                                <input id="title-input" type="text" className="form-control" ref="titleInput"
+                                <label htmlFor={"title-input"}>Title</label>
+                                <input id={"title-input"} type="text" className="form-control" ref="titleInput"
                                     value={this.state.titleValue} onChange={this.titleChanged}
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label for={this.props.id + "-category"}>Category or Genre</label>
-                                {this.getCategorySelect(this.props.id + "-category")}
+                                <label htmlFor={this.props.id + "-category"}>Category or Genre</label>
+                                <SelectCategory
+                                    id={this.props.id + "-category"}
+                                    onChange={this.categoryChanged}
+                                    ref={"selectCategoryInstance"}
+                                />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label for="author">Author</label>
+                                <label htmlFor={this.props.id + "-author"}>Author</label>
                                 {this.getAuthorSelect(this.props.id + "-author")}
                             </div>
                             <div className="col-md-6">
-                                <label for="status">Status</label>
-                                <input id="status" type="text"  className="form-control"
+                                <label htmlFor={"status"}>Status</label>
+                                <input id={"status"} type="text"  className="form-control"
                                     value={this.state.statusValue} onChange={this.statusChanged}
                                 />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label for="series">Series</label>
+                                <label htmlFor={this.props.id + "-series"}>Series</label>
                                 {this.getSeriesSelect(this.props.id + "-series")}
                             </div>
                             <div className="col-md-6">
-                                <label for="cover">Cover</label>
-                                <input id="cover" type="text"  className="form-control"
+                                <label htmlFor={"cover"}>Cover</label>
+                                <input id={"cover"} type="text"  className="form-control"
                                     value={this.state.coverValue} onChange={this.coverChanged}
                                 />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label for="volume">Volume</label>
-                                <input id="volume" type="text" className="form-control"
+                                <label htmlFor={"volume"}>Volume</label>
+                                <input id={"volume"} type="text" className="form-control"
                                     value={this.state.volumeValue} onChange={this.volumeChanged}
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label for="notes">Notes</label>
-                                <input id="notes" type="text"  className="form-control"
+                                <label htmlFor={"notes"}>Notes</label>
+                                <input id={"notes"} type="text"  className="form-control"
                                     value={this.state.notesValue} onChange={this.notesChanged}
                                 />
                             </div>
@@ -437,8 +426,8 @@ export default class NewBookDialog extends ModalDialog {
                             <div className="col-md-6">
                             </div>
                             <div className="col-md-6">
-                                <label for="isbn">ISBN</label>
-                                <input id="isbn" type="text" className="form-control"
+                                <label htmlFor={"isbn"}>ISBN</label>
+                                <input id={"isbn"} type="text" className="form-control"
                                     value={this.state.isbnValue} onChange={this.isbnChanged}
                                 />
                             </div>
@@ -469,30 +458,7 @@ export default class NewBookDialog extends ModalDialog {
     }
 
     /*
-        Generate a select element for the categories
-    */
-    getCategorySelect(select_id) {
-        var options_list = this.state.category_rows;
-        var option_elements = options_list.map(function(optionValue) {
-            return (
-                <option key={optionValue.id} value={optionValue.id}>
-                    {optionValue.name}
-                </option>
-            )
-        });
-        return (
-            <select id={select_id}
-                    className="form-control"
-                    value={this.state.categoryValue}
-                    onChange={this.categoryChanged}>
-                {option_elements}
-            </select>
-        )
-    }
-
-    /*
         Generate a select element for the series
-        TODO We need to fetch the list of series and ids
         The value of the select needs to be the series id
     */
     getSeriesSelect(select_id) {

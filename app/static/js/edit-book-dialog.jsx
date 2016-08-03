@@ -21,18 +21,15 @@ import NewBookDialog from './new-book-dialog'
 import * as bookstable from './books-table';
 import * as callstack from './dialog-call-stack';
 
-/*
-    NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
-*/
-
 // This is the id of the element that contains the new author dialog box
 const EDIT_BOOK_DLG_ID = "edit-book-jsx";
 
 export default class EditBookDialog extends NewBookDialog {
     constructor(props) {
         super(props);
+
         // Initial state from props.row
-        
+        this.row = props.row;
         this.state.id = props.row.id;
         this.state.titleValue = props.row.Title;
         this.state.isbnValue = props.row.ISBN;
@@ -52,10 +49,13 @@ export default class EditBookDialog extends NewBookDialog {
         this.getFooter = this.getFooter.bind(this);
         this.commitBook = this.commitBook.bind(this);
         this.initState = this.initState.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     initState(row) {
         console.log("EditBook init state");
+        console.log("EditBook init state categoryValue: " + String(row.category_id));
+        this.row = row;
         this.setState({
             titleValue: row.Title,
             isbnValue: row.ISBN,
@@ -82,9 +82,13 @@ export default class EditBookDialog extends NewBookDialog {
             if ($this.state.series_rows.length == 0) {
                 $this.loadSeries();
             }
-            if ($this.state.category_rows.length == 0) {
-                $this.loadCategories();
-            }
+            // Make sure category is correctly selected
+            // When we get here, the effects of initState (and its setState) have not been applied
+            // to the state property. Therefore, we use the row property to avoid
+            // the indeterminate nature of setState.
+            console.log("edit book categoryValue: " + String($this.row.category_id));
+            $this.refs.selectCategoryInstance.setSelectedCategory($this.row.category_id);
+            // Put the cursor in the first text box
             $this.setFocus();
         });
     }
