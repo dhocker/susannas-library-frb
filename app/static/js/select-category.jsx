@@ -17,6 +17,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Select from './select';
+
+/*
+    Implements a select element for all of the avaliable categories
+    in the categories table. Uses the Select component to generate
+    the actual element. This is implementation by composition as
+    opposed to by derivation from the Select component.
+*/
 
 export default class SelectCategory extends React.Component {
     constructor(props) {
@@ -41,10 +49,12 @@ export default class SelectCategory extends React.Component {
 
     setSelectedCategory(value) {
         this.setState({categoryValue: value});
+        this.refs.selectInstance.setSelectedOption(value);
     }
 
     resetSelectedCategory() {
         this.setState({categoryValue: this.props.defaultValue});
+        this.refs.selectInstance.setSelectedOption(this.props.defaultValue);
     }
 
     loadCategories() {
@@ -68,11 +78,11 @@ export default class SelectCategory extends React.Component {
     }
 
     categoryChanged(event) {
-        this.setState({categoryValue: event.target.value});
+        this.setState({categoryValue: event.newValue});
         if (this.props.onChange) {
             var change = {
               oldValue: this.state.categoryValue,
-              newValue: event.target.value
+              newValue: event.newValue
             }
             // Bubble event
             this.props.onChange(change);
@@ -83,22 +93,31 @@ export default class SelectCategory extends React.Component {
         Generate a select element for the categories
     */
     render() {
-        var options_list = this.state.category_rows;
-        var option_elements = options_list.map(function(optionValue) {
-            return (
-                <option key={optionValue.id} value={optionValue.id}>
-                    {optionValue.name}
-                </option>
-            )
-        });
+        /*
+            Select properties
+            id - Select element id, string
+            selectClass - select element class list, string
+            optionClass - option element class list to be applied to each option in select list. String.
+            options - [{}...{}] array/list of objects containing at least a key/value pair
+            keyProp - name of key property in option list
+            valueProp - name of value property in option list
+            labelProp - name of label property in option list. Can be the same as the value.
+            defaultValue - the initial value of the select, string
+            onChange(event) - event handler for selection changes. The event is an object
+        */
         return (
-            <select id={this.props.id}
-                    className={"form-control"}
-                    value={this.state.categoryValue}
-                    onChange={this.categoryChanged}>
-                {option_elements}
-            </select>
-        )
+            <Select
+                id={this.props.id}
+                selectClass={"form-control"}
+                options={this.state.category_rows}
+                keyProp={"id"}
+                valueProp={"id"}
+                labelProp={"name"}
+                defaultValue={"1"}
+                onChange={this.categoryChanged}
+                ref={"selectInstance"}
+            />
+        );
     }
 }
 
