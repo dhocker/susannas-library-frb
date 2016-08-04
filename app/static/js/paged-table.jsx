@@ -1,5 +1,5 @@
 /*
-    Susanna's New Library - Page Table Control
+    Susanna's New Library - Page Table Element
     Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
@@ -17,14 +17,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Table from './table';
 import * as sitecookies from './site-cookies';
 
 /*
-    This is the beginning of a basic React component that can render a table with actions.
+    This is the beginning of a basic React component that can render a paged table with actions.
     It is designed to be extended by a derived class where custom actions are defined.
-    After learning how modules work, we can move on to looking at
-    various React datagrids and tables that can be found on GitHub.
+    Uses Bootstrap CSS.
 */
 
 const SORT_ASC = 1;
