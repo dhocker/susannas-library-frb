@@ -14,6 +14,13 @@ module.exports = {
         './app/static/js/main.jsx'
     ],
     module: {
+        preLoaders: [
+          {
+            test: /\.(js|jsx)$/,
+            loaders: ["eslint-loader"],
+            exclude: /node_modules/
+          }
+        ],
         loaders: [
             {test: /\.jsx?$/, include: __dirname + '/app/static/js', loaders: ['react-hot', 'babel']},
 
@@ -56,6 +63,9 @@ module.exports = {
         path: __dirname + '/app/static/dist',
         libraryTarget: 'var',
         library: 'EntryPoint'
+    },
+    eslint: {
+        emitWarning: true
     },
 	resolve: {
 		extensions: ['', '.js', '.jsx']
