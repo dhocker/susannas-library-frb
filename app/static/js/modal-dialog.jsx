@@ -16,7 +16,6 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -32,7 +31,7 @@ export default class ModalDialog extends React.Component {
         this.dialog_id = this.props.id;
 
         // Dialog box size
-        var sizeClass = "modal-md";
+        let sizeClass = "modal-md";
         // size = sm, md, lg
         if (props.size) {
             sizeClass = "modal-" + props.size;
@@ -63,7 +62,7 @@ export default class ModalDialog extends React.Component {
         Simple way to manually close the dialog
         Thid id is the dialog box, NOT the element it was rendered on
     */
-    closeDialog(id) {
+    closeDialog() {
         callstack.returnFromDialog();
     }
 
@@ -120,10 +119,22 @@ export default class ModalDialog extends React.Component {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
-                      onClick={this.onClose}>Close</button>
-                  <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    data-dismiss="modal"
+                    onClick={this.onClose}
+                >
+                Close
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    data-dismiss="modal"
+                    onClick={this.onCancel}
+                >
+                Cancel
+                </button>
             </div>
         );
     }

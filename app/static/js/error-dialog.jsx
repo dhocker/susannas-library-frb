@@ -17,7 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
+import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 
 // This is the id of the element that contains the error dialog box
@@ -60,7 +60,9 @@ export default class ErrorDialog extends ModalDialog {
     */
     getBody() {
         return (
-            <div className="modal-body">
+            <div
+                className="modal-body"
+            >
                 <p>{this.state.message}</p>
             </div>
         );
@@ -72,9 +74,15 @@ export default class ErrorDialog extends ModalDialog {
     */
     getFooter() {
         return (
-            <div className="modal-footer">
-                  <button type="button" className="btn btn-danger pull-left" onClick={this.onClose}
-                      >Close</button>
+            <div
+                className="modal-footer"
+            >
+                <button
+                    type="button"
+                    className="btn btn-danger pull-left"
+                    onClick={this.onClose}
+                >Close
+                </button>
             </div>
         );
     }
@@ -94,20 +102,21 @@ ErrorDialog.defaultProps = {
 /*
     Fire error dialog
 */
-var dialogInstance;
+let dialogInstance;
 export function showErrorDialog(title, message) {
     if (dialogInstance) {
         dialogInstance.showDialog(title, message);
     }
     else {
-        ReactDOM.render(<ErrorDialog
-            id={ERROR_DLG_ID}
-            size={"md"}
-            message={message}
-            ref={function(instance) {
-                dialogInstance = instance;
-                dialogInstance.showDialog(title, message);
-            }}
+        ReactDOM.render(
+            <ErrorDialog
+                id={ERROR_DLG_ID}
+                size={"md"}
+                message={message}
+                ref={(instance) => {
+                    dialogInstance = instance;
+                    dialogInstance.showDialog(title, message);
+                }}
             />,
             document.querySelector('#error-dialog'));
     }

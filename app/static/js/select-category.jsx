@@ -16,7 +16,6 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Select from './select';
 
 /*
@@ -49,21 +48,21 @@ export default class SelectCategory extends React.Component {
 
     setSelectedCategory(value) {
         this.setState({categoryValue: value});
-        this.refs.selectInstance.setSelectedOption(value);
+        this.selectInstance.setSelectedOption(value);
     }
 
     resetSelectedCategory() {
         this.setState({categoryValue: this.props.defaultValue});
-        this.refs.selectInstance.setSelectedOption(this.props.defaultValue);
+        this.selectInstance.setSelectedOption(this.props.defaultValue);
     }
 
     loadCategories() {
         // Retrieve all of the categories
         console.log("Getting all categories from url " + this.props.url);
-        var $this = this;
-        $.get(this.props.url, function(response, status){
+        const $this = this;
+        $.get(this.props.url, function (response /* , status */) {
             console.log("Category rows received: " + String(response.data.rows.length));
-            var rows = response.data.rows;
+            const rows = response.data.rows;
             $this.setState({
                 category_rows: rows,
                 categoryValue: $this.state.categoryValue
@@ -72,7 +71,7 @@ export default class SelectCategory extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.category_rows.length == 0) {
+        if (this.state.category_rows.length === 0) {
             this.loadCategories();
         }
     }
@@ -80,10 +79,10 @@ export default class SelectCategory extends React.Component {
     categoryChanged(event) {
         this.setState({categoryValue: event.newValue});
         if (this.props.onChange) {
-            var change = {
-              oldValue: this.state.categoryValue,
-              newValue: event.newValue
-            }
+            const change = {
+                oldValue: this.state.categoryValue,
+                newValue: event.newValue
+            };
             // Bubble event
             this.props.onChange(change);
         }
@@ -97,7 +96,8 @@ export default class SelectCategory extends React.Component {
             Select properties
             id - Select element id, string
             selectClass - select element class list, string
-            optionClass - option element class list to be applied to each option in select list. String.
+            optionClass - option element class list to be applied to each option
+                in select list. String.
             options - [{}...{}] array/list of objects containing at least a key/value pair
             keyProp - name of key property in option list
             valueProp - name of value property in option list
@@ -115,7 +115,9 @@ export default class SelectCategory extends React.Component {
                 labelProp={"name"}
                 defaultValue={"1"}
                 onChange={this.categoryChanged}
-                ref={"selectInstance"}
+                ref={(instance) => {
+                    this.selectInstance = instance;
+                }}
             />
         );
     }

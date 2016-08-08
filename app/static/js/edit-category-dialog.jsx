@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NewCategoryDialog from './new-category-dialog'
-import * as categoriestable from './categories-table';
+import NewCategoryDialog from './new-category-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -48,7 +47,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         this.setState({
             nameValue: row.name,
             id: row.id,
-            error: ""
+            error: "",
         });
     }
 
@@ -59,13 +58,13 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         console.log("Saving category " + String(this.state.id) + " " + this.state.nameValue);
 
         // Validate fields
-        this.setState({error: ""});
+        this.setState({ error: "" });
         if (this.state.nameValue.length <= 0) {
             this.setState({error: "Name is blank"});
             return;
         }
 
-        var data = {
+        const data = {
             name: this.state.nameValue,
         };
         // The data object will be request.form on the server
@@ -77,14 +76,14 @@ export default class EditCategoryDialog extends NewCategoryDialog {
     */
     commitCategory(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "PUT";
-        var url = "/category/" + String($this.state.id);
+        const url = "/category/" + String($this.state.id);
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Category updated");
                 // Refresh categories table to pick up the new record.
@@ -93,7 +92,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
                 // Manually close dialog
                 $this.closeDialog(EDIT_CATEGORY_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -101,7 +100,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
                 $this.setState({error: "That category already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -112,9 +111,13 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                    <img
+                        className="dialog-logo"
+                        alt="logo"
+                        src="/static/book_pile2.jpg"
+                    />
                 Edit Category</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                <h2 style={{ color: "red" }}>{this.state.error}</h2>
             </div>
         );
     }
@@ -126,10 +129,20 @@ export default class EditCategoryDialog extends NewCategoryDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onSave}>Save</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onSave}
+                >
+                    Save
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -137,7 +150,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
 
 EditCategoryDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
-    row: React.PropTypes.object.isRequired
+    row: React.PropTypes.object.isRequired,
 };
 
 EditCategoryDialog.defaultProps = {
@@ -146,19 +159,20 @@ EditCategoryDialog.defaultProps = {
 /*
     Initialize the edit series dialog box
 */
-var editCategoryInstance;
+let editCategoryInstance;
 export function editCategoryDialog(row) {
     if (editCategoryInstance) {
         editCategoryInstance.initState(row);
     }
     else {
-        ReactDOM.render(<EditCategoryDialog
-            id={EDIT_CATEGORY_DLG_ID}
-            size={"sm"}
-            row={row}
-            ref={function(instance) {
-                editCategoryInstance = instance;
-            }}
+        ReactDOM.render(
+            <EditCategoryDialog
+                id={EDIT_CATEGORY_DLG_ID}
+                size={"sm"}
+                row={row}
+                ref={function (instance) {
+                    editCategoryInstance = instance;
+                }}
             />,
             document.querySelector('#edit-category'));
     }
