@@ -16,7 +16,6 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 /*
     This is the beginning of a basic React component that can render a table with actions.
@@ -37,7 +36,7 @@ export default class Table extends React.Component {
         this.sort_col = 0;
         this.sort_dir = [];
         // 1 = sort asc, -1 = sort desc
-        for (var i = 0; i < this.column_count; i++) {
+        for (let i = 0; i < this.column_count; i++) {
             // Set up the NEXT sort direction
             if (i > 0) {
                 this.sort_dir.push(SORT_ASC);
@@ -50,7 +49,7 @@ export default class Table extends React.Component {
 
         // Initial state with empty rows
         this.state = {
-            rows: []
+            rows: [],
         };
 
         this.onSortColumn = this.onSortColumn.bind(this);
@@ -59,7 +58,7 @@ export default class Table extends React.Component {
 
     // Override in derived class to provide actions for table
     getActions() {
-        return <td></td>
+        return <td></td>;
     }
 
     // This will load the table when the component is mounted
@@ -71,12 +70,12 @@ export default class Table extends React.Component {
     // after inserts, updates or deletes
     loadTable() {
         console.log("Getting all records from url " + this.props.url);
-        var $this = this;
-        $.get(this.props.url, function(response, status){
+        const $this = this;
+        $.get(this.props.url, function (response /* , status */) {
             console.log("Data rows received: " + String(response.data.length));
-            var rows = response.data;
+            const rows = response.data;
             // Repeat the last sort
-            if ($this.sort_col == 0 && $this.sort_dir[0] == SORT_DESC) {
+            if ($this.sort_col === 0 && $this.sort_dir[0] === SORT_DESC) {
                 // Default sort, do nothing
             }
             else {
@@ -88,8 +87,8 @@ export default class Table extends React.Component {
 
     // Loads the table with the results of a get + search arg (filter)
     filterTable(arg) {
-        var $this = this;
-        var url = this.props.url;
+        const $this = this;
+        let url = this.props.url;
         console.log("Base filter url: " + url);
         if (url.includes('?')) {
             url += "&search=" + arg;
@@ -101,31 +100,31 @@ export default class Table extends React.Component {
         $.ajax({
             type: "GET",
             url: url,
-            success: function(response) {
+            success: (response) => {
                 console.log("Data rows received: " + String(response.data.length));
                 $this.setState({rows: response.data});
             },
-            error: function(xhr, status, err) {
+            error: (xhr, status, err) => {
                 console.error("AJAX search call failed");
                 console.error(url, status, err.toString());
-            }
+            },
         });
     }
 
     // Sort rows for a given column and direction
     sortRows(rows, i, dir) {
-        var $this = this;
+        const $this = this;
         console.log("Sorting");
-        rows.sort(function(left, right) {
+        rows.sort(function (left, right) {
             // Sort direction: 1 = asc, -1 = desc
-            return dir * String(left[$this.props.cols[i].colname]).localeCompare(right[$this.props.cols[i].colname]);
+            return dir * String(left[$this.props.cols[i].colname])
+                .localeCompare(right[$this.props.cols[i].colname]);
         });
     }
 
     // Sorts the table based on the given column index
     onSortColumn(i) {
         console.log("Sort column: " + String(i));
-        var $this = this;
         // Sort
         this.sortRows(this.state.rows, i, this.sort_dir[i]);
         this.setState({rows: this.state.rows});
@@ -136,10 +135,9 @@ export default class Table extends React.Component {
     }
 
     render() {
-        var HeaderComponents = this.generateHeaders(),
-            RowComponents = this.generateRows(),
-            FooterComponents = this.generateFooter();
-        var $this = this;
+        const HeaderComponents = this.generateHeaders();
+        const RowComponents = this.generateRows();
+        const FooterComponents = this.generateFooter();
 
         return (
             <div className="panel panel-default">
@@ -158,51 +156,51 @@ export default class Table extends React.Component {
     }
 
     generateHeaders() {
-        var cols = this.props.cols;
+        const cols = this.props.cols;
         // generate our header (th) cell components
-        var cells = cols.map(function(colData, i) {
+        const cells = cols.map(function (colData, i) {
             if (cols[i].sortable) {
-                return <th
-                    key={colData.colname}
-                    onClick={this.onSortColumn.bind(this, i)}
-                    style={{cursor:'pointer'}}
+                return (
+                    <th
+                        key={colData.colname}
+                        onClick={this.onSortColumn.bind(this, i)}
+                        style={{cursor: 'pointer'}}
                     >
-                    {colData.label}
-                    </th>;
+                        {colData.label}
+                    </th>);
             }
-            else {
-                return <th
+
+            return (
+                <th
                     key={colData.colname}
-                    >
+                >
                     {colData.label}
-                    </th>;
-            }
+                </th>);
         }, this);
 
         // return a single header row
-        return <tr>
+        return (<tr>
             {cells}
             <th>Actions</th>
-            </tr>
+        </tr>);
     }
 
     generateRows() {
-        var cols = this.props.cols,  // [{colname, label}]
-            rows = this.state.rows;
-        var $this = this;
+        const cols = this.props.cols;  // [{colname, label}]
+        const rows = this.state.rows;
+        const $this = this;
 
-        return rows.map(function(row) {
+        return rows.map(function (row) {
             // handle the column data within each row
-            var cells = cols.map(function(colData) {
-
+            const cells = cols.map(function (colData) {
                 // colData.colname might be "FirstName"
                 return <td key={colData.colname}>{row[colData.colname]}</td>;
             });
-            var actions = $this.getActions(row);
-            return <tr key={row.id}>
+            const actions = $this.getActions(row);
+            return (<tr key={row.id}>
                 {cells}
                 {actions}
-                </tr>;
+            </tr>);
         });
     }
 
