@@ -33,24 +33,24 @@ export default class BooksTable extends Table {
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
 
         $this.loadTable();
 
         // On book add, reload table
-        $("#new-book").on("frb.book.add", function (event) {
+        $("#new-book").on("frb.book.add", function (/* event */) {
             console.log("On add event, reload books");
             $this.loadTable();
         });
 
         // On book delete, reload table
-        $("#delete-book").on("frb.book.delete", function (event) {
+        $("#delete-book").on("frb.book.delete", function (/* event */) {
             console.log("On delete event, reload books");
             $this.loadTable();
         });
 
         // On book edit, reload table
-        $("#edit-book").on("frb.book.edit", function (event) {
+        $("#edit-book").on("frb.book.edit", function (/* event */) {
             console.log("On edit event, reload books");
             $this.loadTable();
         });
@@ -71,10 +71,10 @@ export default class BooksTable extends Table {
     getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
+                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
-        )
+        );
     }
 }
 
@@ -91,14 +91,14 @@ BooksTable.defaultProps = {
 /*
     Create the books table instance on the books page
 */
-var booksTableInstance;
+let booksTableInstance;
 export function createBooksTable(filter_by, id, name) {
     // Defines the columns in the authors table
-    var bookTableColumns = [
+    const bookTableColumns = [
         { colname: 'Title', label: 'Title', sortable: true },
         { colname: 'Volume', label: 'Volume', sortable: false },
-        { colname: 'Series', label: 'Series', sortable: true  },
-        { colname: 'Author', label: 'Author', sortable: true  },
+        { colname: 'Series', label: 'Series', sortable: true },
+        { colname: 'Author', label: 'Author', sortable: true },
         { colname: 'Category', label: 'Category', sortable: true },
         { colname: 'Status', label: 'Status', sortable: true },
         { colname: 'CoverType', label: 'CoverType', sortable: true },
@@ -107,32 +107,34 @@ export function createBooksTable(filter_by, id, name) {
     ];
 
     // Apply filtering
-    var url = "/books";
-    var title = "Books";
+    let url = "/books";
+    let title = "Books";
     switch (filter_by) {
-        case "author":
-            url += "?author=" + id;
-            title = "Books for Author: " + name;
-            break;
-        case "series":
-            url += "?series=" + id;
-            title = "Books for Series: " + name;
-            break;
-        default:
-            break;
+    case "author":
+        url += "?author=" + id;
+        title = "Books for Author: " + name;
+        break;
+    case "series":
+        url += "?series=" + id;
+        title = "Books for Series: " + name;
+        break;
+    default:
+        break;
     }
 
     console.log("Attempting to create Authors table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(<BooksTable class={"table table-striped table-condensed"}
-        title={title}
-        filter_by={filter_by}
-        filter_by_id={id}
-        cols={bookTableColumns}
-        url={url}
-        ref={function(instance) {
-            booksTableInstance = instance;
-        }}
+    ReactDOM.render(
+        <BooksTable
+            class={"table table-striped table-condensed"}
+            title={title}
+            filter_by={filter_by}
+            filter_by_id={id}
+            cols={bookTableColumns}
+            url={url}
+            ref={(instance) => {
+                booksTableInstance = instance;
+            }}
         />,
         document.querySelector('#bookstable')
     );

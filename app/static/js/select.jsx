@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 /*
     This is a basic React component that can render a select element.
@@ -35,34 +34,38 @@ export default class Select extends React.Component {
     handleChange(event) {
         this.setState({selectValue: event.target.value});
         if (this.props.onChange) {
-            var change = {
-              oldValue: this.state.selectValue,
-              newValue: event.target.value
-            }
+            const change = {
+                oldValue: this.state.selectValue,
+                newValue: event.target.value
+            };
             // Bubble event
             this.props.onChange(change);
         }
     }
 
     render() {
-        var self = this;
-        var options = self.props.options.map(function(optionValue) {
+        const self = this;
+        const options = self.props.options.map(function (optionValue) {
             return (
-                <option key={optionValue[self.props.keyProp]}
+                <option
+                    key={optionValue[self.props.keyProp]}
                     className={self.props.optionClass}
-                    value={optionValue[self.props.valueProp]}>
+                    value={optionValue[self.props.valueProp]}
+                >
                     {optionValue[self.props.labelProp]}
                 </option>
-            )
+            );
         });
         return (
-            <select id={this.props.id}
-                    className={this.props.selectClass}
-                    value={this.state.selectValue}
-                    onChange={this.handleChange}>
+            <select
+                id={this.props.id}
+                className={this.props.selectClass}
+                value={this.state.selectValue}
+                onChange={this.handleChange}
+            >
                 {options}
             </select>
-        )
+        );
     }
 }
 

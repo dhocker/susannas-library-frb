@@ -21,7 +21,7 @@ const PAGE_SIZE_COOKIE = "pagesize";
 export const PAGE_SIZE_DEFAULT = 15;
 
 export function getPageSize() {
-    var ps = cookiejar.getCookieInteger(PAGE_SIZE_COOKIE);
+    const ps = cookiejar.getCookieInteger(PAGE_SIZE_COOKIE);
     return ps ? ps : PAGE_SIZE_DEFAULT;
 }
 
