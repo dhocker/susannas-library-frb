@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NewSeriesDialog from './new-series-dialog'
-import * as seriestable from './series-table';
+import NewSeriesDialog from './new-series-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -48,7 +47,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
         this.setState({
             nameValue: row.name,
             id: row.id,
-            error: ""
+            error: "",
         });
     }
 
@@ -57,14 +56,14 @@ export default class EditSeriesDialog extends NewSeriesDialog {
     */
     commitSeries(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "PUT";
-        var url = "/series/" + String($this.state.id);
+        const url = "/series/" + String($this.state.id);
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Series updated");
                 // Refresh series table to pick up the new record.
@@ -73,7 +72,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
                 // Manually close dialog
                 $this.closeDialog(EDIT_SERIES_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -81,7 +80,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
                 $this.setState({error: "That series already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -92,9 +91,10 @@ export default class EditSeriesDialog extends NewSeriesDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
-                Edit Series</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                    Edit Series
+                </h1>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -106,10 +106,20 @@ export default class EditSeriesDialog extends NewSeriesDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Save
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -117,7 +127,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
 
 EditSeriesDialog.propTypes = {
     id: React.PropTypes.string.isRequired,
-    row: React.PropTypes.object.isRequired
+    row: React.PropTypes.object.isRequired,
 };
 
 EditSeriesDialog.defaultProps = {
@@ -126,19 +136,20 @@ EditSeriesDialog.defaultProps = {
 /*
     Initialize the edit series dialog box
 */
-var editSeriesInstance;
+let editSeriesInstance;
 export function editSeriesDialog(row) {
     if (editSeriesInstance) {
         editSeriesInstance.initState(row);
     }
     else {
-        ReactDOM.render(<EditSeriesDialog
-            id={EDIT_SERIES_DLG_ID}
-            size={"sm"}
-            row={row}
-            ref={function(instance) {
-                editSeriesInstance = instance;
-            }}
+        ReactDOM.render(
+            <EditSeriesDialog
+                id={EDIT_SERIES_DLG_ID}
+                size={"sm"}
+                row={row}
+                ref={function (instance) {
+                    editSeriesInstance = instance;
+                }}
             />,
             document.querySelector('#edit-series'));
     }
