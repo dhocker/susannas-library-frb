@@ -1,7 +1,12 @@
 {
     "extends": "airbnb",
     "rules": {
-        "indent": ["error", 4]
+        "indent": ["error", 4],
+        "vars-on-top": 0,
+        "quotes": 0,
+        "no-console": 0,
+        "camelcase": 0,
+        "prefer-template": 0
     },
     "env": {
         "browser": true
