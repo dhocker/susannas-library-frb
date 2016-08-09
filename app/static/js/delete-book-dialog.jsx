@@ -17,9 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
-import Select from './select';
-import * as bookstable from './books-table';
+import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -47,18 +45,18 @@ export default class DeleteBookDialog extends ModalDialog {
         Delete book
     */
     onDelete() {
-        var $this = this;
+        const $this = this;
         this.serverRequest = $.ajax({
             type: "DELETE",
             url: "/book/" + String(this.props.row.id),
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 // Refresh books table to pick up the new record.
                 // Fire book deleted event
                 $("#delete-book").trigger("frb.delete.book");
                 $this.closeDialog(DELETE_BOOK_DLG_ID);
             }
-        })
+        });
     }
 
     /*
@@ -68,7 +66,7 @@ export default class DeleteBookDialog extends ModalDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                 Delete Book</h1>
             </div>
         );
@@ -105,10 +103,20 @@ export default class DeleteBookDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onDelete}>Delete</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onDelete}
+                >
+                    Delete
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -126,7 +134,13 @@ DeleteBookDialog.defaultProps = {
 */
 export function deleteBook(row) {
     console.log("Attempting to create DeleteBookDialog");
-    ReactDOM.render(<DeleteBookDialog id={DELETE_BOOK_DLG_ID} size={"sm"} row={row}/>, document.querySelector('#delete-book'));
+    ReactDOM.render(
+        <DeleteBookDialog
+            id={DELETE_BOOK_DLG_ID}
+            size={"sm"} row={row}
+        />,
+        document.querySelector('#delete-book')
+    );
     console.log("DeleteBookDialog created");
     callstack.callDialog(DELETE_BOOK_DLG_ID);
 }

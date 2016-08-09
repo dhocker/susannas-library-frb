@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NewBookDialog from './new-book-dialog'
-import * as bookstable from './books-table';
+import NewBookDialog from './new-book-dialog';
 import * as callstack from './dialog-call-stack';
 
 // This is the id of the element that contains the new author dialog box
@@ -67,19 +66,19 @@ export default class EditBookDialog extends NewBookDialog {
             coverValue: row.CoverType,
             notesValue: row.Notes,
             id: row.id,
-            error: ""
+            error: "",
         });
     }
 
     componentDidMount() {
         // Load combo boxes
-        var $this = this;
+        const $this = this;
         $("#" + EDIT_BOOK_DLG_ID).on('show.bs.modal', function () {
             // Only load the tables once
-            if ($this.state.author_rows.length == 0) {
+            if ($this.state.author_rows.length === 0) {
                 $this.loadAuthors();
             }
-            if ($this.state.series_rows.length == 0) {
+            if ($this.state.series_rows.length === 0) {
                 $this.loadSeries();
             }
             // Make sure category is correctly selected
@@ -98,14 +97,14 @@ export default class EditBookDialog extends NewBookDialog {
     */
     commitBook(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "PUT";
-        var url = "/book/" + String($this.state.id);
+        const url = "/book/" + String($this.state.id);
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Book updated");
                 // Refresh books table to pick up the new record.
@@ -114,7 +113,7 @@ export default class EditBookDialog extends NewBookDialog {
                 // Manually close dialog
                 $this.closeDialog(EDIT_BOOK_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -122,7 +121,7 @@ export default class EditBookDialog extends NewBookDialog {
                 $this.setState({error: errorThrown});
                 // Note that the dialog box is left open so the user can see/fix the error
             }
-        })
+        });
     }
 
     /*
@@ -133,9 +132,9 @@ export default class EditBookDialog extends NewBookDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                 Edit Book</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -147,10 +146,20 @@ export default class EditBookDialog extends NewBookDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Save
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -167,19 +176,20 @@ EditBookDialog.defaultProps = {
 /*
     Initialize the edit book dialog box
 */
-var editBookInstance;
+let editBookInstance;
 export function editBookDialog(row) {
     if (editBookInstance) {
         editBookInstance.initState(row);
     }
     else {
-        ReactDOM.render(<EditBookDialog
-            id={EDIT_BOOK_DLG_ID}
-            size={"md"}
-            row={row}
-            ref={function(instance) {
-                editBookInstance = instance;
-            }}
+        ReactDOM.render(
+            <EditBookDialog
+                id={EDIT_BOOK_DLG_ID}
+                size={"md"}
+                row={row}
+                ref={(instance) => {
+                    editBookInstance = instance;
+                }}
             />,
             document.querySelector('#edit-book'));
     }
