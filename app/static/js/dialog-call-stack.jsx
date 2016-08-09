@@ -15,7 +15,7 @@
     along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var callStack = [];
+const callStack = [];
 
 /*
     Call a dialog by id (sans the "#")
@@ -42,7 +42,7 @@ export function callDialog(dialog_id) {
     Return from the current dialog to the previous dialog
 */
 export function returnFromDialog() {
-    var currentDialogId = "#" + callStack[callStack.length - 1];
+    const currentDialogId = "#" + callStack[callStack.length - 1];
 
     // Remove unsolicited hide event handler for current dialog
     $(currentDialogId).off('hide.bs.modal');
@@ -75,7 +75,7 @@ function dialogHideEvent() {
     Show a modal dialog box
 */
 function showModalDialog(id) {
-    var jqid = "#" + id;
+    const jqid = "#" + id;
     $(jqid).modal("show");
     // If this dialog is hidden, we'll act like a return
     $(jqid).on('hide.bs.modal', dialogHideEvent);

@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
-import * as bookstable from './books-table';
+import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 import * as errordlg from './error-dialog';
 import SelectCategory from './select-category';
@@ -35,12 +34,13 @@ export default class NewBookDialog extends ModalDialog {
         super(props);
         // Initial state
         if (props.filter_by && props.filter_by_id) {
-            console.log("NewBookDialog filter_by = " + props.filter_by + " " + String(props.filter_by_id));
+            console.log("NewBookDialog filter_by = " + props.filter_by +
+                " " + String(props.filter_by_id));
         }
 
         // Apply filtering
-        var series_id = 0;
-        var author_id = 0;
+        let series_id = 0;
+        let author_id = 0;
         switch (props.filter_by) {
             case "author":
                 author_id = props.filter_by_id;
@@ -48,8 +48,10 @@ export default class NewBookDialog extends ModalDialog {
             case "series":
                 series_id = props.filter_by_id;
                 break;
+            default:
+                break;
         }
-        
+
         this.state.titleValue = "";
         this.state.isbnValue = "";
         this.state.volumeValue = "";
@@ -93,10 +95,10 @@ export default class NewBookDialog extends ModalDialog {
     loadAuthors() {
         // Retrieve all of the authors
         console.log("Getting all series from url /authors");
-        var $this = this;
-        $.get("/authors", function(response, status){
+        const $this = this;
+        $.get("/authors", function (response /* , status */) {
             console.log("Author rows received: " + String(response.data.rows.length));
-            var rows = response.data.rows;
+            const rows = response.data.rows;
             $this.setState({
                 author_rows: rows,
                 authorValue: $this.state.authorValue
@@ -108,10 +110,10 @@ export default class NewBookDialog extends ModalDialog {
     loadSeries() {
         // Retrieve all of the series
         console.log("Getting all series from url /series");
-        var $this = this;
-        $.get("/series", function(response, status){
+        const $this = this;
+        $.get("/series", function (response /* , status */) {
             console.log("Series rows received: " + String(response.data.rows.length));
-            var rows = response.data.rows;
+            const rows = response.data.rows;
             $this.setState({
                 series_rows: rows,
                 seriesValue: $this.state.seriesValue
@@ -124,11 +126,12 @@ export default class NewBookDialog extends ModalDialog {
         Clear all form fields
     */
     clearFormFields() {
-        console.log("Clear fields for filter_by = " + this.props.filter_by + " " + String(this.props.filter_by_id));
+        console.log("Clear fields for filter_by = " + this.props.filter_by + " " +
+            String(this.props.filter_by_id));
 
         // Apply book filtering
-        var series_id = 0;
-        var author_id = 0;
+        let series_id = 0;
+        let author_id = 0;
         if (this.state.series_rows.length) {
             series_id = this.state.series_rows[0].id;
         }
@@ -160,39 +163,39 @@ export default class NewBookDialog extends ModalDialog {
         });
 
         // Reset the categories combo box to its default value
-        this.refs.selectCategoryInstance.resetSelectedCategory();
+        this.selectCategoryInstance.resetSelectedCategory();
     }
 
     setFocus() {
-        var $this = this;
+        const $this = this;
         // Trick to get focus into input text box
-        setTimeout(function() {
-            $this.refs.titleInput.focus();
-            $this.refs.titleInput.select();
+        setTimeout(function () {
+            $this.titleInput.focus();
+            $this.titleInput.select();
         }, 0);
     }
 
     componentDidMount() {
         // Set up event handlers so we can reload the combo boxes
         // We can't set up this event until the component is mounted
-        var $this = this;
+        const $this = this;
         $("#" + NEW_BOOK_DLG_ID).on('show.bs.modal', function () {
             // Only load the tables once
-            if ($this.state.author_rows.length == 0) {
+            if ($this.state.author_rows.length === 0) {
                 $this.loadAuthors();
             }
-            if ($this.state.series_rows.length == 0) {
+            if ($this.state.series_rows.length === 0) {
                 $this.loadSeries();
             }
         });
 
         // Handle new series added event
-        $("#new-series").on("frb.series.add", function(event) {
+        $("#new-series").on("frb.series.add", function (/* event */) {
             $this.loadSeries();
         });
 
         // Handle new author added event
-        $("#new-author").on("frb.author.add", function(event) {
+        $("#new-author").on("frb.author.add", function (/* event */) {
             $this.loadAuthors();
         });
     }
@@ -208,7 +211,7 @@ export default class NewBookDialog extends ModalDialog {
             return;
         }
         if (this.state.volumeValue.length > 0) {
-            var v = Number(this.state.volumeValue);
+            const v = Number(this.state.volumeValue);
             if (isNaN(v)) {
                 this.setState({error: "Volume must be a number or empty"});
                 return;
@@ -220,7 +223,7 @@ export default class NewBookDialog extends ModalDialog {
             While we are using JS booleans here, when they arrive at the server
             they will be string values :true" or "false".
         */
-        var data = {
+        const data = {
             title: this.state.titleValue,
             isbn: this.state.isbnValue,
             volume: this.state.volumeValue,
@@ -229,7 +232,7 @@ export default class NewBookDialog extends ModalDialog {
             category: this.state.categoryValue,
             status: this.state.statusValue,
             cover: this.state.coverValue,
-            notes: this.state.notesValue
+            notes: this.state.notesValue,
         };
         // The data object will be request.form on the server
         this.commitBook(data);
@@ -240,14 +243,14 @@ export default class NewBookDialog extends ModalDialog {
     */
     commitBook(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "POST";
         const url = "/book";
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Book added");
                 // Refresh books table to pick up the new record.
@@ -256,7 +259,7 @@ export default class NewBookDialog extends ModalDialog {
                 // Manually close dialog
                 $this.closeDialog(NEW_BOOK_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -265,7 +268,7 @@ export default class NewBookDialog extends ModalDialog {
                 errordlg.showErrorDialog("New Book Error", errorThrown);
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -288,7 +291,7 @@ export default class NewBookDialog extends ModalDialog {
     volumeChanged(event) {
         // Validate volume as a number
         if (event.target.value.length > 0) {
-            var v = Number(event.target.value);
+            const v = Number(event.target.value);
             if (!isNaN(v)) {
                 this.setState({
                     volumeValue: event.target.value,
@@ -336,11 +339,11 @@ export default class NewBookDialog extends ModalDialog {
         this.setState({notesValue: event.target.value});
     }
 
-    newAuthorClicked(event) {
+    newAuthorClicked(/* event */) {
         callstack.callDialog("new-author-jsx");
     }
 
-    newSeriesClicked(event) {
+    newSeriesClicked(/* event */) {
         callstack.callDialog("new-series-jsx");
     }
 
@@ -352,9 +355,10 @@ export default class NewBookDialog extends ModalDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
-                New Book</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                    New Book
+                </h1>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -371,16 +375,27 @@ export default class NewBookDialog extends ModalDialog {
                         <div className="row">
                             <div className="col-md-6">
                                 <label htmlFor={"title-input"}>Title</label>
-                                <input id={"title-input"} type="text" className="form-control" ref="titleInput"
-                                    value={this.state.titleValue} onChange={this.titleChanged}
+                                <input
+                                    id={"title-input"}
+                                    type="text"
+                                    className="form-control"
+                                    ref={(instance) => {
+                                        this.titleInput = instance;
+                                    }}
+                                    value={this.state.titleValue}
+                                    onChange={this.titleChanged}
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-category"}>Category or Genre</label>
+                                <label htmlFor={this.props.id + "-category"}>
+                                    Category or Genre
+                                </label>
                                 <SelectCategory
                                     id={this.props.id + "-category"}
                                     onChange={this.categoryChanged}
-                                    ref={"selectCategoryInstance"}
+                                    ref={(instance) => {
+                                        this.selectCategoryInstance = instance;
+                                    }}
                                 />
                             </div>
                         </div>
@@ -391,8 +406,12 @@ export default class NewBookDialog extends ModalDialog {
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor={"status"}>Status</label>
-                                <input id={"status"} type="text"  className="form-control"
-                                    value={this.state.statusValue} onChange={this.statusChanged}
+                                <input
+                                    id={"status"}
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.statusValue}
+                                    onChange={this.statusChanged}
                                 />
                             </div>
                         </div>
@@ -403,22 +422,34 @@ export default class NewBookDialog extends ModalDialog {
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor={"cover"}>Cover</label>
-                                <input id={"cover"} type="text"  className="form-control"
-                                    value={this.state.coverValue} onChange={this.coverChanged}
+                                <input
+                                    id={"cover"}
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.coverValue}
+                                    onChange={this.coverChanged}
                                 />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
                                 <label htmlFor={"volume"}>Volume</label>
-                                <input id={"volume"} type="text" className="form-control"
-                                    value={this.state.volumeValue} onChange={this.volumeChanged}
+                                <input
+                                    id={"volume"}
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.volumeValue}
+                                    onChange={this.volumeChanged}
                                 />
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor={"notes"}>Notes</label>
-                                <input id={"notes"} type="text"  className="form-control"
-                                    value={this.state.notesValue} onChange={this.notesChanged}
+                                <input
+                                    id={"notes"}
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.notesValue}
+                                    onChange={this.notesChanged}
                                 />
                             </div>
                         </div>
@@ -427,8 +458,12 @@ export default class NewBookDialog extends ModalDialog {
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor={"isbn"}>ISBN</label>
-                                <input id={"isbn"} type="text" className="form-control"
-                                    value={this.state.isbnValue} onChange={this.isbnChanged}
+                                <input
+                                    id={"isbn"}
+                                    type="text"
+                                    className="form-control"
+                                    value={this.state.isbnValue}
+                                    onChange={this.isbnChanged}
                                 />
                             </div>
                         </div>
@@ -445,14 +480,34 @@ export default class NewBookDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
-                  <button type="button" className="btn btn-default"
-                      onClick={this.newAuthorClicked}>New Author</button>
-                  <button type="button" className="btn btn-default"
-                      onClick={this.newSeriesClicked}>New Series</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Add
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default"
+                    onClick={this.newAuthorClicked}
+                >
+                    New Author
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default"
+                    onClick={this.newSeriesClicked}
+                >
+                    New Series
+                </button>
             </div>
         );
     }
@@ -462,22 +517,24 @@ export default class NewBookDialog extends ModalDialog {
         The value of the select needs to be the series id
     */
     getSeriesSelect(select_id) {
-        var options_list = this.state.series_rows;
-        var option_elements = options_list.map(function(row) {
+        const options_list = this.state.series_rows;
+        const option_elements = options_list.map(function (row) {
             return (
                 <option key={row.id} value={row.id}>
                     {row.name}
                 </option>
-            )
+            );
         });
         return (
-            <select id={select_id}
-                    className="form-control"
-                    value={this.state.seriesValue}
-                    onChange={this.seriesChanged}>
+            <select
+                id={select_id}
+                className="form-control"
+                value={this.state.seriesValue}
+                onChange={this.seriesChanged}
+            >
                 {option_elements}
             </select>
-        )
+        );
     }
 
     /*
@@ -486,22 +543,24 @@ export default class NewBookDialog extends ModalDialog {
         The value of the select needs to be the author id
     */
     getAuthorSelect(select_id) {
-        var options_list = this.state.author_rows;
-        var option_elements = options_list.map(function(row) {
+        const options_list = this.state.author_rows;
+        const option_elements = options_list.map(function (row) {
             return (
                 <option key={row.id} value={row.id}>
                     {row.LastName + ", " + row.FirstName}
                 </option>
-            )
+            );
         });
         return (
-            <select id={select_id}
-                    className="form-control"
-                    value={this.state.authorValue}
-                    onChange={this.authorChanged}>
+            <select
+                id={select_id}
+                className="form-control"
+                value={this.state.authorValue}
+                onChange={this.authorChanged}
+            >
                 {option_elements}
             </select>
-        )
+        );
     }
 }
 
@@ -515,18 +574,20 @@ NewBookDialog.defaultProps = {
 /*
     Initialize the new book dialog box
 */
-var newBookDialogInstance;
+let newBookDialogInstance;
 export function initNewBookDialog(filter_by, id) {
-    ReactDOM.render(<NewBookDialog
-        id={NEW_BOOK_DLG_ID}
-        size={"md"}
-        filter_by={filter_by}
-        filter_by_id={id}
-        ref={function(instance) {
-            newBookDialogInstance = instance;
-        }}
+    ReactDOM.render(
+        <NewBookDialog
+            id={NEW_BOOK_DLG_ID}
+            size={"md"}
+            filter_by={filter_by}
+            filter_by_id={id}
+            ref={(instance) => {
+                newBookDialogInstance = instance;
+            }}
         />,
-        document.querySelector('#new-book'));
+        document.querySelector('#new-book')
+    );
 }
 
 /*

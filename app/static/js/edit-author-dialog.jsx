@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NewAuthorDialog from './new-author-dialog'
-import * as authorstable from './authors-table';
+import NewAuthorDialog from './new-author-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -37,8 +36,8 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         this.state.lastnameValue = props.row.LastName;
         this.state.firstnameValue = props.row.FirstName;
         this.state.categoryValue = props.row.category_id;
-        this.state.tryValue = !props.row.try_author == "";
-        this.state.avoidValue = !props.row.Avoid == "";
+        this.state.tryValue = !props.row.try_author === "";
+        this.state.avoidValue = !props.row.Avoid === "";
         this.state.id = props.row.id;
         this.state.error = "";
 
@@ -55,19 +54,19 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             lastnameValue: row.LastName,
             firstnameValue: row.FirstName,
             categoryValue: row.category_id,
-            tryValue: !row.try_author == "",
-            avoidValue: !row.Avoid == "",
+            tryValue: !row.try_author === "",
+            avoidValue: !row.Avoid === "",
             id: row.id,
             error: ""
         });
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
             $this.refs.selectCategoryInstance.setSelectedCategory($this.row.category_id);
             // Trick to get focus into input text box
-            setTimeout(function() {
+            setTimeout(function () {
                 $this.refs.lastName.focus();
                 $this.refs.lastName.select();
             }, 0);
@@ -79,14 +78,14 @@ export default class EditAuthorDialog extends NewAuthorDialog {
     */
     commitAuthor(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "PUT";
-        var url = "/author/" + String($this.state.id);
+        const url = "/author/" + String($this.state.id);
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Author updated");
                 // Refresh authors table to pick up the new record.
@@ -95,7 +94,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
                 // Manually close dialog
                 $this.closeDialog(EDIT_AUTHOR_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -103,7 +102,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
                 $this.setState({error: "That author already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -114,9 +113,9 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                 Edit Author</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -128,10 +127,20 @@ export default class EditAuthorDialog extends NewAuthorDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Save</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Save
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -148,19 +157,20 @@ EditAuthorDialog.defaultProps = {
 /*
     Initialize the edit author dialog box
 */
-var editAuthorInstance;
+let editAuthorInstance;
 export function editAuthorDialog(row) {
     if (editAuthorInstance) {
         editAuthorInstance.initState(row);
     }
     else {
-        ReactDOM.render(<EditAuthorDialog
-            id={EDIT_AUTHOR_DLG_ID}
-            size={"sm"}
-            row={row}
-            ref={function(instance) {
-                editAuthorInstance = instance;
-            }}
+        ReactDOM.render(
+            <EditAuthorDialog
+                id={EDIT_AUTHOR_DLG_ID}
+                size={"sm"}
+                row={row}
+                ref={(instance) => {
+                    editAuthorInstance = instance;
+                }}
             />,
             document.querySelector('#edit-author'));
     }

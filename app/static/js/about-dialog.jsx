@@ -17,8 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
-import * as callstack from './dialog-call-stack';
+import ModalDialog from './modal-dialog';
 
 // This is the id of the element that contains the delete author dialog box
 const ABOUT_DLG_ID = "about-jsx";
@@ -37,9 +36,9 @@ export default class AboutDialog extends ModalDialog {
     }
 
     componentDidMount() {
-        var $this = this;
-        $.get("/about", function(response, status){
-            var v = response.data;
+        const $this = this;
+        $.get("/about", function (response /* , status */) {
+            const v = response.data;
             console.log(v.version);
             $this.setState({
                 version: v.version
@@ -54,8 +53,9 @@ export default class AboutDialog extends ModalDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
-                About Susanna's New Library</h1>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                    About Susanna's New Library
+                </h1>
             </div>
         );
     }
@@ -82,8 +82,13 @@ export default class AboutDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>OK</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    OK
+                </button>
             </div>
         );
     }
@@ -110,8 +115,9 @@ AboutDialog.defaultProps = {
 };
 
 export function initAboutDialog() {
-    ReactDOM.render(<AboutDialog
-        id={ABOUT_DLG_ID}
+    ReactDOM.render(
+        <AboutDialog
+            id={ABOUT_DLG_ID}
         />,
         document.querySelector('#about-dialog'));
 }

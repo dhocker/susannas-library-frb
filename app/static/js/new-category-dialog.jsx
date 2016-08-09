@@ -17,7 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
+import ModalDialog from './modal-dialog';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/
@@ -50,18 +50,18 @@ export default class NewCategoryDialog extends ModalDialog {
     clearFormFields() {
         this.setState({
             nameValue: "",
-            error: ""
+            error: "",
         });
-        this.refs.inputName.focus();
+        this.inputName.focus();
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
             // Trick to get focus into input text box
-            setTimeout(function() {
-                $this.refs.inputName.focus();
-                $this.refs.inputName.select();
+            setTimeout(function () {
+                $this.inputName.focus();
+                $this.inputName.select();
             }, 0);
         });
     }
@@ -79,7 +79,7 @@ export default class NewCategoryDialog extends ModalDialog {
             return;
         }
 
-        var data = {
+        const data = {
             name: this.state.nameValue,
         };
         // The data object will be request.form on the server
@@ -91,14 +91,14 @@ export default class NewCategoryDialog extends ModalDialog {
     */
     commitCategory(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "POST";
         const url = "/category";
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Category added");
                 // Refresh category table to pick up the new record.
@@ -106,7 +106,7 @@ export default class NewCategoryDialog extends ModalDialog {
                 // Manually close dialog
                 $this.closeDialog(NEW_CATEGORY_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
@@ -114,7 +114,7 @@ export default class NewCategoryDialog extends ModalDialog {
                 $this.setState({error: "That category already exists"});
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -135,9 +135,10 @@ export default class NewCategoryDialog extends ModalDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
-                New Category</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                    New Category
+                </h1>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -153,8 +154,16 @@ export default class NewCategoryDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="form-group">
                             <label htmlFor="input-name">Category Name</label>
-                            <input id="input-name" type="text" className="form-control" ref="inputName"
-                                value={this.state.nameValue} onChange={this.nameChanged} autoFocus={true}
+                            <input
+                                id="input-name"
+                                type="text"
+                                className="form-control"
+                                ref={(instance) => {
+                                    this.inputName = instance;
+                                }}
+                                value={this.state.nameValue}
+                                onChange={this.nameChanged}
+                                autoFocus
                             />
                         </div>
                     </div>
@@ -170,10 +179,20 @@ export default class NewCategoryDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Add
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -189,14 +208,15 @@ NewCategoryDialog.defaultProps = {
 /*
     Initialize the new series dialog box
 */
-var newCategoryDialogInstance;
+let newCategoryDialogInstance;
 export function initNewCategoryDialog() {
-    ReactDOM.render(<NewCategoryDialog
-        id={NEW_CATEGORY_DLG_ID}
-        size={"sm"}
-        ref={function(instance) {
-            newCategoryDialogInstance = instance;
-        }}
+    ReactDOM.render(
+        <NewCategoryDialog
+            id={NEW_CATEGORY_DLG_ID}
+            size={"sm"}
+            ref={(instance) => {
+                newCategoryDialogInstance = instance;
+            }}
         />,
         document.querySelector('#new-category'));
 }

@@ -17,10 +17,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModalDialog from './modal-dialog'
+import ModalDialog from './modal-dialog';
 import SelectCategory from './select-category';
-import * as authorstable from './authors-table';
-import * as callstack from './dialog-call-stack';
 import * as errordlg from './error-dialog';
 
 /*
@@ -72,17 +70,17 @@ export default class NewAuthorDialog extends ModalDialog {
         });
 
         // Reset the categories combo box to its default value
-        this.refs.selectCategoryInstance.resetSelectedCategory();
+        this.selectCategoryInstance.resetSelectedCategory();
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
-            $this.refs.selectCategoryInstance.setSelectedCategory($this.state.categoryValue);
+            $this.selectCategoryInstance.setSelectedCategory($this.state.categoryValue);
             // Trick to get focus into input text box
-            setTimeout(function() {
-                $this.refs.lastName.focus();
-                $this.refs.lastName.select();
+            setTimeout(function () {
+                $this.lastName.focus();
+                $this.lastName.select();
             }, 0);
         });
     }
@@ -117,7 +115,7 @@ export default class NewAuthorDialog extends ModalDialog {
             While we are using JS booleans here, when they arrive at the server
             they will be string values :true" or "false".
         */
-        var data = {
+        const data = {
             firstname: this.state.firstnameValue,
             lastname: this.state.lastnameValue,
             category: this.state.categoryValue,
@@ -133,14 +131,14 @@ export default class NewAuthorDialog extends ModalDialog {
     */
     commitAuthor(data) {
         // The data object will be request.form on the server
-        var $this = this;
+        const $this = this;
         const http_verb = "POST";
         const url = "/author";
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
                 console.log("Author added");
                 // Refresh authors table to pick up the new record.
@@ -149,15 +147,16 @@ export default class NewAuthorDialog extends ModalDialog {
                 // Manually close dialog
                 $this.closeDialog(NEW_AUTHOR_DLG_ID);
             },
-            error: function(xhr, status, errorThrown) {
+            error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                var errormsg = "That author already exists: " + $this.state.lastnameValue + ", " + $this.state.firstnameValue;
+                const errormsg = "That author already exists: " + $this.state.lastnameValue +
+                    ", " + $this.state.firstnameValue;
                 errordlg.showErrorDialog("Duplicate Author", errormsg);
                 // Note that the dialog box is left open so the user can fix the error
             }
-        })
+        });
     }
 
     /*
@@ -181,11 +180,11 @@ export default class NewAuthorDialog extends ModalDialog {
         this.setState({categoryValue: event.newValue});
     }
 
-    tryChanged(event) {
+    tryChanged(/* event */) {
         this.setState({tryValue: !this.state.tryValue});
     }
 
-    avoidChanged(event) {
+    avoidChanged(/* event */) {
         this.setState({avoidValue: !this.state.avoidValue});
     }
 
@@ -201,9 +200,10 @@ export default class NewAuthorDialog extends ModalDialog {
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
-                    <img className="dialog-logo" src="/static/book_pile2.jpg"/>
-                New Author</h1>
-                <h2 style={{color:"red"}}>{this.state.error}</h2>
+                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                    New Author
+                </h1>
+                <h2 style={{color: "red"}}>{this.state.error}</h2>
             </div>
         );
     }
@@ -219,14 +219,25 @@ export default class NewAuthorDialog extends ModalDialog {
                     <div className="panel-body">
                         <div className="form-group">
                             <label htmlFor="lastname">Last Name</label>
-                            <input id="lastname" type="text"  className="form-control" ref="lastName"
-                                value={this.state.lastnameValue} onChange={this.lastnameChanged}
+                            <input
+                                id="lastname"
+                                type="text"
+                                className="form-control"
+                                ref={(instance) => {
+                                    this.lastName = instance;
+                                }}
+                                value={this.state.lastnameValue}
+                                onChange={this.lastnameChanged}
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="firstname">First Name</label>
-                            <input id="firstname" type="text"  className="form-control"
-                                value={this.state.firstnameValue} onChange={this.firstnameChanged}
+                            <input
+                                id="firstname"
+                                type="text"
+                                className="form-control"
+                                value={this.state.firstnameValue}
+                                onChange={this.firstnameChanged}
                             />
                         </div>
                         <div className="form-group">
@@ -234,21 +245,31 @@ export default class NewAuthorDialog extends ModalDialog {
                             <SelectCategory
                                 id={this.props.id + "-category"}
                                 onChange={this.categoryChanged}
-                                ref={"selectCategoryInstance"}
+                                ref={(instance) => {
+                                    this.selectCategoryInstance = instance;
+                                }}
                             />
                         </div>
                         <div className="checkbox">
-                            <label>
-                                <input type="checkbox" checked={this.state.tryValue}
+                            <label htmlFor="try-changed">
+                                <input
+                                    id="try-changed"
+                                    type="checkbox"
+                                    checked={this.state.tryValue}
                                     onChange={this.tryChanged}
-                                />Try
+                                />
+                                Try
                             </label>
                         </div>
                         <div className="checkbox">
-                            <label>
-                                <input type="checkbox" checked={this.state.avoidValue}
+                            <label htmlFor="avoid">
+                                <input
+                                    id="avoid"
+                                    type="checkbox"
+                                    checked={this.state.avoidValue}
                                     onChange={this.avoidChanged}
-                                />Avoid
+                                />
+                                Avoid
                             </label>
                         </div>
                     </div>
@@ -264,10 +285,20 @@ export default class NewAuthorDialog extends ModalDialog {
     getFooter() {
         return (
             <div className="modal-footer">
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onAdd}>Add</button>
-                  <button type="button" className="btn btn-default pull-left"
-                      onClick={this.onCancel}>Cancel</button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onAdd}
+                >
+                    Add
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-default pull-left"
+                    onClick={this.onCancel}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -284,14 +315,15 @@ NewAuthorDialog.defaultProps = {
 /*
     Initialize the new author dialog box
 */
-var newAuthorDialogInstance;
+let newAuthorDialogInstance;
 export function initNewAuthorDialog() {
-    ReactDOM.render(<NewAuthorDialog
-        id={NEW_AUTHOR_DLG_ID}
-        size={"sm"}
-        ref={function(instance) {
-            newAuthorDialogInstance = instance;
-        }}
+    ReactDOM.render(
+        <NewAuthorDialog
+            id={NEW_AUTHOR_DLG_ID}
+            size={"sm"}
+            ref={(instance) => {
+                newAuthorDialogInstance = instance;
+            }}
         />,
         document.querySelector('#new-author'));
 }
