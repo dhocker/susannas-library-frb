@@ -33,24 +33,24 @@ export default class AuthorsTable extends PagedTable {
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
 
         $this.loadTable();
 
         // On author add, reload table
-        $("#new-author").on("frb.author.add", function (event) {
+        $("#new-author").on("frb.author.add", function (/* event */) {
             console.log("On add event, reload authors");
             $this.loadTable();
         });
 
         // On author delete, reload table
-        $("#delete-author").on("frb.author.delete", function (event) {
+        $("#delete-author").on("frb.author.delete", function (/* event */) {
             console.log("On delete event, reload authors");
             $this.loadTable();
         });
 
         // On author edit, reload table
-        $("#edit-author").on("frb.author.edit", function (event) {
+        $("#edit-author").on("frb.author.edit", function (/* event */) {
             console.log("On edit event, reload authors");
             $this.loadTable();
         });
@@ -76,11 +76,11 @@ export default class AuthorsTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
-                <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <a href="#books" onClick={this.onBooksClick.bind(this, row)}>Books</a>
+                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
+                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
-        )
+        );
     }
 }
 
@@ -97,10 +97,10 @@ AuthorsTable.defaultProps = {
 /*
     Create the authors table instance on the authors page
 */
-var authorsTableInstance;
+let authorsTableInstance;
 export function createAuthorsTable(filter_by, id, name) {
     // Defines the columns in the authors table
-    var authorTableColumns = [
+    const authorTableColumns = [
         { colname: 'LastName', label: 'Last Name', sortable: true },
         { colname: 'FirstName', label: 'First Name', sortable: true },
         { colname: 'category', label: 'Category', sortable: true },
@@ -110,8 +110,8 @@ export function createAuthorsTable(filter_by, id, name) {
     ];
 
     // Apply filtering
-    var url = "/authors";
-    var title = "Authors";
+    let url = "/authors";
+    let title = "Authors";
     switch (filter_by) {
         case "category":
             url += "?category=" + id;
@@ -124,15 +124,17 @@ export function createAuthorsTable(filter_by, id, name) {
 
     console.log("Attempting to create Authors table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(<AuthorsTable class={"table table-striped table-condensed"}
-        title={title}
-        cols={authorTableColumns}
-        filter_by={filter_by}
-        filter_by_id={id}
-        url={url}
-        ref={function(instance) {
-            authorsTableInstance = instance;
-        }}
+    ReactDOM.render(
+        <AuthorsTable
+            class={"table table-striped table-condensed"}
+            title={title}
+            cols={authorTableColumns}
+            filter_by={filter_by}
+            filter_by_id={id}
+            url={url}
+            ref={(instance) => {
+                authorsTableInstance = instance;
+            }}
         />,
         document.querySelector('#authorstable')
     );

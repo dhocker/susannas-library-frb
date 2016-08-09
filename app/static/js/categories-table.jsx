@@ -33,24 +33,24 @@ export default class CategoriesTable extends PagedTable {
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
 
         $this.loadTable();
 
         // On series add, reload table
-        $("#new-category").on("frb.category.add", function (event) {
+        $("#new-category").on("frb.category.add", function (/* event */) {
             console.log("On add event, reload categories");
             $this.loadTable();
         });
 
         // On category delete, reload table
-        $("#delete-category").on("frb.category.delete", function (event) {
+        $("#delete-category").on("frb.category.delete", function (/* event */) {
             console.log("On delete event, reload categories");
             $this.loadTable();
         });
 
         // On category edit, reload table
-        $("#edit-category").on("frb.category.edit", function (event) {
+        $("#edit-category").on("frb.category.edit", function (/* event */) {
             console.log("On edit event, reload categories");
             $this.loadTable();
         });
@@ -81,12 +81,12 @@ export default class CategoriesTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onAuthorsClick.bind(this, row)}>Authors</a>
-                <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
-                <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <a href="#authors" onClick={this.onAuthorsClick.bind(this, row)}>Authors</a>
+                <a href="#books" onClick={this.onBooksClick.bind(this, row)}>Books</a>
+                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
+                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
-        )
+        );
     }
 }
 
@@ -103,23 +103,25 @@ CategoriesTable.defaultProps = {
 /*
     Create the categories table instance on the series page
 */
-var categoriesTableInstance;
+let categoriesTableInstance;
 export function createCategoriesTable() {
     // Defines the columns in the categories table
-    var categoriesTableColumns = [
+    const categoriesTableColumns = [
         { colname: 'name', label: 'Name', sortable: true },
         { colname: 'id', label: 'ID', sortable: true }
     ];
 
     console.log("Attempting to create Categories table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(<CategoriesTable class={"table table-striped table-condensed"}
-        title={"Categories"}
-        cols={categoriesTableColumns}
-        url={"/categories"}
-        ref={function(instance) {
-            categoriesTableInstance = instance;
-        }}
+    ReactDOM.render(
+        <CategoriesTable
+            class={"table table-striped table-condensed"}
+            title={"Categories"}
+            cols={categoriesTableColumns}
+            url={"/categories"}
+            ref={(instance) => {
+                categoriesTableInstance = instance;
+            }}
         />,
         document.querySelector('#categoriestable')
     );

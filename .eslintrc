@@ -20,7 +20,8 @@
         "react/sort-comp": 0,
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
-        "react/jsx-no-bind": 0
+        "react/jsx-no-bind": 0,
+        "react/require-extension": 0
     },
     "env": {
         "browser": true,

@@ -33,24 +33,24 @@ export default class SeriesTable extends PagedTable {
     }
 
     componentDidMount() {
-        var $this = this;
+        const $this = this;
 
         $this.loadTable();
 
         // On series add, reload table
-        $("#new-series").on("frb.series.add", function (event) {
+        $("#new-series").on("frb.series.add", function (/* event */) {
             console.log("On add event, reload series");
             $this.loadTable();
         });
 
         // On series delete, reload table
-        $("#delete-series").on("frb.series.delete", function (event) {
+        $("#delete-series").on("frb.series.delete", function (/* event */) {
             console.log("On delete event, reload series");
             $this.loadTable();
         });
 
         // On series edit, reload table
-        $("#edit-series").on("frb.series.edit", function (event) {
+        $("#edit-series").on("frb.series.edit", function (/* event */) {
             console.log("On edit event, reload series");
             $this.loadTable();
         });
@@ -76,11 +76,11 @@ export default class SeriesTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <a href="#" onClick={this.onBooksClick.bind(this, row)}>Books</a>
-                <a href="#" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <a href="#books" onClick={this.onBooksClick.bind(this, row)}>Books</a>
+                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
+                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
             </td>
-        )
+        );
     }
 }
 
@@ -97,23 +97,25 @@ SeriesTable.defaultProps = {
 /*
     Create the series table instance on the series page
 */
-var seriesTableInstance;
+let seriesTableInstance;
 export function createSeriesTable() {
     // Defines the columns in the series table
-    var seriesTableColumns = [
+    const seriesTableColumns = [
         { colname: 'name', label: 'Name', sortable: true },
         { colname: 'id', label: 'ID', sortable: true }
     ];
 
     console.log("Attempting to create Series table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(<SeriesTable class={"table table-striped table-condensed"}
-        title={"Series"}
-        cols={seriesTableColumns}
-        url={"/series"}
-        ref={function(instance) {
-            seriesTableInstance = instance;
-        }}
+    ReactDOM.render(
+        <SeriesTable
+            class={"table table-striped table-condensed"}
+            title={"Series"}
+            cols={seriesTableColumns}
+            url={"/series"}
+            ref={(instance) => {
+                seriesTableInstance = instance;
+            }}
         />,
         document.querySelector('#seriestable')
     );
