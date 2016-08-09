@@ -41,6 +41,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         this.getFooter = this.getFooter.bind(this);
         this.commitCategory = this.commitCategory.bind(this);
         this.initState = this.initState.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
     initState(row) {

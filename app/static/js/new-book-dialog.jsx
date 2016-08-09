@@ -38,9 +38,11 @@ export default class NewBookDialog extends ModalDialog {
                 " " + String(props.filter_by_id));
         }
 
+        // Default choices
+        let series_id = -1;
+        let author_id = -1;
+
         // Apply filtering
-        let series_id = 0;
-        let author_id = 0;
         switch (props.filter_by) {
             case "author":
                 author_id = props.filter_by_id;
@@ -99,9 +101,16 @@ export default class NewBookDialog extends ModalDialog {
         $.get("/authors", function (response /* , status */) {
             console.log("Author rows received: " + String(response.data.rows.length));
             const rows = response.data.rows;
+
+            // Pick default if necessary
+            let author_id = $this.state.authorValue;
+            if ((rows.length > 0) && (author_id < 0)) {
+                author_id = rows[0].id;
+            }
+
             $this.setState({
                 author_rows: rows,
-                authorValue: $this.state.authorValue
+                authorValue: author_id,
             });
             $this.setFocus();
         });
@@ -114,9 +123,16 @@ export default class NewBookDialog extends ModalDialog {
         $.get("/series", function (response /* , status */) {
             console.log("Series rows received: " + String(response.data.rows.length));
             const rows = response.data.rows;
+
+            // Pick default if necessary
+            let series_id = $this.state.seriesValue;
+            if ((rows.length > 0) && (series_id < 0)) {
+                series_id = rows[0].id;
+            }
+
             $this.setState({
                 series_rows: rows,
-                seriesValue: $this.state.seriesValue
+                seriesValue: series_id
             });
             $this.setFocus();
         });
@@ -130,8 +146,8 @@ export default class NewBookDialog extends ModalDialog {
             String(this.props.filter_by_id));
 
         // Apply book filtering
-        let series_id = 0;
-        let author_id = 0;
+        let series_id = -1;
+        let author_id = -1;
         if (this.state.series_rows.length) {
             series_id = this.state.series_rows[0].id;
         }

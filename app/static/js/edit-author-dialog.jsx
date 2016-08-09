@@ -64,11 +64,11 @@ export default class EditAuthorDialog extends NewAuthorDialog {
     componentDidMount() {
         const $this = this;
         $("#" + $this.dialog_id).on('show.bs.modal', function () {
-            $this.refs.selectCategoryInstance.setSelectedCategory($this.row.category_id);
+            $this.selectCategoryInstance.setSelectedCategory($this.row.category_id);
             // Trick to get focus into input text box
             setTimeout(function () {
-                $this.refs.lastName.focus();
-                $this.refs.lastName.select();
+                $this.lastName.focus();
+                $this.lastName.select();
             }, 0);
         });
     }

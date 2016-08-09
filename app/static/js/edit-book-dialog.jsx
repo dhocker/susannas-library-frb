@@ -86,7 +86,7 @@ export default class EditBookDialog extends NewBookDialog {
             // to the state property. Therefore, we use the row property to avoid
             // the indeterminate nature of setState.
             console.log("edit book categoryValue: " + String($this.row.category_id));
-            $this.refs.selectCategoryInstance.setSelectedCategory($this.row.category_id);
+            $this.selectCategoryInstance.setSelectedCategory($this.row.category_id);
             // Put the cursor in the first text box
             $this.setFocus();
         });
