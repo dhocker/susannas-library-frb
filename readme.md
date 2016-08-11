@@ -14,7 +14,7 @@ like a Raspberry Pi this can take a long time.
 
     npm install
 
-## Build
+## Development Build
 Run a one time build based on webpack.config.js
 
     npm run build
@@ -22,7 +22,13 @@ Run a one time build based on webpack.config.js
 Or, run build watcher
 
     npm run build-w
+
+## Production/Deployment Build
+Run a one time build based on production.webpack.config.js
+
+    npm run build-p
     
+This build uglifies and compresses the compiled output.
 ## Debug and Test
 Use PyCharm.
 
