@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import Table from './table';
 import * as DeleteBook from './delete-book-dialog';
 import * as EditBook from './edit-book-dialog';
+import ActionAnchor from './action-anchor';
 
 /*
     Books table - a specific instance of a table showing
@@ -71,8 +72,18 @@ export default class BooksTable extends Table {
     getActions(row) {
         return (
             <td>
-                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <ActionAnchor
+                    htmlHref="#edit"
+                    onItemClick={this.onEditClick}
+                    item={row}
+                    anchorText="Edit"
+                />
+                <ActionAnchor
+                    htmlHref="#delete"
+                    onItemClick={this.onDeleteClick}
+                    item={row}
+                    anchorText="Delete"
+                />
             </td>
         );
     }

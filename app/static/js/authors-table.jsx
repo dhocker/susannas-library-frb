@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import PagedTable from './paged-table';
 import * as DeleteAuthor from './delete-author-dialog';
 import * as EditAuthor from './edit-author-dialog';
+import ActionAnchor from './action-anchor';
 
 /*
     Authors table - a specific instance of a table showing
@@ -76,9 +77,24 @@ export default class AuthorsTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <a href="#books" onClick={this.onBooksClick.bind(this, row)}>Books</a>
-                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <ActionAnchor
+                    htmlHref="#books"
+                    onItemClick={this.onBooksClick}
+                    item={row}
+                    anchorText="Books"
+                />
+                <ActionAnchor
+                    htmlHref="#edit"
+                    onItemClick={this.onEditClick}
+                    item={row}
+                    anchorText="Edit"
+                />
+                <ActionAnchor
+                    htmlHref="#delete"
+                    onItemClick={this.onDeleteClick}
+                    item={row}
+                    anchorText="Delete"
+                />
             </td>
         );
     }
