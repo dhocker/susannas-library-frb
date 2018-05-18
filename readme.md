@@ -5,6 +5,11 @@ This is the newest iteration of Susanna's Library developed using
 Flask, React, Booststrap and Webpack.
 
 ## Set Up
+Install node and npm. On macOS this can be done in one action
+using brew.
+
+    brew install node
+
 Create a venv using the requirements.txt file.
 
     mkvirtualenv -r requirements.txt susannas-library-frb
