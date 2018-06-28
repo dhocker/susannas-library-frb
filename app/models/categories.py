@@ -15,7 +15,7 @@
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from models import Category
+from app.models.models import Category
 from sqlalchemy import func, or_
 from app.models.models import db_session
 

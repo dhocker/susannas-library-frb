@@ -26,7 +26,6 @@
 #
 
 from datetime import datetime
-from types import *
 from app import app
 from sqlalchemy import create_engine, Table, ForeignKey, Column, Integer, Text, Boolean, func, or_
 
@@ -60,7 +59,7 @@ class ModelMixin():
         item in the list is a dict representing a row object.
         :return:
         """
-        result = map(lambda row: cls.row2dict(row, row_converter), rows)
+        result = list(map(lambda row: cls.row2dict(row, row_converter), rows))
         return result
 
 
@@ -75,13 +74,13 @@ class ModelMixin():
         d = {}
         for column_prop in row.column_props:
             v = getattr(row, column_prop)
-            if type(v) == UnicodeType:
-                d[column_prop] = v.encode('utf-8')
-            elif type(v) == StringType:
-                d[column_prop] = str(v)
-            elif type(v) == IntType:
+            if type(v) is str:
                 d[column_prop] = v
-            elif type(v) == NoneType:
+            elif type(v) is bytes:
+                d[column_prop] = v.decode()
+            elif type(v) is int:
+                d[column_prop] = v
+            elif type(v) is None:
                 d[column_prop] = ''
             else:
                 d[column_prop] = str(v)
@@ -277,12 +276,12 @@ class Category(Base, ModelMixin):
 if __name__ == "__main__":
     # Case insensitive ordering
     authors = Author.query.order_by(func.lower(Author.LastName), func.lower(Author.FirstName)).all()
-    print "All authors"
+    print("All authors")
     for a in authors:
-        print a.LastName, a.FirstName, a.id, a.Avoid, a.category, a.try_author, len(a.books)
+        print(a.LastName, a.FirstName, a.id, a.Avoid, a.category, a.try_author, len(a.books))
 
-    print "{0} authors returned".format(len(authors))
-    print ""
+    print("{0} authors returned".format(len(authors)))
+    print("")
     #
     # print "Books for author id=633"
     # author = Author.query.filter_by(id=633).first()

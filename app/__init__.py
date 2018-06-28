@@ -38,12 +38,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{0}".format(configuration.Con
 Logging.EnableServerLogging()
 
 # All views must be imported after the app is defined
-from views import views
-from views import books
-from views import series
-from views import paged_books
-from views import categories
-#from views import login_views
+from app.views import views
+from app.views import books
+from app.views import series
+from app.views import paged_books
+from app.views import categories
+#from app.views import login_views
 
 logger = logging.getLogger("app")
 

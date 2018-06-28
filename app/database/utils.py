@@ -15,8 +15,6 @@
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from types import *
-
 
 def rows2list(rows):
     """
@@ -39,11 +37,11 @@ def row2dict(row):
     d = {}
     for column_name in row.keys():
         v = row[column_name]
-        if type(v) == UnicodeType:
-            d[column_name] = v.encode('utf-8')
-        elif type(v) == IntType:
+        if type(v) is str:
             d[column_name] = v
-        elif type(v) == NoneType:
+        elif type(v) is int:
+            d[column_name] = v
+        elif type(v) is None:
             d[column_name] = ''
         else:
             d[column_name] = str(v)
