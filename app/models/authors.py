@@ -1,6 +1,7 @@
+# coding=utf-8
 #
 # Susanna's New Library - web app for managing Susan's vast library
-# Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+# Copyright © 2016, 2018  Dave Hocker (email: AtHomeX10@gmail.com)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
