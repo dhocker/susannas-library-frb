@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -117,7 +118,7 @@ export default class DeleteCategoryDialog extends ModalDialog {
 }
 
 DeleteCategoryDialog.propTypes = {
-    row: React.PropTypes.object.isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 DeleteCategoryDialog.defaultProps = {

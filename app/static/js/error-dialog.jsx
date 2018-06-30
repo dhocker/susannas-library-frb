@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -90,10 +91,10 @@ export default class ErrorDialog extends ModalDialog {
 }
 
 ErrorDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string.isRequired,
-    size: React.PropTypes.string
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    size: PropTypes.string
 };
 
 ErrorDialog.defaultProps = {

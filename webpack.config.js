@@ -1,6 +1,12 @@
 var webpack = require('webpack');
 var path = require("path");
-var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+// var SplitChunksPlugin = require("webpack/lib/optimize/SplitChunksPlugin");
+
+console.log("");
+console.log("Webpack Development Build");
+console.log("-------------------------");
+console.log("process.env.WEBPACK_DEVTOOL: " + process.env.WEBPACK_DEVTOOL);
+console.log("");
 
 /*
     Initial config: http://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
@@ -10,51 +16,78 @@ var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 */
 
 module.exports = {
-    entry: [
-        './app/static/js/main.jsx'
-    ],
+    entry: {
+        main: './app/static/js/main.jsx'
+    },
     module: {
-        preLoaders: [
-          {
-            test: /\.(js|jsx)$/,
-            loaders: ["eslint-loader"],
-            exclude: /node_modules/
-          }
-        ],
-        loaders: [
-            {test: /\.jsx?$/, include: __dirname + '/app/static/js', loaders: ['react-hot', 'babel']},
-
+        rules: [
+            {
+                test: /\.jsx?$/,
+                include: __dirname + '/app/static/js',
+                use: [
+                    { loader: 'babel-loader'}
+                ]
+            },
+            {
+                test: /\.(js|jsx)$/,
+                use: [
+                    {
+                        loader: "eslint-loader",
+                        options: {
+                            emitWarning: true
+                        }
+                    }
+                ],
+                exclude: /(node_modules)/
+            },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader'}
+                ]
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                use: [
+                    { loader: 'file' }
+                ]
             },
             {
                 test: /\.(woff|woff2)$/,
-                loader: "url?prefix=font/&limit=5000"
+                use: [
+                    { loader: 'url?prefix=font/&limit=5000' }
+                ]
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
+                use: [
+                    { loader: 'url?limit=10000&mimetype=application/octet-stream' }
+                ]
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
+                use: [
+                    { loader: 'url?limit=10000&mimetype=image/svg+xml' }
+                ]
             },
             {
                 test: /\.gif/,
-                loader: "url-loader?limit=10000&mimetype=image/gif"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/gif' }
+                ]
             },
             {
                 test: /\.jpg/,
-                loader: "url-loader?limit=10000&mimetype=image/jpg"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/jpg' }
+                ]
             },
             {
                 test: /\.png/,
-                loader: "url-loader?limit=10000&mimetype=image/png"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/png' }
+                ]
             }
         ]
     },
@@ -64,14 +97,11 @@ module.exports = {
         libraryTarget: 'var',
         library: 'EntryPoint'
     },
-    eslint: {
-        emitWarning: true
-    },
 	resolve: {
-		extensions: ['', '.js', '.jsx']
+		extensions: ['.js', '.jsx']
 	},
 	devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
 	plugins: [
-		new webpack.NoErrorsPlugin()
+		new webpack.NoEmitOnErrorsPlugin()
 	]
 };

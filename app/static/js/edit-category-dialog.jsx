@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import NewCategoryDialog from './new-category-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -150,8 +151,8 @@ export default class EditCategoryDialog extends NewCategoryDialog {
 }
 
 EditCategoryDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    row: React.PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 EditCategoryDialog.defaultProps = {

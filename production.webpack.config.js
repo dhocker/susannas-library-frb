@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var path = require("path");
-var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var SplitChunksPlugin = require("webpack/lib/optimize/SplitChunksPlugin");
 
 console.log("");
 console.log("Webpack Production Build");
@@ -20,40 +20,63 @@ module.exports = {
         './app/static/js/main.jsx'
     ],
     module: {
-        loaders: [
-            {test: /\.jsx?$/, include: __dirname + '/app/static/js', loaders: ['react-hot', 'babel']},
-
+        rules: [
+            {
+                test: /\.jsx?$/,
+                include: __dirname + '/app/static/js',
+                use: [
+                    /*{ loader: 'react-hot-loader' },*/
+                    { loader: 'babel-loader'}
+                ]
+            },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader'}
+                ]
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                use: [
+                    { loader: 'file' }
+                ]
             },
             {
                 test: /\.(woff|woff2)$/,
-                loader: "url?prefix=font/&limit=5000"
+                use: [
+                    { loader: 'url?prefix=font/&limit=5000' }
+                ]
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
+                use: [
+                    { loader: 'url?limit=10000&mimetype=application/octet-stream' }
+                ]
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
+                use: [
+                    { loader: 'url?limit=10000&mimetype=image/svg+xml' }
+                ]
             },
             {
                 test: /\.gif/,
-                loader: "url-loader?limit=10000&mimetype=image/gif"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/gif' }
+                ]
             },
             {
                 test: /\.jpg/,
-                loader: "url-loader?limit=10000&mimetype=image/jpg"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/jpg' }
+                ]
             },
             {
                 test: /\.png/,
-                loader: "url-loader?limit=10000&mimetype=image/png"
+                use: [
+                    { loader: 'url-loader?limit=10000&mimetype=image/png' }
+                ]
             }
         ]
     },
@@ -64,20 +87,25 @@ module.exports = {
         library: 'EntryPoint'
     },
 	resolve: {
-		extensions: ['', '.js', '.jsx']
+		extensions: ['.js', '.jsx']
 	},
 	devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
 	plugins: [
-		new webpack.NoErrorsPlugin(),
+		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
+/*
         new webpack.optimize.UglifyJsPlugin({
             compress:{
                 warnings: false
             }
         })
-	]
+*/
+	],
+	optimization: {
+	    minimize: true
+	}
 };

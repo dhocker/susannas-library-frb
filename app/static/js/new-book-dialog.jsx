@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 import * as errordlg from './error-dialog';
@@ -581,7 +582,7 @@ export default class NewBookDialog extends ModalDialog {
 }
 
 NewBookDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
 };
 
 NewBookDialog.defaultProps = {

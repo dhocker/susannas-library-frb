@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import NewSeriesDialog from './new-series-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -126,8 +127,8 @@ export default class EditSeriesDialog extends NewSeriesDialog {
 }
 
 EditSeriesDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    row: React.PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 EditSeriesDialog.defaultProps = {

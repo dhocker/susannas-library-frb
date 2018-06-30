@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /*
     This is a basic React component that can render a select element.
@@ -87,15 +88,15 @@ export default class Select extends React.Component {
 }
 
 Select.propTypes = {
-    id: React.PropTypes.string,
-    selectClass: React.PropTypes.string,
-    optionClass: React.PropTypes.string,
-    options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    defaultValue: React.PropTypes.string,
-    keyProp: React.PropTypes.string.isRequired,
-    valueProp: React.PropTypes.string.isRequired,
-    labelProp: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func
+    id: PropTypes.string,
+    selectClass: PropTypes.string,
+    optionClass: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.object).isRequired,
+    defaultValue: PropTypes.string,
+    keyProp: PropTypes.string.isRequired,
+    valueProp: PropTypes.string.isRequired,
+    labelProp: PropTypes.string.isRequired,
+    onChange: PropTypes.func
 };
 
 Select.defaultProps = {

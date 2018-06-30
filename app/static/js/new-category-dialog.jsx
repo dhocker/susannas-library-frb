@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 
 /*
@@ -199,7 +200,7 @@ export default class NewCategoryDialog extends ModalDialog {
 }
 
 NewCategoryDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
 };
 
 NewCategoryDialog.defaultProps = {

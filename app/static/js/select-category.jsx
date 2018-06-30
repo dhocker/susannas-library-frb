@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from './select';
 
 /*
@@ -124,10 +125,10 @@ export default class SelectCategory extends React.Component {
 }
 
 SelectCategory.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.number,
-    url: React.PropTypes.string,
-    onChange: React.PropTypes.func
+    id: PropTypes.string.isRequired,
+    defaultValue: PropTypes.number,
+    url: PropTypes.string,
+    onChange: PropTypes.func
 };
 
 SelectCategory.defaultProps = {

@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import SelectCategory from './select-category';
 import * as errordlg from './error-dialog';
@@ -305,8 +306,8 @@ export default class NewAuthorDialog extends ModalDialog {
 }
 
 NewAuthorDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    size: React.PropTypes.string
+    id: PropTypes.string.isRequired,
+    size: PropTypes.string
 };
 
 NewAuthorDialog.defaultProps = {

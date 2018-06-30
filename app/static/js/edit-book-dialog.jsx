@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import NewBookDialog from './new-book-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -166,8 +167,8 @@ export default class EditBookDialog extends NewBookDialog {
 }
 
 EditBookDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    row: React.PropTypes.object.isRequired
+    id: PropTypes.string.isRequired,
+    row: PropTypes.object.isRequired
 };
 
 EditBookDialog.defaultProps = {

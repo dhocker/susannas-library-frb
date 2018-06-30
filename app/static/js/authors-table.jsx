@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import PagedTable from './paged-table';
 import * as DeleteAuthor from './delete-author-dialog';
 import * as EditAuthor from './edit-author-dialog';
@@ -101,10 +102,10 @@ export default class AuthorsTable extends PagedTable {
 }
 
 AuthorsTable.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    class: React.PropTypes.string.isRequired,
-    cols: React.PropTypes.array.isRequired,
-    url: React.PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    class: PropTypes.string.isRequired,
+    cols: PropTypes.array.isRequired,
+    url: PropTypes.string.isRequired
 };
 
 AuthorsTable.defaultProps = {

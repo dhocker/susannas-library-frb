@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as sitecookies from './site-cookies';
 
 /*
@@ -366,10 +367,10 @@ export default class PagedTable extends React.Component {
 }
 
 PagedTable.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    class: React.PropTypes.string.isRequired,
-    cols: React.PropTypes.array.isRequired,
-    url: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    class: PropTypes.string.isRequired,
+    cols: PropTypes.array.isRequired,
+    url: PropTypes.string.isRequired,
 };
 
 PagedTable.defaultProps = {

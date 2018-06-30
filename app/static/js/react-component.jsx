@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 /*
     This is a template for a basic React component.
@@ -48,10 +49,10 @@ export default class BasicComponent extends React.Component {
 
 BasicComponent.propTypes = {
     /* Example of property types
-    title: React.PropTypes.string.isRequired,
-    class: React.PropTypes.string.isRequired,
-    cols: React.PropTypes.array.isRequired,
-    url: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    class: PropTypes.string.isRequired,
+    cols: PropTypes.array.isRequired,
+    url: PropTypes.string.isRequired,
     */
 };
 

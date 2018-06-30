@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /*
     This is the beginning of a basic React component that can render a table with actions.
@@ -210,10 +211,10 @@ export default class Table extends React.Component {
 }
 
 Table.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    class: React.PropTypes.string.isRequired,
-    cols: React.PropTypes.array.isRequired,
-    url: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    class: PropTypes.string.isRequired,
+    cols: PropTypes.array.isRequired,
+    url: PropTypes.string.isRequired,
 };
 
 Table.defaultProps = {

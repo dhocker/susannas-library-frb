@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as callstack from './dialog-call-stack';
 
 /*
@@ -155,8 +156,8 @@ export default class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    size: React.PropTypes.string
+    id: PropTypes.string.isRequired,
+    size: PropTypes.string
 };
 
 ModalDialog.defaultProps = {

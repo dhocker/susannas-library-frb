@@ -22,6 +22,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ActionAnchor extends React.Component {
     constructor(props) {
@@ -44,8 +45,8 @@ export default class ActionAnchor extends React.Component {
 }
 
 ActionAnchor.propTypes = {
-    anchorText: React.PropTypes.string.isRequired,
-    htmlHref: React.PropTypes.string.isRequired,
-    onItemClick: React.PropTypes.func.isRequired,
-    item: React.PropTypes.object.isRequired,
+    anchorText: PropTypes.string.isRequired,
+    htmlHref: PropTypes.string.isRequired,
+    onItemClick: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
 };

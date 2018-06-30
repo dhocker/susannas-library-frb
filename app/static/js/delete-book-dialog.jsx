@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import * as callstack from './dialog-call-stack';
 
@@ -123,7 +124,7 @@ export default class DeleteBookDialog extends ModalDialog {
 }
 
 DeleteBookDialog.propTypes = {
-    row: React.PropTypes.object.isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 DeleteBookDialog.defaultProps = {

@@ -17,6 +17,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Table from './table';
 import * as DeleteBook from './delete-book-dialog';
 import * as EditBook from './edit-book-dialog';
@@ -90,10 +91,10 @@ export default class BooksTable extends Table {
 }
 
 BooksTable.propTypes = {
-    title: React.PropTypes.string.isRequired,
-    class: React.PropTypes.string.isRequired,
-    cols: React.PropTypes.array.isRequired,
-    url: React.PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    class: PropTypes.string.isRequired,
+    cols: PropTypes.array.isRequired,
+    url: PropTypes.string.isRequired
 };
 
 BooksTable.defaultProps = {
