@@ -119,7 +119,7 @@ export default class CategoriesTable extends PagedTable {
 CategoriesTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cols: PropTypes.arrayOf(PropTypes.object).isRequired,
     url: PropTypes.string.isRequired
 };
 

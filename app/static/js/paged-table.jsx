@@ -331,14 +331,17 @@ export default class PagedTable extends React.Component {
                     key={colData.colname}
                 >
                     {colData.label}
-                </th>);
+                </th>
+            );
         }, this);
 
         // return a single header row
-        return (<tr>
-            {cells}
+        return (
+            <tr>
+                {cells}
             <th>Actions</th>
-        </tr>);
+            </tr>
+        );
     }
 
     generateRows() {
@@ -354,22 +357,24 @@ export default class PagedTable extends React.Component {
                 return <td key={colData.colname}>{row[colData.colname]}</td>;
             });
             const actions = $this.getActions(row);
-            return (<tr key={row.id}>
-                {cells}
-                {actions}
-            </tr>);
+            return (
+                <tr key={row.id}>
+                    {cells}
+                    {actions}
+                </tr>
+            );
         });
     }
 
     generateFooter() {
-        return <tr><td>{"Total Rows"}</td><td>{this.state.rows.length}</td></tr>;
+        return <tr><td>"Total Rows"</td><td>{this.state.rows.length}</td></tr>;
     }
 }
 
 PagedTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cols: PropTypes.arrayOf(PropTypes.object).isRequired,
     url: PropTypes.string.isRequired,
 };
 

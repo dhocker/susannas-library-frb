@@ -104,7 +104,7 @@ export default class SeriesTable extends PagedTable {
 SeriesTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cols: PropTypes.arrayOf(PropTypes.object).isRequired,
     url: PropTypes.string.isRequired
 };
 
@@ -126,10 +126,10 @@ export function createSeriesTable() {
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(
         <SeriesTable
-            class={"table table-striped table-condensed"}
-            title={"Series"}
+            class="table table-striped table-condensed"
+            title="Series"
             cols={seriesTableColumns}
-            url={"/series"}
+            url="/series"
             ref={(instance) => {
                 seriesTableInstance = instance;
             }}

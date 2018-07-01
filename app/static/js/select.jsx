@@ -50,14 +50,16 @@ export default class Select extends React.Component {
     }
 
     handleChange(event) {
+        const {onChange} = this.props;
+        const {selectValue} = this.state;
         this.setState({selectValue: event.target.value});
-        if (this.props.onChange) {
+        if (onChange) {
             const change = {
-                oldValue: this.state.selectValue,
+                oldValue: selectValue,
                 newValue: event.target.value
             };
             // Bubble event
-            this.props.onChange(change);
+            onChange(change);
         }
     }
 
@@ -74,11 +76,14 @@ export default class Select extends React.Component {
                 </option>
             );
         });
+        const {id} = this.props;
+        const {selectClass} = this.props;
+        const {selectValue} = this.state;
         return (
             <select
-                id={this.props.id}
-                className={this.props.selectClass}
-                value={this.state.selectValue}
+                id={id}
+                className={selectClass}
+                value={selectValue}
                 onChange={this.handleChange}
             >
                 {options}
@@ -102,5 +107,7 @@ Select.propTypes = {
 Select.defaultProps = {
     id: "select",
     selectClass: "form-control",
-    optionClass: ""
+    optionClass: "",
+    defaultValue: null,
+    onChange: null
 };

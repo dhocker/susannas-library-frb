@@ -76,8 +76,12 @@ export default class PagedBooksTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>Edit</a>
-                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>Delete</a>
+                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>
+                    Edit
+                </a>
+                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>
+                    Delete
+                </a>
             </td>
         );
     }
@@ -86,7 +90,7 @@ export default class PagedBooksTable extends PagedTable {
 PagedBooksTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cols: PropTypes.arrayOf(PropTypes.object).isRequired,
     url: PropTypes.string.isRequired
 };
 
@@ -135,7 +139,7 @@ export function createPagedBooksTable(filter_by, id, name) {
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(
         <PagedBooksTable
-            class={"table table-striped table-condensed"}
+            class="table table-striped table-condensed"
             title={title}
             filter_by={filter_by}
             filter_by_id={id}

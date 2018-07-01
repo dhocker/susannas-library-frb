@@ -44,7 +44,8 @@ export default class SelectCategory extends React.Component {
     }
 
     getSelectedCategory() {
-        return this.state.categoryValue;
+        const {categoryValue} = this.state;
+        return categoryValue;
     }
 
     setSelectedCategory(value) {
@@ -53,17 +54,19 @@ export default class SelectCategory extends React.Component {
     }
 
     resetSelectedCategory() {
-        this.setState({categoryValue: this.props.defaultValue});
-        this.selectInstance.setSelectedOption(this.props.defaultValue);
+        const {defaultValue} = this.props;
+        this.setState({categoryValue: defaultValue});
+        this.selectInstance.setSelectedOption(defaultValue);
     }
 
     loadCategories() {
         // Retrieve all of the categories
-        console.log("Getting all categories from url " + this.props.url);
+        const {url} = this.props;
+        console.log("Getting all categories from url " + url);
         const $this = this;
-        $.get(this.props.url, function (response /* , status */) {
+        $.get(url, function (response /* , status */) {
             console.log("Category rows received: " + String(response.data.rows.length));
-            const rows = response.data.rows;
+            const {rows} = response.data;
             $this.setState({
                 category_rows: rows,
                 categoryValue: $this.state.categoryValue
@@ -72,20 +75,23 @@ export default class SelectCategory extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.category_rows.length === 0) {
+        const {category_rows} = this.state;
+        if (category_rows.length === 0) {
             this.loadCategories();
         }
     }
 
     categoryChanged(event) {
+        const {categoryValue} = this.state;
+        const {onChange} = this.props;
         this.setState({categoryValue: event.newValue});
-        if (this.props.onChange) {
+        if (onChange) {
             const change = {
-                oldValue: this.state.categoryValue,
+                oldValue: categoryValue,
                 newValue: event.newValue
             };
             // Bubble event
-            this.props.onChange(change);
+            onChange(change);
         }
     }
 
@@ -106,15 +112,17 @@ export default class SelectCategory extends React.Component {
             defaultValue - the initial value of the select, string
             onChange(event) - event handler for selection changes. The event is an object
         */
+        const {id} = this.props;
+        const {category_rows} = this.state;
         return (
             <Select
-                id={this.props.id}
-                selectClass={"form-control"}
-                options={this.state.category_rows}
-                keyProp={"id"}
-                valueProp={"id"}
-                labelProp={"name"}
-                defaultValue={"1"}
+                id={id}
+                selectClass="form-control"
+                options={category_rows}
+                keyProp="id"
+                valueProp="id"
+                labelProp="name"
+                defaultValue="1"
                 onChange={this.categoryChanged}
                 ref={(instance) => {
                     this.selectInstance = instance;
@@ -133,5 +141,6 @@ SelectCategory.propTypes = {
 
 SelectCategory.defaultProps = {
     url: "/categories",
-    defaultValue: 1
+    defaultValue: 1,
+    onChange: null
 };
