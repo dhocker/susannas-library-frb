@@ -162,3 +162,39 @@ table.dataTable thead .sorting   {
 /* This removes the closer X from jQuery UI dialog boxes */
 .ui-dialog-titlebar-close
                 { visibility: hidden; }
+
+/*
+    Bootstrap customizations
+*/
+body {
+    font-size: 0.9rem;
+}
+.container {
+    padding: 0;
+}
+.card {
+    background: #F8F8F8;
+    margin: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.navbar {
+    background: #377BA8;
+    padding: 0;
+}
+.nav-link {
+    color: #E0E0E0;
+}
+.nav-item a:hover {
+    color: #FFFFFF;
+}
+.btn {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.table tr {
+    line-height: 1.0;
+}
+.table td {
+    padding: 0.4rem;
+}

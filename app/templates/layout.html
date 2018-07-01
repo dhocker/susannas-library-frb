@@ -33,10 +33,37 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-custom.css') }}">
 
-    {# Menu bar #}
+    {# Page title #}
     <div class="container">
         <h1> <img class="logo" src="{{ url_for('static', filename='book_pile.png') }}"
-                style="height:auto; width:auto; max-width:50px; max-height:50px;" />Susanna's New Library</h1>
+                style="height:auto; width:auto; max-width:50px; max-height:50px;" />Susanna's New Library
+        </h1>
+    </div>
+    {# Menu bar #}
+    <nav class="navbar navbar-expand-md container">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" role="button" href="{{ url_for('get_home') }}">Authors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" href="{{ url_for('get_paged_books_page') }}">Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" href="{{ url_for('get_series_page') }}">Series</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" href="{{ url_for('get_categories_page') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" href="#" onclick="EntryPoint.showAboutDialog()">About</a>
+            </li>
+        </ul>
+    </nav>
+    {#
+    <div class="container">
+        <h1> <img class="logo" src="{{ url_for('static', filename='book_pile.png') }}" style="height:auto; width:auto; max-width:50px; max-height:50px;" />
+            Susanna's New Library
+        </h1>
         <div class="metanav">
             <a class="btn-sm btn-default" role="button" href="{{ url_for('get_home') }}">Authors</a>
             <a class="btn-sm btn-default" role="button" href="{{ url_for('get_paged_books_page') }}">Books</a>
@@ -45,6 +72,7 @@
             <a class="btn-sm btn-default" role="button" onclick="EntryPoint.showAboutDialog()">About</a>
         </div>
     </div>
+    #}
 
     {% block head %}{% endblock %}
 </head>
@@ -78,7 +106,9 @@
             {% endblock %}
         </div>
         <div class="col-md-6 text-right">
-            <a href="#" onclick="EntryPoint.showAboutDialog()">Susanna's New Library {{ version }} -- Copyright © 2016 by Dave Hocker</a>
+            <a href="#" onclick="EntryPoint.showAboutDialog()">
+                Susanna's New Library {{ version }} -- © 2016, 2018 by Dave Hocker
+            </a>
         </div>
     </div>
 </footer>

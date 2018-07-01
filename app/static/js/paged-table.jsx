@@ -237,18 +237,18 @@ export default class PagedTable extends React.Component {
         }
 
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h2>{this.props.title}</h2>
+            <div className="">
+                <div className="card-header">
+                    <h2 className="card-title">{this.props.title}</h2>
                 </div>
-                <div className="panel-body">
+                <div className="card-body">
                     <table className={this.props.class}>
                         <thead>{HeaderComponents}</thead>
                         <tfoot>{FooterComponents}</tfoot>
                         <tbody>{RowComponents}</tbody>
                     </table>
                 </div>
-                <div className="panel-footer">
+                <div className="card-footer">
                     <div className="row">
                         <div className="col-md-9">
                             <button
