@@ -54,7 +54,7 @@ export default class AboutDialog extends ModalDialog {
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                    About Susanna's New Library
+                    About Susanna&apos;s New Library
                 </h1>
             </div>
         );
@@ -65,11 +65,17 @@ export default class AboutDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {version} = this.state;
         return (
             <div className="panel panel-default">
                 <div className="panel-body">
-                    <p>All about Susanna's New Library</p>
-                    <p>Version: {this.state.version}</p>
+                    <p>
+                        All about Susanna&apos;s New Library
+                    </p>
+                    <p>
+                        Version:&nbsp;
+                        {version}
+                    </p>
                 </div>
             </div>
         );
@@ -119,5 +125,6 @@ export function initAboutDialog() {
         <AboutDialog
             id={ABOUT_DLG_ID}
         />,
-        document.querySelector('#about-dialog'));
+        document.querySelector('#about-dialog')
+    );
 }

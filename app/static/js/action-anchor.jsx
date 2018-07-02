@@ -34,12 +34,18 @@ export default class ActionAnchor extends React.Component {
         When the anchor is clicked delegate the click to its handler
     */
     onItemClick() {
-        this.props.onItemClick(this.props.item);
+        const {item} = this.props;
+        const {onItemClick} = this.props;
+        onItemClick(item);
     }
 
     render() {
+        const {anchorText} = this.props;
+        const {htmlHref} = this.props;
         return (
-            <a href={this.props.htmlHref} onClick={this.onItemClick}>{this.props.anchorText}</a>
+            <a href={htmlHref} onClick={this.onItemClick}>
+                {anchorText}
+            </a>
         );
     }
 }
@@ -48,5 +54,5 @@ ActionAnchor.propTypes = {
     anchorText: PropTypes.string.isRequired,
     htmlHref: PropTypes.string.isRequired,
     onItemClick: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired,
+    item: PropTypes.instanceOf(PropTypes.object).isRequired,
 };

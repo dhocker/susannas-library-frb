@@ -152,8 +152,8 @@ export default class NewAuthorDialog extends ModalDialog {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                const errormsg = "That author already exists: " + $this.state.lastnameValue +
-                    ", " + $this.state.firstnameValue;
+                const errormsg = "That author already exists: " + $this.state.lastnameValue
+                    + ", " + $this.state.firstnameValue;
                 errordlg.showErrorDialog("Duplicate Author", errormsg);
                 // Note that the dialog box is left open so the user can fix the error
             }
@@ -182,11 +182,13 @@ export default class NewAuthorDialog extends ModalDialog {
     }
 
     tryChanged(/* event */) {
-        this.setState({tryValue: !this.state.tryValue});
+        const {tryValue} = this.state;
+        this.setState({tryValue: !tryValue});
     }
 
     avoidChanged(/* event */) {
-        this.setState({avoidValue: !this.state.avoidValue});
+        const {avoidValue} = this.state;
+        this.setState({avoidValue: !avoidValue});
     }
 
     handleCategoryChange(event) {
@@ -198,13 +200,16 @@ export default class NewAuthorDialog extends ModalDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                     New Author
                 </h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -215,11 +220,13 @@ export default class NewAuthorDialog extends ModalDialog {
     */
     getBody() {
         return (
-            <form id={this.props.id} role="form">
+            <form id={this.props.id}>
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label htmlFor="lastname">Last Name</label>
+                            <label htmlFor="lastname">
+                                Last Name
+                            </label>
                             <input
                                 id="lastname"
                                 type="text"
@@ -232,7 +239,9 @@ export default class NewAuthorDialog extends ModalDialog {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="firstname">First Name</label>
+                            <label htmlFor="firstname">
+                                First Name
+                            </label>
                             <input
                                 id="firstname"
                                 type="text"
@@ -242,7 +251,9 @@ export default class NewAuthorDialog extends ModalDialog {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor={this.props.id + "-category"}>Category or Genre</label>
+                            <label htmlFor={this.props.id + "-category"}>
+                                Category or Genre
+                            </label>
                             <SelectCategory
                                 id={this.props.id + "-category"}
                                 onChange={this.categoryChanged}
@@ -321,12 +332,13 @@ export function initNewAuthorDialog() {
     ReactDOM.render(
         <NewAuthorDialog
             id={NEW_AUTHOR_DLG_ID}
-            size={"sm"}
+            size="sm"
             ref={(instance) => {
                 newAuthorDialogInstance = instance;
             }}
         />,
-        document.querySelector('#new-author'));
+        document.querySelector('#new-author')
+    );
 }
 
 /*

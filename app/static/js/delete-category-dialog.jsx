@@ -68,8 +68,11 @@ export default class DeleteCategoryDialog extends ModalDialog {
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Delete Catalog</h1>
-                <h2>and ALL related books</h2>
+                    Delete Catalog
+                </h1>
+                <h2>
+                    and ALL related books
+                </h2>
             </div>
         );
     }
@@ -79,12 +82,23 @@ export default class DeleteCategoryDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {row} = this.props;
         return (
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="form-group">
-                        <p><b>id:</b> {this.props.row.id}</p>
-                        <p><b>Name:</b> {this.props.row.name}</p>
+                        <p>
+                            <b>
+                                id:&nbsp;
+                            </b>
+                            {row.id}
+                        </p>
+                        <p>
+                            <b>
+                                Name:&nbsp;
+                            </b>
+                            {row.name}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -118,7 +132,7 @@ export default class DeleteCategoryDialog extends ModalDialog {
 }
 
 DeleteCategoryDialog.propTypes = {
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 DeleteCategoryDialog.defaultProps = {
@@ -132,10 +146,11 @@ export function deleteCategory(row) {
     ReactDOM.render(
         <DeleteCategoryDialog
             id={DELETE_CATEGORY_DLG_ID}
-            size={"sm"}
+            size="sm"
             row={row}
         />,
-        document.querySelector('#delete-category'));
+        document.querySelector('#delete-category')
+    );
     console.log("DeleteCategoryDialog created");
     callstack.callDialog(DELETE_CATEGORY_DLG_ID);
 }

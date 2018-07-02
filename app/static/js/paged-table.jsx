@@ -36,7 +36,7 @@ export default class PagedTable extends React.Component {
         this.sort_col = 0;
         this.sort_dir = [];
         // 1 = sort asc, -1 = sort desc
-        for (let i = 0; i < this.column_count; i++) {
+        for (let i = 0; i < this.column_count; i += 1) {
             // Set up the current sort direction
             this.sort_dir.push(SORT_ASC);
         }
@@ -83,7 +83,8 @@ export default class PagedTable extends React.Component {
     }
 
     onPreviousPage(/* event */) {
-        if (this.state.current_page > 0) {
+        const {current_page} = this.state;
+        if (current_page > 0) {
             this.current_page -= 1;
             this.setState({current_page: this.current_page});
             this.loadTable();
@@ -110,7 +111,7 @@ export default class PagedTable extends React.Component {
         if (event.target.value.length) {
             const ps = parseInt(event.target.value, 10);
             // If the new value is not valid, ignore the key stroke
-            if ((!isNaN(ps)) && (ps > 0)) {
+            if ((!Number.isNaN(ps)) && (ps > 0)) {
                 this.page_size = ps;
                 this.setState({
                     page_size: String(ps)
@@ -138,12 +139,14 @@ export default class PagedTable extends React.Component {
         const $this = this;
         const url = this.buildUrl();
         $.get(url, function (response /* , status */) {
-            console.log("Data rows received: " + String(response.data.rows.length));
-            console.log("Total row count: " + String(response.data.count));
+            const {rows} = response.data;
+            const {count} = response.data;
+
+            console.log("Data rows received: " + String(rows.length));
+            console.log("Total row count: " + String(count));
 
             // The returned rows and the total row count
-            const rows = response.data.rows;
-            $this.total_count = response.data.count;
+            $this.total_count = count;
 
             // Figure out how many pages
             $this.total_pages = Math.floor($this.total_count / $this.page_size);
@@ -195,7 +198,8 @@ export default class PagedTable extends React.Component {
         Build the base url
     */
     buildUrl() {
-        let url = this.props.url;
+        const {cols} = this.props;
+        let {url} = this.props;
         if (url.includes("?")) {
             url += "&";
         }
@@ -205,7 +209,7 @@ export default class PagedTable extends React.Component {
         url += "page=" + String(this.current_page);
         url += "&pagesize=" + String(this.page_size);
         // TODO Determine if sort col will be the index or the name
-        url += "&sortcol=" + String(this.props.cols[this.sort_col].colname);
+        url += "&sortcol=" + String(cols[this.sort_col].colname);
         url += "&sortdir=" + (this.sort_dir[this.sort_col] > 0 ? "asc" : "desc");
         if (this.search_arg.length) {
             url += "&search=" + this.search_arg;
@@ -225,27 +229,41 @@ export default class PagedTable extends React.Component {
     }
 
     render() {
+        const {current_page} = this.state;
+        const {total_pages} = this.state;
+        const {page_size} = this.state;
+        const {title} = this.props;
+        const {class: class_name} = this.props;
+
         const HeaderComponents = this.generateHeaders();
         const RowComponents = this.generateRows();
         const FooterComponents = this.generateFooter();
-        const previousDisabled = this.state.current_page > 0 ? "" : "disabled";
-        const nextDisabled = (this.state.current_page + 1) < this.state.total_pages ?
-            "" : "disabled";
+        const previousDisabled = current_page > 0 ? "" : "disabled";
+        const nextDisabled = (current_page + 1) < total_pages
+            ? "" : "disabled";
         let setPageSizeDisabled = "disabled";
-        if ((this.state.page_size.length > 0) && (!isNaN(parseInt(this.state.page_size, 10)))) {
+        if ((page_size.length > 0) && (!Number.isNaN(parseInt(page_size, 10)))) {
             setPageSizeDisabled = "";
         }
 
         return (
             <div className="">
                 <div className="card-header">
-                    <h2 className="card-title">{this.props.title}</h2>
+                    <h2 className="card-title">
+                        {title}
+                    </h2>
                 </div>
                 <div className="card-body">
-                    <table className={this.props.class}>
-                        <thead>{HeaderComponents}</thead>
-                        <tfoot>{FooterComponents}</tfoot>
-                        <tbody>{RowComponents}</tbody>
+                    <table className={class_name}>
+                        <thead>
+                            {HeaderComponents}
+                        </thead>
+                        <tfoot>
+                            {FooterComponents}
+                        </tfoot>
+                        <tbody>
+                            {RowComponents}
+                        </tbody>
                     </table>
                 </div>
                 <div className="card-footer">
@@ -254,7 +272,6 @@ export default class PagedTable extends React.Component {
                             <button
                                 type="button"
                                 className={"btn-extra btn btn-primary btn-sm " + previousDisabled}
-                                role="button"
                                 onClick={this.onFirstPage}
                             >
                                 First
@@ -262,18 +279,19 @@ export default class PagedTable extends React.Component {
                             <button
                                 type="button"
                                 className={"btn-extra btn btn-primary btn-sm " + previousDisabled}
-                                role="button"
                                 onClick={this.onPreviousPage}
                             >
                                 Previous
                             </button>
                             <span>
-                                Page {this.state.current_page + 1} of {this.state.total_pages}
+                                Page
+                                {current_page + 1}
+                                of
+                                {total_pages}
                             </span>
                             <button
                                 type="button"
                                 className={"btn-extra btn btn-primary btn-sm " + nextDisabled}
-                                role="button"
                                 onClick={this.onNextPage}
                             >
                                 Next
@@ -281,7 +299,6 @@ export default class PagedTable extends React.Component {
                             <button
                                 type="button"
                                 className={"btn-extra btn btn-primary btn-sm " + nextDisabled}
-                                role="button"
                                 onClick={this.onLastPage}
                             >
                                 Last
@@ -290,9 +307,8 @@ export default class PagedTable extends React.Component {
                         <div className="col-md-3">
                             <button
                                 type="button"
-                                className={"btn-extra btn btn-primary pull-right btn-sm " +
-                                    setPageSizeDisabled}
-                                role="button"
+                                className={"btn-extra btn btn-primary pull-right btn-sm "
+                                    + setPageSizeDisabled}
                                 onClick={this.onSetPageSize}
                             >
                                 Page Size
@@ -301,7 +317,7 @@ export default class PagedTable extends React.Component {
                                 type="text"
                                 className="textbox-sm pull-right"
                                 id="page-size"
-                                value={this.state.page_size}
+                                value={page_size}
                                 onChange={this.pageSizeChanged}
                             />
                         </div>
@@ -312,7 +328,7 @@ export default class PagedTable extends React.Component {
     }
 
     generateHeaders() {
-        const cols = this.props.cols;
+        const {cols} = this.props;
         // generate our header (th) cell components
         const cells = cols.map(function (colData, i) {
             if (cols[i].sortable) {
@@ -339,14 +355,16 @@ export default class PagedTable extends React.Component {
         return (
             <tr>
                 {cells}
-            <th>Actions</th>
+                <th>
+                    Actions
+                </th>
             </tr>
         );
     }
 
     generateRows() {
-        const cols = this.props.cols;  // [{colname, label}]
-        const rows = this.state.rows;
+        const {cols} = this.props; // [{colname, label}]
+        const {rows} = this.state;
         const $this = this;
 
         return rows.map(function (row) {
@@ -354,7 +372,11 @@ export default class PagedTable extends React.Component {
             const cells = cols.map(function (colData) {
 
                 // colData.colname might be "FirstName"
-                return <td key={colData.colname}>{row[colData.colname]}</td>;
+                return (
+                    <td key={colData.colname}>
+                        {row[colData.colname]}
+                    </td>
+                );
             });
             const actions = $this.getActions(row);
             return (
@@ -367,7 +389,17 @@ export default class PagedTable extends React.Component {
     }
 
     generateFooter() {
-        return <tr><td>"Total Rows"</td><td>{this.state.rows.length}</td></tr>;
+        const {rows} = this.state;
+        return (
+            <tr>
+                <td>
+                    Total Rows
+                </td>
+                <td>
+                    {rows.length}
+                </td>
+            </tr>
+        );
     }
 }
 

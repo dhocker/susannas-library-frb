@@ -74,8 +74,11 @@ export default class DeleteAuthorDialog extends ModalDialog {
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Delete Author</h1>
-                <h2>and ALL related books</h2>
+                    Delete Author
+                </h1>
+                <h2>
+                    and ALL related books
+                </h2>
             </div>
         );
     }
@@ -85,16 +88,47 @@ export default class DeleteAuthorDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {row} = this.props;
         return (
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="form-group">
-                        <p><b>id:</b> {this.props.row.id}</p>
-                        <p><b>Last name:</b> {this.props.row.LastName}</p>
-                        <p><b>First name:</b> {this.props.row.FirstName}</p>
-                        <p><b>Category:</b> {this.props.row.category}</p>
-                        <p><b>Try:</b> {this.props.row.try_author}</p>
-                        <p><b>Avoid:</b> {this.props.row.Avoid}</p>
+                        <p>
+                            <b>
+                                id:&nbsp;
+                            </b>
+                            {row.id}
+                        </p>
+                        <p>
+                            <b>
+                                Last name:&nbsp;
+                            </b>
+                            {row.LastName}
+                        </p>
+                        <p>
+                            <b>
+                                First name:&nbsp;
+                            </b>
+                            {row.FirstName}
+                        </p>
+                        <p>
+                            <b>
+                                Category:&nbsp;
+                            </b>
+                            {row.category}
+                        </p>
+                        <p>
+                            <b>
+                                Try:&nbsp;
+                            </b>
+                            {row.try_author}
+                        </p>
+                        <p>
+                            <b>
+                                Avoid:&nbsp;
+                            </b>
+                            {row.Avoid}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -129,7 +163,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
 }
 
 DeleteAuthorDialog.propTypes = {
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 DeleteAuthorDialog.defaultProps = {
@@ -140,7 +174,7 @@ DeleteAuthorDialog.defaultProps = {
 */
 export function deleteAuthor(row) {
     console.log("Attempting to create DeleteAuthorDialog");
-    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} size={"sm"} row={row} />,
+    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} size="sm" row={row} />,
         document.querySelector('#delete-author'));
     console.log("DeleteAuthorDialog created");
     callstack.callDialog(DELETE_AUTHOR_DLG_ID);

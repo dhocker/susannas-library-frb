@@ -31,15 +31,16 @@ const EDIT_AUTHOR_DLG_ID = "edit-author-jsx";
 export default class EditAuthorDialog extends NewAuthorDialog {
     constructor(props) {
         super(props);
+        const {row} = props;
 
         // Initial state
-        this.row = props.row;
-        this.state.lastnameValue = props.row.LastName;
-        this.state.firstnameValue = props.row.FirstName;
-        this.state.categoryValue = props.row.category_id;
-        this.state.tryValue = !props.row.try_author === "";
-        this.state.avoidValue = !props.row.Avoid === "";
-        this.state.id = props.row.id;
+        this.row = row;
+        this.state.lastnameValue = row.LastName;
+        this.state.firstnameValue = row.FirstName;
+        this.state.categoryValue = row.category_id;
+        this.state.tryValue = !row.try_author === "";
+        this.state.avoidValue = !row.Avoid === "";
+        this.state.id = row.id;
         this.state.error = "";
 
         // Bind 'this' to various methods
@@ -111,12 +112,16 @@ export default class EditAuthorDialog extends NewAuthorDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Edit Author</h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                    Edit Author
+                </h1>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -149,7 +154,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
 
 EditAuthorDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.object.isRequired
+    row: PropTypes.instanceOf(PropTypes.object).isRequired
 };
 
 EditAuthorDialog.defaultProps = {
@@ -167,13 +172,14 @@ export function editAuthorDialog(row) {
         ReactDOM.render(
             <EditAuthorDialog
                 id={EDIT_AUTHOR_DLG_ID}
-                size={"sm"}
+                size="sm"
                 row={row}
                 ref={(instance) => {
                     editAuthorInstance = instance;
                 }}
             />,
-            document.querySelector('#edit-author'));
+            document.querySelector('#edit-author')
+        );
     }
     callstack.callDialog(EDIT_AUTHOR_DLG_ID);
 }

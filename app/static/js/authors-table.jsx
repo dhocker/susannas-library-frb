@@ -143,7 +143,7 @@ export function createAuthorsTable(filter_by, id, name) {
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(
         <AuthorsTable
-            class={"table table-striped table-condensed"}
+            class="table table-striped table-condensed"
             title={title}
             cols={authorTableColumns}
             filter_by={filter_by}

@@ -31,10 +31,11 @@ const EDIT_CATEGORY_DLG_ID = "edit-category-jsx";
 export default class EditCategoryDialog extends NewCategoryDialog {
     constructor(props) {
         super(props);
+        const {row} = props;
 
         // Initial state
-        this.state.nameValue = props.row.name;
-        this.state.id = props.row.id;
+        this.state.nameValue = row.name;
+        this.state.id = row.id;
         this.state.error = "";
 
         // Bind 'this' to various methods
@@ -110,6 +111,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
@@ -118,8 +120,11 @@ export default class EditCategoryDialog extends NewCategoryDialog {
                         alt="logo"
                         src="/static/book_pile2.jpg"
                     />
-                Edit Category</h1>
-                <h2 style={{ color: "red" }}>{this.state.error}</h2>
+                    Edit Category
+                </h1>
+                <h2 style={{ color: "red" }}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -152,7 +157,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
 
 EditCategoryDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 EditCategoryDialog.defaultProps = {
@@ -170,13 +175,14 @@ export function editCategoryDialog(row) {
         ReactDOM.render(
             <EditCategoryDialog
                 id={EDIT_CATEGORY_DLG_ID}
-                size={"sm"}
+                size="sm"
                 row={row}
                 ref={function (instance) {
                     editCategoryInstance = instance;
                 }}
             />,
-            document.querySelector('#edit-category'));
+            document.querySelector('#edit-category')
+        );
     }
     callstack.callDialog(EDIT_CATEGORY_DLG_ID);
 }

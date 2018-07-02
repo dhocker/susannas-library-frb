@@ -140,12 +140,16 @@ export default class NewSeriesDialog extends ModalDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                New Series</h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                    New Series
+                </h1>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -156,11 +160,13 @@ export default class NewSeriesDialog extends ModalDialog {
     */
     getBody() {
         return (
-            <form id={this.props.id} role="form">
+            <form id={this.props.id}>
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="form-group">
-                            <label htmlFor="input-name">Series Name</label>
+                            <label htmlFor="input-name">
+                                Series Name
+                            </label>
                             <input
                                 id="input-name"
                                 type="text"
@@ -220,12 +226,13 @@ export function initNewSeriesDialog() {
     ReactDOM.render(
         <NewSeriesDialog
             id={NEW_SERIES_DLG_ID}
-            size={"sm"}
+            size="sm"
             ref={(instance) => {
                 newSeriesDialogInstance = instance;
             }}
         />,
-        document.querySelector('#new-series'));
+        document.querySelector('#new-series')
+    );
 }
 
 /*

@@ -68,7 +68,8 @@ export default class DeleteBookDialog extends ModalDialog {
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Delete Book</h1>
+                    Delete Book
+                </h1>
             </div>
         );
     }
@@ -78,19 +79,65 @@ export default class DeleteBookDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {row} = this.props;
         return (
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="form-group">
-                        <p><b>id:</b> {this.props.row.id}</p>
-                        <p><b>Title:</b> {this.props.row.Title}</p>
-                        <p><b>Volume:</b> {this.props.row.Volume}</p>
-                        <p><b>Series:</b> {this.props.row.Series}</p>
-                        <p><b>Author:</b> {this.props.row.Author}</p>
-                        <p><b>Category:</b> {this.props.row.Category}</p>
-                        <p><b>Status:</b> {this.props.row.Status}</p>
-                        <p><b>Cover:</b> {this.props.row.CoverType}</p>
-                        <p><b>Notes:</b> {this.props.row.Notes}</p>
+                        <p>
+                            <b>
+                                id:&nbsp;
+                            </b>
+                            {row.id}
+                        </p>
+                        <p>
+                            <b>
+                                Title:&nbsp;
+                            </b>
+                            {row.Title}
+                        </p>
+                        <p>
+                            <b>
+                                Volume:&nbsp;
+                            </b>
+                            {row.Volume}
+                        </p>
+                        <p>
+                            <b>
+                                Series:&nbsp;
+                            </b>
+                            {row.Series}
+                        </p>
+                        <p>
+                            <b>
+                                Author:&nbsp;
+                            </b>
+                            {row.Author}
+                        </p>
+                        <p>
+                            <b>
+                                Category:&nbsp;
+                            </b>
+                            {row.Category}
+                        </p>
+                        <p>
+                            <b>
+                                Status:&nbsp;
+                            </b>
+                            {row.Status}
+                        </p>
+                        <p>
+                            <b>
+                                Cover:&nbsp;
+                            </b>
+                            {row.CoverType}
+                        </p>
+                        <p>
+                            <b>
+                                Notes:&nbsp;
+                            </b>
+                            {row.Notes}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -124,7 +171,7 @@ export default class DeleteBookDialog extends ModalDialog {
 }
 
 DeleteBookDialog.propTypes = {
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 DeleteBookDialog.defaultProps = {
@@ -138,7 +185,8 @@ export function deleteBook(row) {
     ReactDOM.render(
         <DeleteBookDialog
             id={DELETE_BOOK_DLG_ID}
-            size={"sm"} row={row}
+            size="sm"
+            row={row}
         />,
         document.querySelector('#delete-book')
     );

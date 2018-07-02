@@ -27,9 +27,10 @@ export default class ModalDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        const {id} = this.props;
 
         // Dialog ID
-        this.dialog_id = this.props.id;
+        this.dialog_id = id;
 
         // Dialog box size
         let sizeClass = "modal-md";
@@ -96,7 +97,9 @@ export default class ModalDialog extends React.Component {
     getHeader() {
         return (
             <div className="modal-header">
-                <h4 className="modal-title">Modal Header</h4>
+                <h4 className="modal-title">
+                    Modal Header
+                </h4>
             </div>
         );
     }
@@ -108,7 +111,9 @@ export default class ModalDialog extends React.Component {
     getBody() {
         return (
             <div className="modal-body">
-                <p>Some text in the modal.</p>
+                <p>
+                    Some text in the modal.
+                </p>
             </div>
         );
     }
@@ -141,9 +146,10 @@ export default class ModalDialog extends React.Component {
     }
 
     render() {
+        const {sizeClass} = this.state;
         return (
             <div id={this.dialog_id} className="modal" role="dialog">
-                <div className={"modal-dialog " + this.state.sizeClass}>
+                <div className={"modal-dialog " + sizeClass}>
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
@@ -161,4 +167,5 @@ ModalDialog.propTypes = {
 };
 
 ModalDialog.defaultProps = {
+    size: ""
 };

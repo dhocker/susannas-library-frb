@@ -30,8 +30,8 @@ import * as callstack from './dialog-call-stack';
     Initialize the home page
 */
 export function initHomePage(filter_by, id, name) {
-    console.log("Initializing authors page with filter: " +
-    filter_by + " " + id + " " + name);
+    console.log("Initializing authors page with filter: "
+        + filter_by + " " + id + " " + name);
     // Create and load authors table
     authorstable.createAuthorsTable(filter_by, id, name);
 
@@ -58,8 +58,8 @@ export function initHomePage(filter_by, id, name) {
     Initialize the paged books page
 */
 export function initPagedBooksPage(filter_by, id, name) {
-    console.log("Initializing paged books page with filter: " +
-        filter_by + " " + id + " " + name);
+    console.log("Initializing paged books page with filter: "
+        + filter_by + " " + id + " " + name);
     // Create and load books table
     pagedbookstable.createPagedBooksTable(filter_by, id, name);
 

@@ -33,10 +33,14 @@ const NEW_BOOK_DLG_ID = "new-book-jsx";
 export default class NewBookDialog extends ModalDialog {
     constructor(props) {
         super(props);
+
+        const {filter_by} = props;
+        const {filter_by_id} = props;
+
         // Initial state
-        if (props.filter_by && props.filter_by_id) {
-            console.log("NewBookDialog filter_by = " + props.filter_by +
-                " " + String(props.filter_by_id));
+        if (filter_by && filter_by_id) {
+            console.log("NewBookDialog filter_by = " + filter_by
+                + " " + String(filter_by_id));
         }
 
         // Default choices
@@ -44,12 +48,12 @@ export default class NewBookDialog extends ModalDialog {
         let author_id = -1;
 
         // Apply filtering
-        switch (props.filter_by) {
+        switch (filter_by) {
             case "author":
-                author_id = props.filter_by_id;
+                author_id = filter_by_id;
                 break;
             case "series":
-                series_id = props.filter_by_id;
+                series_id = filter_by_id;
                 break;
             default:
                 break;
@@ -101,7 +105,7 @@ export default class NewBookDialog extends ModalDialog {
         const $this = this;
         $.get("/authors", function (response /* , status */) {
             console.log("Author rows received: " + String(response.data.rows.length));
-            const rows = response.data.rows;
+            const {rows} = response.data;
 
             // Pick default if necessary
             let author_id = $this.state.authorValue;
@@ -123,7 +127,7 @@ export default class NewBookDialog extends ModalDialog {
         const $this = this;
         $.get("/series", function (response /* , status */) {
             console.log("Series rows received: " + String(response.data.rows.length));
-            const rows = response.data.rows;
+            const {rows} = response.data;
 
             // Pick default if necessary
             let series_id = $this.state.seriesValue;
@@ -143,24 +147,29 @@ export default class NewBookDialog extends ModalDialog {
         Clear all form fields
     */
     clearFormFields() {
-        console.log("Clear fields for filter_by = " + this.props.filter_by + " " +
-            String(this.props.filter_by_id));
+        const {filter_by} = this.props;
+        const {filter_by_id} = this.props;
+        const {series_rows} = this.state;
+        const {author_rows} = this.state;
+
+        console.log("Clear fields for filter_by = " + filter_by + " "
+            + String(filter_by_id));
 
         // Apply book filtering
         let series_id = -1;
         let author_id = -1;
-        if (this.state.series_rows.length) {
-            series_id = this.state.series_rows[0].id;
+        if (series_rows.length) {
+            series_id = series_rows[0].id;
         }
-        if (this.state.author_rows.length) {
-            author_id = this.state.author_rows[0].id;
+        if (author_rows.length) {
+            author_id = author_rows[0].id;
         }
-        switch (this.props.filter_by) {
+        switch (filter_by) {
             case "author":
-                author_id = this.props.filter_by_id;
+                author_id = filter_by_id;
                 break;
             case "series":
-                series_id = this.props.filter_by_id;
+                series_id = filter_by_id;
                 break;
             default:
                 break;
@@ -229,7 +238,7 @@ export default class NewBookDialog extends ModalDialog {
         }
         if (this.state.volumeValue.length > 0) {
             const v = Number(this.state.volumeValue);
-            if (isNaN(v)) {
+            if (Number.isNaN(v)) {
                 this.setState({error: "Volume must be a number or empty"});
                 return;
             }
@@ -309,7 +318,7 @@ export default class NewBookDialog extends ModalDialog {
         // Validate volume as a number
         if (event.target.value.length > 0) {
             const v = Number(event.target.value);
-            if (!isNaN(v)) {
+            if (!Number.isNaN(v)) {
                 this.setState({
                     volumeValue: event.target.value,
                     error: ""
@@ -369,13 +378,16 @@ export default class NewBookDialog extends ModalDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                     New Book
                 </h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -385,15 +397,18 @@ export default class NewBookDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {id} = this.props;
         return (
-            <form id={this.props.id} role="form">
+            <form id={id}>
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={"title-input"}>Title</label>
+                                <label htmlFor="title-input">
+                                    Title
+                                </label>
                                 <input
-                                    id={"title-input"}
+                                    id="title-input"
                                     type="text"
                                     className="form-control"
                                     ref={(instance) => {
@@ -418,13 +433,17 @@ export default class NewBookDialog extends ModalDialog {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-author"}>Author</label>
+                                <label htmlFor={this.props.id + "-author"}>
+                                    Author
+                                </label>
                                 {this.getAuthorSelect(this.props.id + "-author")}
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={"status"}>Status</label>
+                                <label htmlFor="status">
+                                    Status
+                                </label>
                                 <input
-                                    id={"status"}
+                                    id="status"
                                     type="text"
                                     className="form-control"
                                     value={this.state.statusValue}
@@ -434,13 +453,17 @@ export default class NewBookDialog extends ModalDialog {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-series"}>Series</label>
+                                <label htmlFor={this.props.id + "-series"}>
+                                    Series
+                                </label>
                                 {this.getSeriesSelect(this.props.id + "-series")}
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={"cover"}>Cover</label>
+                                <label htmlFor="cover">
+                                    Cover
+                                </label>
                                 <input
-                                    id={"cover"}
+                                    id="cover"
                                     type="text"
                                     className="form-control"
                                     value={this.state.coverValue}
@@ -450,9 +473,11 @@ export default class NewBookDialog extends ModalDialog {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={"volume"}>Volume</label>
+                                <label htmlFor="volume">
+                                    Volume
+                                </label>
                                 <input
-                                    id={"volume"}
+                                    id="volume"
                                     type="text"
                                     className="form-control"
                                     value={this.state.volumeValue}
@@ -460,9 +485,11 @@ export default class NewBookDialog extends ModalDialog {
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={"notes"}>Notes</label>
+                                <label htmlFor="notes">
+                                    Notes
+                                </label>
                                 <input
-                                    id={"notes"}
+                                    id="notes"
                                     type="text"
                                     className="form-control"
                                     value={this.state.notesValue}
@@ -474,9 +501,11 @@ export default class NewBookDialog extends ModalDialog {
                             <div className="col-md-6">
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={"isbn"}>ISBN</label>
+                                <label htmlFor="isbn">
+                                    ISBN
+                                </label>
                                 <input
-                                    id={"isbn"}
+                                    id="isbn"
                                     type="text"
                                     className="form-control"
                                     value={this.state.isbnValue}
@@ -596,7 +625,7 @@ export function initNewBookDialog(filter_by, id) {
     ReactDOM.render(
         <NewBookDialog
             id={NEW_BOOK_DLG_ID}
-            size={"md"}
+            size="md"
             filter_by={filter_by}
             filter_by_id={id}
             ref={(instance) => {

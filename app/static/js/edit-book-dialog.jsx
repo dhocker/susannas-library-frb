@@ -27,19 +27,20 @@ const EDIT_BOOK_DLG_ID = "edit-book-jsx";
 export default class EditBookDialog extends NewBookDialog {
     constructor(props) {
         super(props);
+        const {row} = props;
 
         // Initial state from props.row
-        this.row = props.row;
-        this.state.id = props.row.id;
-        this.state.titleValue = props.row.Title;
-        this.state.isbnValue = props.row.ISBN;
-        this.state.volumeValue = props.row.Volume;
-        this.state.seriesValue = props.row.series_id;
-        this.state.authorValue = props.row.author_id ? props.row.author_id : 0;
-        this.state.categoryValue = props.row.category_id;
-        this.state.statusValue = props.row.Status;
-        this.state.coverValue = props.row.CoverType;
-        this.state.notesValue = props.row.Notes;
+        this.row = row;
+        this.state.id = row.id;
+        this.state.titleValue = row.Title;
+        this.state.isbnValue = row.ISBN;
+        this.state.volumeValue = row.Volume;
+        this.state.seriesValue = row.series_id;
+        this.state.authorValue = row.author_id ? row.author_id : 0;
+        this.state.categoryValue = row.category_id;
+        this.state.statusValue = row.Status;
+        this.state.coverValue = row.CoverType;
+        this.state.notesValue = row.Notes;
         this.state.series_rows = [];
         this.state.author_rows = [];
         this.state.error = "";
@@ -130,12 +131,16 @@ export default class EditBookDialog extends NewBookDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Edit Book</h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                    Edit Book
+                </h1>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -168,7 +173,7 @@ export default class EditBookDialog extends NewBookDialog {
 
 EditBookDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.object.isRequired
+    row: PropTypes.instanceOf(PropTypes.object).isRequired
 };
 
 EditBookDialog.defaultProps = {
@@ -186,13 +191,14 @@ export function editBookDialog(row) {
         ReactDOM.render(
             <EditBookDialog
                 id={EDIT_BOOK_DLG_ID}
-                size={"md"}
+                size="md"
                 row={row}
                 ref={(instance) => {
                     editBookInstance = instance;
                 }}
             />,
-            document.querySelector('#edit-book'));
+            document.querySelector('#edit-book')
+        );
     }
     callstack.callDialog(EDIT_BOOK_DLG_ID);
 }

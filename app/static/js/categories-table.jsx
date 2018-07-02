@@ -141,10 +141,10 @@ export function createCategoriesTable() {
     // Note that the ref attribute is the preferred way to capture the rendered instance
     ReactDOM.render(
         <CategoriesTable
-            class={"table table-striped table-condensed"}
-            title={"Categories"}
+            class="table table-striped table-condensed"
+            title="Categories"
             cols={categoriesTableColumns}
-            url={"/categories"}
+            url="/categories"
             ref={(instance) => {
                 categoriesTableInstance = instance;
             }}

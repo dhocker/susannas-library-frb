@@ -27,10 +27,12 @@ const ERROR_DLG_ID = "error-dialog-jsx";
 export default class ErrorDialog extends ModalDialog {
     constructor(props) {
         super(props);
+        const {message} = props;
+        const {title} = props;
 
         // Initial state
-        this.state.message = props.message;
-        this.state.title = props.title;
+        this.state.message = message;
+        this.state.title = title;
 
         // Bind 'this' to various methods
         this.getHeader = this.getHeader.bind(this);
@@ -48,9 +50,12 @@ export default class ErrorDialog extends ModalDialog {
         Override to customize the dialog header (title)
     */
     getHeader() {
+        const {title} = this.state;
         return (
             <div className="modal-header">
-                <h1 className="modal-title">{this.state.title}</h1>
+                <h1 className="modal-title">
+                    {title}
+                </h1>
             </div>
         );
     }
@@ -60,11 +65,14 @@ export default class ErrorDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {message} = this.state;
         return (
             <div
                 className="modal-body"
             >
-                <p>{this.state.message}</p>
+                <p>
+                    {message}
+                </p>
             </div>
         );
     }
@@ -82,7 +90,8 @@ export default class ErrorDialog extends ModalDialog {
                     type="button"
                     className="btn btn-danger pull-left"
                     onClick={this.onClose}
-                >Close
+                >
+                    Close
                 </button>
             </div>
         );
@@ -98,6 +107,7 @@ ErrorDialog.propTypes = {
 };
 
 ErrorDialog.defaultProps = {
+    size: ""
 };
 
 /*
@@ -112,13 +122,14 @@ export function showErrorDialog(title, message) {
         ReactDOM.render(
             <ErrorDialog
                 id={ERROR_DLG_ID}
-                size={"md"}
+                size="md"
                 message={message}
                 ref={(instance) => {
                     dialogInstance = instance;
                     dialogInstance.showDialog(title, message);
                 }}
             />,
-            document.querySelector('#error-dialog'));
+            document.querySelector('#error-dialog')
+        );
     }
 }

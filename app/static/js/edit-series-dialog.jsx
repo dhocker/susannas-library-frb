@@ -31,10 +31,11 @@ const EDIT_SERIES_DLG_ID = "edit-series-jsx";
 export default class EditSeriesDialog extends NewSeriesDialog {
     constructor(props) {
         super(props);
+        const {row} = props;
 
         // Initial state
-        this.state.nameValue = props.row.name;
-        this.state.id = props.row.id;
+        this.state.nameValue = row.name;
+        this.state.id = row.id;
         this.state.error = "";
 
         // Bind 'this' to various methods
@@ -89,13 +90,16 @@ export default class EditSeriesDialog extends NewSeriesDialog {
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
+        const {error} = this.state;
         return (
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
                     Edit Series
                 </h1>
-                <h2 style={{color: "red"}}>{this.state.error}</h2>
+                <h2 style={{color: "red"}}>
+                    {error}
+                </h2>
             </div>
         );
     }
@@ -128,7 +132,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
 
 EditSeriesDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 EditSeriesDialog.defaultProps = {
@@ -146,13 +150,14 @@ export function editSeriesDialog(row) {
         ReactDOM.render(
             <EditSeriesDialog
                 id={EDIT_SERIES_DLG_ID}
-                size={"sm"}
+                size="sm"
                 row={row}
                 ref={function (instance) {
                     editSeriesInstance = instance;
                 }}
             />,
-            document.querySelector('#edit-series'));
+            document.querySelector('#edit-series')
+        );
     }
     callstack.callDialog(EDIT_SERIES_DLG_ID);
 }

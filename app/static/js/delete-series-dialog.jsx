@@ -68,8 +68,11 @@ export default class DeleteSeriesDialog extends ModalDialog {
             <div className="modal-header">
                 <h1 className="modal-title">
                     <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                Delete Series</h1>
-                <h2>and ALL related books</h2>
+                    Delete Series
+                </h1>
+                <h2>
+                    and ALL related books
+                </h2>
             </div>
         );
     }
@@ -79,12 +82,23 @@ export default class DeleteSeriesDialog extends ModalDialog {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const {row} = this.props;
         return (
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="form-group">
-                        <p><b>id:</b> {this.props.row.id}</p>
-                        <p><b>Name:</b> {this.props.row.name}</p>
+                        <p>
+                            <b>
+                                id:&nbsp;
+                            </b>
+                            {row.id}
+                        </p>
+                        <p>
+                            <b>
+                                Name:&nbsp;
+                            </b>
+                            {row.name}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -118,7 +132,7 @@ export default class DeleteSeriesDialog extends ModalDialog {
 }
 
 DeleteSeriesDialog.propTypes = {
-    row: PropTypes.object.isRequired,
+    row: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 DeleteSeriesDialog.defaultProps = {
@@ -132,10 +146,11 @@ export function deleteSeries(row) {
     ReactDOM.render(
         <DeleteSeriesDialog
             id={DELETE_SERIES_DLG_ID}
-            size={"sm"}
+            size="sm"
             row={row}
         />,
-        document.querySelector('#delete-series'));
+        document.querySelector('#delete-series')
+    );
     console.log("DeleteSeriesDialog created");
     callstack.callDialog(DELETE_SERIES_DLG_ID);
 }
