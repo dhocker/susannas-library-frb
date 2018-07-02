@@ -284,9 +284,10 @@ export default class PagedTable extends React.Component {
                                 Previous
                             </button>
                             <span>
-                                Page
+                                Page&nbsp;
                                 {current_page + 1}
-                                of
+                                &nbsp;
+                                of&nbsp;
                                 {total_pages}
                             </span>
                             <button
