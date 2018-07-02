@@ -400,8 +400,8 @@ export default class NewBookDialog extends ModalDialog {
         const {id} = this.props;
         return (
             <form id={id}>
-                <div className="panel panel-default">
-                    <div className="panel-body">
+                <div className="card">
+                    <div className="card-body">
                         <div className="row">
                             <div className="col-md-6">
                                 <label htmlFor="title-input">
@@ -528,28 +528,28 @@ export default class NewBookDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Add
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default"
+                    className="btn btn-secondary float-right"
                     onClick={this.newAuthorClicked}
                 >
                     New Author
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default"
+                    className="btn btn-secondary float-right"
                     onClick={this.newSeriesClicked}
                 >
                     New Series
@@ -625,7 +625,7 @@ export function initNewBookDialog(filter_by, id) {
     ReactDOM.render(
         <NewBookDialog
             id={NEW_BOOK_DLG_ID}
-            size="md"
+            size="lg"
             filter_by={filter_by}
             filter_by_id={id}
             ref={(instance) => {

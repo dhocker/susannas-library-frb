@@ -72,13 +72,19 @@ export default class DeleteAuthorDialog extends ModalDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">
-                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                    Delete Author
-                </h1>
-                <h2>
-                    and ALL related books
-                </h2>
+                <div className="">
+                    <div className="">
+                        <h1 className="modal-title">
+                            <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                            Delete Author
+                        </h1>
+                    </div>
+                    <div className="">
+                        <h2 className="">
+                            and ALL related books
+                        </h2>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -90,8 +96,8 @@ export default class DeleteAuthorDialog extends ModalDialog {
     getBody() {
         const {row} = this.props;
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
+            <div className="card">
+                <div className="card-body">
                     <div className="form-group">
                         <p>
                             <b>
@@ -144,7 +150,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     data-dismiss="modal"
                     onClick={this.onDelete}
                 >
@@ -152,7 +158,7 @@ export default class DeleteAuthorDialog extends ModalDialog {
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -174,7 +180,7 @@ DeleteAuthorDialog.defaultProps = {
 */
 export function deleteAuthor(row) {
     console.log("Attempting to create DeleteAuthorDialog");
-    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} size="sm" row={row} />,
+    ReactDOM.render(<DeleteAuthorDialog id={DELETE_AUTHOR_DLG_ID} size="md" row={row} />,
         document.querySelector('#delete-author'));
     console.log("DeleteAuthorDialog created");
     callstack.callDialog(DELETE_AUTHOR_DLG_ID);

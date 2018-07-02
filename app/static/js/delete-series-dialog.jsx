@@ -66,13 +66,19 @@ export default class DeleteSeriesDialog extends ModalDialog {
     getHeader() {
         return (
             <div className="modal-header">
-                <h1 className="modal-title">
-                    <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
-                    Delete Series
-                </h1>
-                <h2>
-                    and ALL related books
-                </h2>
+                <div>
+                    <div>
+                        <h1 className="modal-title">
+                            <img className="dialog-logo" alt="logo" src="/static/book_pile2.jpg" />
+                            Delete Series
+                        </h1>
+                    </div>
+                    <div>
+                        <h2>
+                            and ALL related books
+                        </h2>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -84,8 +90,8 @@ export default class DeleteSeriesDialog extends ModalDialog {
     getBody() {
         const {row} = this.props;
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
+            <div className="card">
+                <div className="card-body">
                     <div className="form-group">
                         <p>
                             <b>
@@ -114,14 +120,14 @@ export default class DeleteSeriesDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onDelete}
                 >
                     Delete
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -146,7 +152,7 @@ export function deleteSeries(row) {
     ReactDOM.render(
         <DeleteSeriesDialog
             id={DELETE_SERIES_DLG_ID}
-            size="sm"
+            size="md"
             row={row}
         />,
         document.querySelector('#delete-series')

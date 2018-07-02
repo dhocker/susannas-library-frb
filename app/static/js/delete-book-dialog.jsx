@@ -81,8 +81,8 @@ export default class DeleteBookDialog extends ModalDialog {
     getBody() {
         const {row} = this.props;
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
+            <div className="card">
+                <div className="card-body">
                     <div className="form-group">
                         <p>
                             <b>
@@ -153,14 +153,14 @@ export default class DeleteBookDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onDelete}
                 >
                     Delete
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -185,7 +185,7 @@ export function deleteBook(row) {
     ReactDOM.render(
         <DeleteBookDialog
             id={DELETE_BOOK_DLG_ID}
-            size="sm"
+            size="md"
             row={row}
         />,
         document.querySelector('#delete-book')

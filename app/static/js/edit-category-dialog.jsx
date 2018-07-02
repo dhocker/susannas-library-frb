@@ -138,14 +138,14 @@ export default class EditCategoryDialog extends NewCategoryDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onSave}
                 >
                     Save
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -175,7 +175,7 @@ export function editCategoryDialog(row) {
         ReactDOM.render(
             <EditCategoryDialog
                 id={EDIT_CATEGORY_DLG_ID}
-                size="sm"
+                size="md"
                 row={row}
                 ref={function (instance) {
                     editCategoryInstance = instance;

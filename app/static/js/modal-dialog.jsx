@@ -148,7 +148,7 @@ export default class ModalDialog extends React.Component {
     render() {
         const {sizeClass} = this.state;
         return (
-            <div id={this.dialog_id} className="modal" role="dialog">
+            <div id={this.dialog_id} className="modal fade" role="dialog">
                 <div className={"modal-dialog " + sizeClass}>
                     <div className="modal-content">
                         {this.getHeader()}

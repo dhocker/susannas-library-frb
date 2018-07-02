@@ -161,8 +161,8 @@ export default class NewSeriesDialog extends ModalDialog {
     getBody() {
         return (
             <form id={this.props.id}>
-                <div className="panel panel-default">
-                    <div className="panel-body">
+                <div className="card">
+                    <div className="card-body">
                         <div className="form-group">
                             <label htmlFor="input-name">
                                 Series Name
@@ -194,14 +194,14 @@ export default class NewSeriesDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Add
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -226,7 +226,7 @@ export function initNewSeriesDialog() {
     ReactDOM.render(
         <NewSeriesDialog
             id={NEW_SERIES_DLG_ID}
-            size="sm"
+            size="md"
             ref={(instance) => {
                 newSeriesDialogInstance = instance;
             }}

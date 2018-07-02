@@ -154,14 +154,14 @@ export default class EditBookDialog extends NewBookDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Save
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -191,7 +191,7 @@ export function editBookDialog(row) {
         ReactDOM.render(
             <EditBookDialog
                 id={EDIT_BOOK_DLG_ID}
-                size="md"
+                size="lg"
                 row={row}
                 ref={(instance) => {
                     editBookInstance = instance;

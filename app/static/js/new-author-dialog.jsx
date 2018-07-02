@@ -221,8 +221,8 @@ export default class NewAuthorDialog extends ModalDialog {
     getBody() {
         return (
             <form id={this.props.id}>
-                <div className="panel panel-default">
-                    <div className="panel-body">
+                <div className="card">
+                    <div className="card-body">
                         <div className="form-group">
                             <label htmlFor="lastname">
                                 Last Name
@@ -299,14 +299,14 @@ export default class NewAuthorDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Add
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -332,7 +332,7 @@ export function initNewAuthorDialog() {
     ReactDOM.render(
         <NewAuthorDialog
             id={NEW_AUTHOR_DLG_ID}
-            size="sm"
+            size="md"
             ref={(instance) => {
                 newAuthorDialogInstance = instance;
             }}

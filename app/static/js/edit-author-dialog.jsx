@@ -135,14 +135,14 @@ export default class EditAuthorDialog extends NewAuthorDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Save
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -172,7 +172,7 @@ export function editAuthorDialog(row) {
         ReactDOM.render(
             <EditAuthorDialog
                 id={EDIT_AUTHOR_DLG_ID}
-                size="sm"
+                size="md"
                 row={row}
                 ref={(instance) => {
                     editAuthorInstance = instance;

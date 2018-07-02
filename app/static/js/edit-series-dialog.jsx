@@ -113,14 +113,14 @@ export default class EditSeriesDialog extends NewSeriesDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onAdd}
                 >
                     Save
                 </button>
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     Cancel
@@ -150,7 +150,7 @@ export function editSeriesDialog(row) {
         ReactDOM.render(
             <EditSeriesDialog
                 id={EDIT_SERIES_DLG_ID}
-                size="sm"
+                size="md"
                 row={row}
                 ref={function (instance) {
                     editSeriesInstance = instance;

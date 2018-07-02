@@ -154,8 +154,8 @@ export default class NewCategoryDialog extends ModalDialog {
     getBody() {
         return (
             <form id={this.props.id}>
-                <div className="panel panel-default">
-                    <div className="panel-body">
+                <div className="card">
+                    <div className="card-body">
                         <div className="form-group">
                             <label htmlFor="input-name">
                                 Category Name

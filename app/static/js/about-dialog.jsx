@@ -67,8 +67,8 @@ export default class AboutDialog extends ModalDialog {
     getBody() {
         const {version} = this.state;
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
+            <div className="card">
+                <div className="card-body">
                     <p>
                         All about Susanna&apos;s New Library
                     </p>
@@ -90,7 +90,7 @@ export default class AboutDialog extends ModalDialog {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-default pull-left"
+                    className="btn btn-primary float-left"
                     onClick={this.onCancel}
                 >
                     OK
@@ -102,7 +102,7 @@ export default class AboutDialog extends ModalDialog {
     render() {
         return (
             <div id={this.props.id} className="modal" role="dialog">
-                <div className="modal-dialog modal-md">
+                <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         {this.getHeader()}
                         {this.getBody()}
