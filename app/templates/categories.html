@@ -26,32 +26,30 @@
     </div>
 
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {#
-                    Note that dialog fields are cleared when the dialog is opened.
-                    Also, the data-target value must match the id defined in the
-                    new-author-dialog module.
-                #}
-                <div class="row">
-                    <div class="col-md-8">
-                        <button id="new-category-btn" type="button" class="btn btn-primary btn-sm">
-                            New Category
-                        </button>
-                    </div>
-                    <div class="col-md-4">
-                        <form class="form-inline">
-                            <button id="search-button" class="btn btn-primary btn-md pull-right" type="button">Search</button>
-                            <input type="text" class="form-control pull-right" id="search-text" />
-                        </form>
-                    </div>
+        <div class="card">
+            {#
+                Note that dialog fields are cleared when the dialog is opened.
+                Also, the data-target value must match the id defined in the
+                new-author-dialog module.
+            #}
+            <div class="row">
+                <div class="col-md-8">
+                    <button id="new-category-btn" type="button" class="btn btn-primary btn-sm">
+                        New Category
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <form class="form-inline">
+                        <button id="search-button" class="btn btn-primary btn-md pull-right" type="button">Search</button>
+                        <input type="text" class="form-control pull-right" id="search-text" />
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div id="categoriestable">
+        <div id="categoriestable" class="card">
             {# Table will be rendered inside of this element #}
         </div>
     </div>
