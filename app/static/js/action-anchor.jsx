@@ -54,5 +54,5 @@ ActionAnchor.propTypes = {
     anchorText: PropTypes.string.isRequired,
     htmlHref: PropTypes.string.isRequired,
     onItemClick: PropTypes.func.isRequired,
-    item: PropTypes.instanceOf(PropTypes.object).isRequired,
+    item: PropTypes.object.isRequired,
 };

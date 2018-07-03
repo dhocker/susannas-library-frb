@@ -96,7 +96,7 @@ Select.propTypes = {
     id: PropTypes.string,
     selectClass: PropTypes.string,
     optionClass: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.object).isRequired,
+    options: PropTypes.array.isRequired,
     defaultValue: PropTypes.string,
     keyProp: PropTypes.string.isRequired,
     valueProp: PropTypes.string.isRequired,

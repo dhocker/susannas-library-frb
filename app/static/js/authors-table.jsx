@@ -104,7 +104,7 @@ export default class AuthorsTable extends PagedTable {
 AuthorsTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.arrayOf(PropTypes.object).isRequired,
+    cols: PropTypes.array.isRequired,
     url: PropTypes.string.isRequired
 };
 
