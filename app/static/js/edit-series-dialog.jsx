@@ -132,7 +132,7 @@ export default class EditSeriesDialog extends NewSeriesDialog {
 
 EditSeriesDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.instanceOf(PropTypes.object).isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 EditSeriesDialog.defaultProps = {

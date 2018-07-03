@@ -76,7 +76,7 @@ export default class NewAuthorDialog extends ModalDialog {
 
     componentDidMount() {
         const $this = this;
-        $("#" + $this.dialog_id).on('show.bs.modal', function () {
+        $("#" + $this.dialog_id).on('shown.bs.modal', function () {
             $this.selectCategoryInstance.setSelectedCategory($this.state.categoryValue);
             // Trick to get focus into input text box
             setTimeout(function () {

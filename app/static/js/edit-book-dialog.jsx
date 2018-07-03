@@ -75,7 +75,7 @@ export default class EditBookDialog extends NewBookDialog {
     componentDidMount() {
         // Load combo boxes
         const $this = this;
-        $("#" + EDIT_BOOK_DLG_ID).on('show.bs.modal', function () {
+        $("#" + EDIT_BOOK_DLG_ID).on('shown.bs.modal', function () {
             // Only load the tables once
             if ($this.state.author_rows.length === 0) {
                 $this.loadAuthors();
@@ -173,7 +173,7 @@ export default class EditBookDialog extends NewBookDialog {
 
 EditBookDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.instanceOf(PropTypes.object).isRequired
+    row: PropTypes.object.isRequired
 };
 
 EditBookDialog.defaultProps = {

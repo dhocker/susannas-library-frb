@@ -65,7 +65,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
 
     componentDidMount() {
         const $this = this;
-        $("#" + $this.dialog_id).on('show.bs.modal', function () {
+        $("#" + $this.dialog_id).on('shown.bs.modal', function () {
             $this.selectCategoryInstance.setSelectedCategory($this.row.category_id);
             // Trick to get focus into input text box
             setTimeout(function () {
@@ -154,7 +154,7 @@ export default class EditAuthorDialog extends NewAuthorDialog {
 
 EditAuthorDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.instanceOf(PropTypes.object).isRequired
+    row: PropTypes.object.isRequired
 };
 
 EditAuthorDialog.defaultProps = {

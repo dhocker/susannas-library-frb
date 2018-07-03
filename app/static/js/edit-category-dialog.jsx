@@ -157,7 +157,7 @@ export default class EditCategoryDialog extends NewCategoryDialog {
 
 EditCategoryDialog.propTypes = {
     id: PropTypes.string.isRequired,
-    row: PropTypes.instanceOf(PropTypes.object).isRequired,
+    row: PropTypes.object.isRequired,
 };
 
 EditCategoryDialog.defaultProps = {

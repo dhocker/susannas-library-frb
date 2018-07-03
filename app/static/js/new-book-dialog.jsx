@@ -205,7 +205,7 @@ export default class NewBookDialog extends ModalDialog {
         // Set up event handlers so we can reload the combo boxes
         // We can't set up this event until the component is mounted
         const $this = this;
-        $("#" + NEW_BOOK_DLG_ID).on('show.bs.modal', function () {
+        $("#" + NEW_BOOK_DLG_ID).on('shown.bs.modal', function () {
             // Only load the tables once
             if ($this.state.author_rows.length === 0) {
                 $this.loadAuthors();
