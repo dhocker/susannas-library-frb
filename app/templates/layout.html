@@ -99,16 +99,18 @@
 </body>
 
 <footer class="container footer">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="{{ url_for('get_home') }}">Home/Authors</a>
-            {% block footer_links %}
-            {% endblock %}
-        </div>
-        <div class="col-md-6 text-right">
-            <a href="#" onclick="EntryPoint.showAboutDialog()">
-                Susanna's New Library {{ version }} -- © 2016, 2018 by Dave Hocker
-            </a>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ url_for('get_home') }}">Home/Authors</a>
+                {% block footer_links %}
+                {% endblock %}
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="#" onclick="EntryPoint.showAboutDialog()">
+                    Susanna's New Library {{ version }} -- © 2016, 2018 by Dave Hocker
+                </a>
+            </div>
         </div>
     </div>
 </footer>
