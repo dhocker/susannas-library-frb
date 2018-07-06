@@ -12,17 +12,17 @@ import subprocess
 debugging = False
 
 if debugging:
-	print "sys.path"
+	print("sys.path")
 	for p in sys.path:
-		print p
-	print "PYTHONPATH"
-	print os.getenv("PYTHONPATH", "undefined")
-	print "PYTHONHOME"
-	print os.getenv("PYTHONHOME", "undefined")
+		print(p)
+	print("PYTHONPATH")
+	print(os.getenv("PYTHONPATH", "undefined"))
+	print("PYTHONHOME")
+	print(os.getenv("PYTHONHOME", "undefined"))
 
 	# show uwsgi version
-	print "uwsgi version is:"
-	print subprocess.check_output(["/home/pi/Virtualenvs/agentmpd/bin/uwsgi", "--version"])
+	print("uwsgi version is:")
+	print(subprocess.check_output(["uwsgi", "--version"]))
 	
 	try:
 		# Under 2.7.10 this statement produces the following error:
@@ -30,7 +30,7 @@ if debugging:
     		from urllib2 import parse_http_list as _parse_list_header
 	except ImportError as err: # pragma: no cover
     		#from urllib.request import parse_http_list as _parse_list_header
-		print "Import error for urllib2 caught"
-		print err
+		print("Import error for urllib2 caught")
+		print(err)
 
 from app import app
