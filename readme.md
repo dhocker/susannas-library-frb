@@ -5,7 +5,7 @@ This is the newest iteration of Susanna's Library developed using
 Flask, React, Booststrap and Webpack.
 
 Recently, the app was ported to Python 3.6. Currently, it is
-backward compatible to Python 2.7, but Python 2 is deprecated.
+backward compatible to Python 2.7, but support Python 2 is deprecated.
 
 ## Set Up
 Install node and npm. On macOS this can be done in one action
@@ -13,11 +13,15 @@ using brew.
 
     brew install node
 
-On Raspbian, it's a little more complicated. Detailed information
+On Raspbian, installing nodejs a little more complicated. Detailed information
 can be found here:
 
-[1](http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/)
-[2](https://github.com/nodesource/distributions)
+[http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/](http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/)
+[https://github.com/nodesource/distributions](https://github.com/nodesource/distributions)
+
+This sequence of commands updates the Debian apt package system to
+include the latest NodeSource releases. Then, it installs Version 10
+of nodejs.
 
     curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
     sudo apt-get install -y nodejs
