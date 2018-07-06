@@ -192,6 +192,16 @@ body {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
+.btn-primary {
+    background: #377BA8;
+}
+.btn-primary.disabled, .btn-primary.disabled:hover {
+    background: #65a3cd;
+    color: #FFFFFF;
+}
+.btn-primary:hover {
+    background: #0087e0;
+}
 .table tr {
     line-height: 1.0;
 }
