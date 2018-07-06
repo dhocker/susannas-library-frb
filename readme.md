@@ -4,15 +4,27 @@
 This is the newest iteration of Susanna's Library developed using 
 Flask, React, Booststrap and Webpack.
 
+Recently, the app was ported to Python 3.6. Currently, it is
+backward compatible to Python 2.7, but Python 2 is deprecated.
+
 ## Set Up
 Install node and npm. On macOS this can be done in one action
 using brew.
 
     brew install node
 
+On Raspbian, it's a little more complicated. Detailed information
+can be found here:
+
+[1](http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/)
+[2](https://github.com/nodesource/distributions)
+
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+
 Create a venv using the requirements.txt file.
 
-    mkvirtualenv -r requirements.txt susannas-library-frb
+    mkvirtualenv -p python3.6 -r requirements.txt susannas-library-frb3
 
 Install Webpack and various dependencies called out in package.json. Note that on a system 
 like a Raspberry Pi this can take a long time.
@@ -34,6 +46,7 @@ Run a one time build based on production.webpack.config.js
     npm run build-p
     
 This build uglifies and compresses the compiled output.
+
 ## Debug and Test
 Use PyCharm.
 
@@ -53,10 +66,11 @@ Using the same user with uWSGI greatly simplifies things. For example, make sure
 your unix socket file is owned and accessible by www-data (or whatever user you choose).
 
 ###uWSGI
-The stock version of uWSGI that is currently installed under Raspbian Wheezy and Jessie is usually out of date. 
-It is recommended that you install the most current version of uWSGI (as identified in the requirements.txt file)
-and modify the init.d script to use the version you install in a virtualenv. The uwsgi-emperor script file
-described above does exactly that.
+The stock version of uWSGI that is currently installed under Raspbian is usually out of date.
+It is recommended that you install the most current version of uWSGI
+by [building uWSGI from source](https://uwsgi-docs.readthedocs.io/en/latest/Install.html).
+Then, modify the init.d script to use the version you built/installed.
+The uwsgi-emperor script file described above does exactly that.
 
 
 ## Run NGINX with uWSGI Non-Emperor Mode
@@ -87,7 +101,7 @@ traffic to the app.
 If you want to use emperor mode, put this file in /etc/init.d and register it as
 a start up daemon using update-rc.d.
 
-### susannas_uwsgi_app.ini
+### susannas_uwsgi_app3.ini
 uwsgi configuration file for the app.
 For Emperor mode, put this file in /etc/uwsgi/vassals.
 Edit this file based on how you set up your virtualenv. If you rename the file, make sure it ends
