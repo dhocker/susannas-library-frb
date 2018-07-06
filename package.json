@@ -4,7 +4,7 @@
   "description": "Susanna's New Library written in Python, Flask, Webpack and React",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dhocker/susannas-library-frb.git"
+    "url": "git+https://github.com/dhocker/susannas-library-frb.git"
   },
   "main": "app/static/dist/index_bundler.js",
   "dependencies": {
@@ -45,5 +45,10 @@
     "build-p": "webpack --mode=production --config production.webpack.config.js --progress --profile --colors"
   },
   "author": "",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dhocker/susannas-library-frb/issues"
+  },
+  "homepage": "https://github.com/dhocker/susannas-library-frb#readme",
+  "keywords": []
 }
