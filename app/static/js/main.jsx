@@ -27,6 +27,18 @@ import * as aboutdialog from './about-dialog';
 import * as callstack from './dialog-call-stack';
 
 /*
+Bootstrap
+See: https://getbootstrap.com/docs/4.0/getting-started/webpack/
+*/
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+/*
+Bootstrap css customizations MUST come after Bootstrap css
+*/
+import '../style.css';
+import '../css/bootstrap-custom.css';
+
+/*
     Initialize the home page
 */
 export function initHomePage(filter_by, id, name) {
