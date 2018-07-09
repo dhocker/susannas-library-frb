@@ -61,7 +61,7 @@ Use PyCharm.
 ## Using NGINX and uWSGI
 NGINX with uWSGI makes a good "production" environment.
 
-###NGINX
+### NGINX
 The stock version of nginx that installs through apt-get is usually adequate. This app does not
 present a heavy load.
 
@@ -69,8 +69,9 @@ NGINX likes to run under a non-root user like www-data. Keep this in mind as you
 Using the same user with uWSGI greatly simplifies things. For example, make sure the directory where you put
 your unix socket file is owned and accessible by www-data (or whatever user you choose).
 
-###uWSGI
-The stock version of uWSGI that is currently installed under Raspbian is usually out of date.
+### uWSGI
+The stock version of uWSGI that is currently installed under Raspbian is usually out of date and
+it is built for Python 2 only.
 It is recommended that you install the most current version of uWSGI
 by [building uWSGI from source](https://uwsgi-docs.readthedocs.io/en/latest/Install.html).
 Then, modify the init.d script to use the version you built/installed.
@@ -86,7 +87,7 @@ Edit this file based on your nginx server installation. If Susanna's Library is 
 under nginx, you might not need to make any changes. This configuration uses port 5005 to route
 traffic to the app.
 
-### susannas_uwsgi_app.ini 
+### susannas_uwsgi_app3.ini
 uwsgi configuration file for the app. For non-Emperor mode,
 this file should go in /etc/uwsgi/apps-available.
 To activate the app for non-Emperor mode, put a symbolic link in /etc/uwsgi/apps-enabled.
@@ -103,7 +104,7 @@ traffic to the app.
 
 ### uwsgi-emperor
 If you want to use emperor mode, put this file in /etc/init.d and register it as
-a start up daemon using update-rc.d.
+a start up daemon using update-rc.d. Remove any other uwsgi init.d script.
 
 ### susannas_uwsgi_app3.ini
 uwsgi configuration file for the app.
