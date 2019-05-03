@@ -49,7 +49,7 @@ export function returnFromDialog() {
 
     // Hide current dialog
     if (callStack.length > 0) {
-        $(currentDialogId).modal("hide");
+        $(currentDialogId).hide();
     }
     callStack.pop();
     // Bring forth the last dialog
@@ -76,7 +76,7 @@ function dialogHideEvent() {
 */
 function showModalDialog(id) {
     const jqid = "#" + id;
-    $(jqid).modal("show");
+    $(jqid).show();
     // If this dialog is hidden, we'll act like a return
     $(jqid).on('hide.bs.modal', dialogHideEvent);
 }
