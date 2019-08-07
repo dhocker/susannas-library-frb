@@ -100,7 +100,7 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
-	devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
+	devtool: 'source-map',
 	plugins: [
 		new webpack.NoEmitOnErrorsPlugin()
 	]
