@@ -1,6 +1,6 @@
 /*
-    React + Bootstrap dialog call stack for handling nested dialogs
-    Copyright © 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Susanna's Library
+    Copyright © 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 */
+import $ from 'jquery';
 
 const callStack = [];
 

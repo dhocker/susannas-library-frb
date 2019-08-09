@@ -8,6 +8,9 @@ console.log("-------------------------");
 console.log("process.env.WEBPACK_DEVTOOL: " + process.env.WEBPACK_DEVTOOL);
 console.log("");
 
+process.env.BABEL_ENV = 'development';
+process.env.NODE_ENV = 'development';
+
 /*
     Initial config: http://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
     Multiple entry points methods:
@@ -17,7 +20,7 @@ console.log("");
 
 module.exports = {
     entry: {
-        main: './app/static/js/main.jsx'
+        main: './app/static/js/index.jsx'
     },
     module: {
         rules: [
@@ -31,6 +34,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 use: [
+                    { loader: 'babel-loader'},
                     {
                         loader: "eslint-loader",
                         options: {
@@ -66,10 +70,8 @@ module.exports = {
                 ]
             },
             {
-                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                use: [
-                    { loader: 'url?limit=10000&mimetype=image/svg+xml' }
-                ]
+                test: /\.svg$/,
+                loader: 'react-svginline'
             },
             {
                 test: /\.gif/,

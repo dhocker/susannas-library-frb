@@ -1,6 +1,6 @@
 /*
-    React + Bootstrap mew author dialog box
-    Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Susanna's Library
+    Copyright (C) 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import ModalDialog from './modal-dialog';
 import SelectCategory from './select-category';
 import * as errordlg from './error-dialog';
+import $ from 'jquery';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/

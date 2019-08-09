@@ -1,6 +1,6 @@
 #
 # Susanna's New Library - web app for managing Susan's vast library
-# Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+# Copyright (C) 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ def shutdown_session(exception=None):
 @app.route("/", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_root():
-    return redirect(url_for("get_home"))
+    return redirect(url_for(("get_home")))
 
 
 @app.route("/authors-page", methods=['GET'])
@@ -46,19 +46,20 @@ def get_home():
     The home page is the authors page
     :return:
     """
-    if "category" in request.args:
-        # Show authors for category
-        id = request.args.get('category', '')
-        logger.info("Show authors for category: %s", id)
-        category = get_category(id)
-        name = category.name
-        filter_by = "category"
-    else:
-        # All authors
-        id = ""
-        name = ""
-        filter_by = ""
-    return render_template("authors.html", filter_by=filter_by, id=id, name=name)
+    # if "category" in request.args:
+    #     # Show authors for category
+    #     id = request.args.get('category', '')
+    #     logger.info("Show authors for category: %s", id)
+    #     category = get_category(id)
+    #     name = category.name
+    #     filter_by = "category"
+    # else:
+    #     # All authors
+    #     id = ""
+    #     name = ""
+    #     filter_by = ""
+    # return render_template("authors.html", filter_by=filter_by, id=id, name=name)
+    return render_template("index.html")
 
 
 @app.route("/authors", methods=['GET'])

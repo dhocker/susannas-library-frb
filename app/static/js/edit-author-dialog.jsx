@@ -1,6 +1,6 @@
 /*
-    React + Bootstrap edit author dialog box
-    Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Susanna's Library
+    Copyright © 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import NewAuthorDialog from './new-author-dialog';
 import * as callstack from './dialog-call-stack';
+import $ from 'jquery';
 
 /*
     NOTE: There is a jQuery UI widget for creating dialogs: http://api.jqueryui.com/dialog/

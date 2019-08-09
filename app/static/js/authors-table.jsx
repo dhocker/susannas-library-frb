@@ -1,6 +1,6 @@
 /*
     Susanna's New Library
-    Copyright © 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Copyright © 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ import PagedTable from './paged-table';
 import * as DeleteAuthor from './delete-author-dialog';
 import * as EditAuthor from './edit-author-dialog';
 import ActionAnchor from './action-anchor';
+import $ from 'jquery';
 
 /*
     Authors table - a specific instance of a table showing
@@ -72,6 +73,25 @@ export default class AuthorsTable extends PagedTable {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
         DeleteAuthor.deleteAuthor(row);
+    }
+
+    // Generate the title for the authors page
+    getTitle(title) {
+        return (
+            <div className="card">
+                <div className="row">
+                    <div className="col-md-8">
+                        <h2>{title}</h2>
+                    </div>
+                    <div className="col-md-4">
+                        <form className="form-inline">
+                            <button id="search-button" className="btn btn-primary btn-sm pull-right" type="button">Search</button>
+                            <input type="text" className="form-control pull-right" id="search-text" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     // Generate the actions for authors
@@ -155,7 +175,48 @@ export function createAuthorsTable(filter_by, id, name) {
         />,
         document.querySelector('#authorstable')
     );
-    console.log("Authors table created");
+}
+export function renderAuthorsTable(props) {
+    // Defines the columns in the authors table
+    const authorTableColumns = [
+        { colname: 'LastName', label: 'Last Name', sortable: true },
+        { colname: 'FirstName', label: 'First Name', sortable: true },
+        { colname: 'category', label: 'Category', sortable: true },
+        { colname: 'try_author', label: 'Try', sortable: true },
+        { colname: 'Avoid', label: 'Avoid', sortable: true },
+        { colname: 'id', label: 'ID', sortable: true }
+    ];
+
+    // The query parameters are in props.location.search
+    // See this article: https://tylermcginnis.com/react-router-query-strings/
+
+    // Apply filtering
+    let filter_by = "";
+    let id = "";
+    let name = "";
+    let url = "/authors";
+    let title = "Authors";
+    switch (filter_by) {
+        case "category":
+            url += "?category=" + id;
+            title = "Authors for Category: " + name;
+            break;
+        default:
+            title = "Authors";
+            break;
+    }
+
+    return (
+        <AuthorsTable
+            class="table table-striped table-condensed"
+            title={title}
+            cols={authorTableColumns}
+            filter_by={filter_by}
+            filter_by_id={id}
+            url={url}
+            {...props}
+        />
+    );
 }
 
 /*

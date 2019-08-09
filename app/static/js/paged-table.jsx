@@ -1,6 +1,6 @@
 /*
     Susanna's New Library - Page Table Element
-    Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Copyright (C) 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sitecookies from './site-cookies';
+import $ from 'jquery';
 
 /*
     This is the beginning of a basic React component that can render a paged table with actions.
@@ -235,6 +236,7 @@ export default class PagedTable extends React.Component {
         const {title} = this.props;
         const {class: class_name} = this.props;
 
+        const TitleBarComponents = this.getTitle(title);
         const HeaderComponents = this.generateHeaders();
         const RowComponents = this.generateRows();
         const FooterComponents = this.generateFooter();
@@ -247,12 +249,8 @@ export default class PagedTable extends React.Component {
         }
 
         return (
-            <div className="">
-                <div className="card-header">
-                    <h2 className="card-title">
-                        {title}
-                    </h2>
-                </div>
+            <div className="container">
+                {TitleBarComponents}
                 <div className="card-body">
                     <table className={class_name}>
                         <thead>

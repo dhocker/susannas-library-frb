@@ -1,6 +1,6 @@
 /*
     React + Bootstrap select category component
-    Copyright © 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Copyright © 2016, 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from './select';
+import $ from 'jquery';
 
 /*
     Implements a select element for all of the avaliable categories
