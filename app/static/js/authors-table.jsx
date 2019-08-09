@@ -16,7 +16,6 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import PagedTable from './paged-table';
 import * as DeleteAuthor from './delete-author-dialog';
@@ -131,51 +130,6 @@ AuthorsTable.propTypes = {
 AuthorsTable.defaultProps = {
 };
 
-/*
-    Create the authors table instance on the authors page
-*/
-let authorsTableInstance;
-export function createAuthorsTable(filter_by, id, name) {
-    // Defines the columns in the authors table
-    const authorTableColumns = [
-        { colname: 'LastName', label: 'Last Name', sortable: true },
-        { colname: 'FirstName', label: 'First Name', sortable: true },
-        { colname: 'category', label: 'Category', sortable: true },
-        { colname: 'try_author', label: 'Try', sortable: true },
-        { colname: 'Avoid', label: 'Avoid', sortable: true },
-        { colname: 'id', label: 'ID', sortable: true }
-    ];
-
-    // Apply filtering
-    let url = "/authors";
-    let title = "Authors";
-    switch (filter_by) {
-        case "category":
-            url += "?category=" + id;
-            title = "Authors for Category: " + name;
-            break;
-        default:
-            title = "Authors";
-            break;
-    }
-
-    console.log("Attempting to create Authors table");
-    // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(
-        <AuthorsTable
-            class="table table-striped table-condensed"
-            title={title}
-            cols={authorTableColumns}
-            filter_by={filter_by}
-            filter_by_id={id}
-            url={url}
-            ref={(instance) => {
-                authorsTableInstance = instance;
-            }}
-        />,
-        document.querySelector('#authorstable')
-    );
-}
 export function renderAuthorsTable(props) {
     // Defines the columns in the authors table
     const authorTableColumns = [
@@ -217,11 +171,4 @@ export function renderAuthorsTable(props) {
             {...props}
         />
     );
-}
-
-/*
-    Load authors table based on search/filter
-*/
-export function searchAuthors(arg) {
-    authorsTableInstance.filterTable(arg);
 }

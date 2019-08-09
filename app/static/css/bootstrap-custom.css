@@ -123,3 +123,9 @@ body {
 .table td {
     padding: 0.4rem;
 }
+
+.clearfix {
+  content: "";
+  clear: both;
+  display: table;
+}

@@ -27,25 +27,25 @@ function Navigation() {
                     <IndexLinkContainer to="/authors-page" className="">
                         <NavItem className="">Authors</NavItem>
                     </IndexLinkContainer>
-                    <LinkContainer to="/new-author-page" className="">
+                    <LinkContainer to="/new-author-form" className="">
                         <NavItem className="">New Author</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/books-page" className="">
                         <NavItem className="">Books</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/new-book-page" className="">
+                    <LinkContainer to="/new-book-form" className="">
                         <NavItem className="">New Book</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/series-page" className="">
                         <NavItem className="">Series</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/new-series-page" className="">
+                    <LinkContainer to="/new-series-form" className="">
                         <NavItem className="">New Series</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/categories-page" className="">
                         <NavItem className="">Categories</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/new-category-page" className="">
+                    <LinkContainer to="/new-category-form" className="">
                         <NavItem className="">New Category</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/about-page" className="">

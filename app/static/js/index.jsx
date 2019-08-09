@@ -22,6 +22,7 @@ import {
 } from "react-router-dom";
 import Navigation from "./navigation";
 import { renderAuthorsTable } from "./authors-table";
+import NewAuthorForm from "./new-author-form";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -42,10 +43,6 @@ import '../css/bootstrap-custom.css';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
-
-function NewAuthor() {
-    return <h2>New Author</h2>;
-}
 
 function Books() {
     return <h2>Books</h2>;
@@ -70,13 +67,13 @@ ReactDOM.render(
             <Switch>
                 <Route path="/" exact render={renderAuthorsTable} />
                 <Route path="/authors-page" render={renderAuthorsTable} />
-                <Route path="/new-author-page" component={NewAuthor} />
+                <Route path="/new-author-form" component={NewAuthorForm} />
                 <Route path="/books-page" component={Books} />
                 <Route path="/series-page" component={Series} />
                 <Route path="/categories-page" component={Categories} />
                 <Route path="/about-page" component={About} />
             </Switch>
-            <h2>Footer</h2>
+            <h2 className="clearfix">Footer</h2>
         </BrowserRouter>
     ),
     document.getElementById('root')
