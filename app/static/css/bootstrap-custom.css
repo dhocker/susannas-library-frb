@@ -65,6 +65,14 @@ For some reason the cursor pointer is lost using react-router-bootstrap
     padding: 10px;
 }
 
+.nav-item-inline {
+    padding-right: 10px;
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 0;
+}
+
 .nav-item:hover {
     color: #377BA8;
     font-weight: bold;

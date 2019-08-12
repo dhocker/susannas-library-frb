@@ -17,10 +17,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import PagedTable from './paged-table';
-import * as DeleteAuthor from './delete-author-dialog';
-import * as EditAuthor from './edit-author-dialog';
-import ActionAnchor from './action-anchor';
 import $ from 'jquery';
 
 /*
@@ -58,22 +57,6 @@ export default class AuthorsTable extends PagedTable {
         });
     }
 
-    onBooksClick(row) {
-        console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/paged-books-page?author=" + String(row.id);
-    }
-
-    onEditClick(row) {
-        console.log("Edit was clicked for id " + String(row.id));
-        EditAuthor.editAuthorDialog(row);
-    }
-
-    onDeleteClick(row) {
-        console.log("Delete was clicked for id " + String(row.id));
-        // Fire up the delete dialog box
-        DeleteAuthor.deleteAuthor(row);
-    }
-
     // Generate the title for the authors page
     getTitle(title) {
         return (
@@ -97,24 +80,19 @@ export default class AuthorsTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <ActionAnchor
-                    htmlHref="#books"
-                    onItemClick={this.onBooksClick}
-                    item={row}
-                    anchorText="Books"
-                />
-                <ActionAnchor
-                    htmlHref="#edit"
-                    onItemClick={this.onEditClick}
-                    item={row}
-                    anchorText="Edit"
-                />
-                <ActionAnchor
-                    htmlHref="#delete"
-                    onItemClick={this.onDeleteClick}
-                    item={row}
-                    anchorText="Delete"
-                />
+                <Navbar className="bg-light">
+                    <Nav className="">
+                        <LinkContainer to={"/books-page/" + row.id} className="">
+                            <NavItem className="nav-item-inline">Books</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={"/edit-author-form/" + row.id} className="">
+                            <NavItem className="nav-item-inline">Edit</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={"/delete-author-form/" + row.id} className="">
+                            <NavItem className="nav-item-inline">Delete</NavItem>
+                        </LinkContainer>
+                    </Nav>
+                </Navbar>
             </td>
         );
     }

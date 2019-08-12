@@ -22,7 +22,7 @@ from app.models.categories import get_category
 from app.models.models import Author, Book
 from app.models.models import db_session
 from app.models.authors import insert_author, delete_author_by_id, author_exists, get_author, \
-    update_author, search_for_authors
+    update_author, search_for_authors, get_author_row_as_dict
 import logging
 from Version import GetVersion
 
@@ -89,6 +89,19 @@ def get_authors():
     return json
 
 
+@app.route("/author/<authorid>", methods=['GET'])
+def get_author_by_id(authorid):
+    """
+    Return the author record for a given author ID
+    :param authorid: The author ID of interest.
+    :return: JSON formatted author record
+    """
+    author = get_author_row_as_dict(authorid)
+    if author:
+        return jsonify({"data": author })
+    return "ERROR: Author not found", 404
+
+
 @app.route("/author", methods=['POST'])
 def add_author():
     """
@@ -117,9 +130,9 @@ def add_author():
 
 
 @app.route("/author/<id>", methods=['PUT'])
-def edit_author(id):
+def save_author(id):
     """
-    Edit an existing author.
+    Save edits to an existing author.
     request.form is a dict containing the data sent by the client ajax call.
     :return:
     """

@@ -71,8 +71,23 @@ def append_order_by_clause(query, sort_col, sort_dir):
         q = query.order_by(func.lower(column_list["LastName"]).asc())
     return q
 
+
 def get_author(id):
+    """
+    Get the author record for a given author ID
+    :param id: Author ID
+    :return: Row object for author
+    """
     return Author.query.options(joinedload('books')).get(id)
+
+
+def get_author_row_as_dict(id):
+    """
+    Get the author record for a given author ID
+    :param id: Author ID
+    :return: Author record as a dict
+    """
+    return Author.row2dict(Author.query.get(id), row_converter=authors_row_converter)
 
 
 def update_author(author):

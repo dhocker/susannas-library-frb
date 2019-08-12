@@ -23,6 +23,7 @@ import {
 import Navigation from "./navigation";
 import { renderAuthorsTable } from "./authors-table";
 import NewAuthorForm from "./new-author-form";
+import EditAuthorForm from "./edit-author-form";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -68,6 +69,7 @@ ReactDOM.render(
                 <Route path="/" exact render={renderAuthorsTable} />
                 <Route path="/authors-page" render={renderAuthorsTable} />
                 <Route path="/new-author-form" component={NewAuthorForm} />
+                <Route path="/edit-author-form/:authorid" component={EditAuthorForm} />
                 <Route path="/books-page" component={Books} />
                 <Route path="/series-page" component={Series} />
                 <Route path="/categories-page" component={Categories} />
