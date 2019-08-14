@@ -27,19 +27,9 @@ export default class EditAuthorForm extends NewAuthorForm {
         const {authorid} = props.match.params;
 
         // Initial state
-        this.state = {
-            lastnameValue: "",
-            firstnameValue: "",
-            categoryValue: 1,
-            tryValue: false,
-            avoidValue: false,
-            message: ""
-        };
-
         this.loadAuthor(authorid);
 
         // Bind 'this' to various methods
-        this.clearFormFields = this.clearFormFields.bind(this);
         this.onSave = this.onSave.bind(this);
         this.firstnameChanged = this.firstnameChanged.bind(this);
         this.lastnameChanged = this.lastnameChanged.bind(this);
@@ -54,23 +44,6 @@ export default class EditAuthorForm extends NewAuthorForm {
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    /*
-        Clear all form fields
-    */
-    clearFormFields() {
-        this.setState({
-            lastnameValue: "",
-            firstnameValue: "",
-            categoryValue: 1,
-            tryValue: false,
-            avoidValue: false,
-            message: ""
-        });
-
-        // Reset the categories combo box to its default value
-        this.selectCategoryInstance.resetSelectedCategory();
-    }
-
     componentDidMount() {
     }
 
@@ -79,33 +52,13 @@ export default class EditAuthorForm extends NewAuthorForm {
     */
     onSave() {
         // Validate fields
-        this.setState({message: ""});
-        if (this.state.lastnameValue.length <= 0) {
-            this.setState({message: "Last Name is blank"});
-            return;
-        }
-        if (this.state.firstnameValue.length <= 0) {
-            this.setState({message: "First Name is blank"});
-            return;
-        }
-        if (this.state.categoryValue.length <= 0) {
-            this.setState({message: "Category is blank"});
+        if (!this.validateForm()) {
             return;
         }
 
-        /*
-            There is a bit of an issue marshalling boolean values (try and avoid).
-            While we are using JS booleans here, when they arrive at the server
-            they will be string values "true" or "false".
-        */
-        const data = {
-            id: this.state.id,
-            firstname: this.state.firstnameValue,
-            lastname: this.state.lastnameValue,
-            category: this.state.categoryValue,
-            try: this.state.tryValue,
-            avoid: this.state.avoidValue
-        };
+        // Collect author data from form fields
+        const data = this.marshalFormData();
+
         // The data object will be request.form on the server
         this.setState({message: ""});
         this.commitAuthor(data);

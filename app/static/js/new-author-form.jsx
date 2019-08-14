@@ -34,7 +34,6 @@ export default class NewAuthorForm extends React.Component {
         };
 
         // Bind 'this' to various methods
-        this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
         this.firstnameChanged = this.firstnameChanged.bind(this);
         this.lastnameChanged = this.lastnameChanged.bind(this);
@@ -49,23 +48,6 @@ export default class NewAuthorForm extends React.Component {
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    /*
-        Clear all form fields
-    */
-    clearFormFields() {
-        this.setState({
-            lastnameValue: "",
-            firstnameValue: "",
-            categoryValue: 1,
-            tryValue: false,
-            avoidValue: false,
-            message: ""
-        });
-
-        // Reset the categories combo box to its default value
-        this.selectCategoryInstance.resetSelectedCategory();
-    }
-
     componentDidMount() {
     }
 
@@ -73,41 +55,50 @@ export default class NewAuthorForm extends React.Component {
         Add author
     */
     onAdd() {
-        console.log(this.state.firstnameValue);
-        console.log(this.state.lastnameValue);
-        console.log(this.state.categoryValue);
-        console.log(this.state.tryValue);
-        console.log(this.state.avoidValue);
+        // Validate fields
+        if (!this.validateForm()) {
+            return;
+        }
 
+        // Collect author data from form fields
+        const data = this.marshalFormData();
+
+        // The data object will be request.form on the server
+        this.commitAuthor(data);
+    }
+
+    validateForm() {
         // Validate fields
         this.setState({message: ""});
         if (this.state.lastnameValue.length <= 0) {
             this.setState({message: "Last Name is blank"});
-            return;
+            return false;
         }
         if (this.state.firstnameValue.length <= 0) {
             this.setState({message: "First Name is blank"});
-            return;
+            return false;
         }
         if (this.state.categoryValue.length <= 0) {
             this.setState({message: "Category is blank"});
-            return;
+            return false;
         }
 
+        return true;
+    }
+
+    marshalFormData() {
         /*
             There is a bit of an issue marshalling boolean values (try and avoid).
             While we are using JS booleans here, when they arrive at the server
             they will be string values "true" or "false".
         */
-        const data = {
+        return {
             firstname: this.state.firstnameValue,
             lastname: this.state.lastnameValue,
             category: this.state.categoryValue,
             try: this.state.tryValue,
             avoid: this.state.avoidValue
         };
-        // The data object will be request.form on the server
-        this.commitAuthor(data);
     }
 
     /*
