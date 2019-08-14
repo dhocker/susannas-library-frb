@@ -17,6 +17,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { BaseComponent } from "./base-component";
 import * as sitecookies from './site-cookies';
 import $ from 'jquery';
 
@@ -29,7 +30,7 @@ import $ from 'jquery';
 const SORT_ASC = 1;
 const SORT_INVERT = -1;
 
-export default class PagedTable extends React.Component {
+export default class PagedTable extends BaseComponent {
     constructor(props) {
         super(props);
 
@@ -47,10 +48,12 @@ export default class PagedTable extends React.Component {
         this.page_size = sitecookies.getPageSize();
         this.total_count = 0;
         this.search_arg = "";
+        // Combined state initialization
         this.state = {
             rows: [],
             current_page: this.current_page,
             page_size: String(this.page_size),
+            ...this.state
         };
 
         this.onSortColumn = this.onSortColumn.bind(this);
@@ -322,6 +325,11 @@ export default class PagedTable extends React.Component {
                         </div>
                     </div>
                 </div>
+                {
+                    // Place holder for dialogs}
+                }
+                {this.renderDialogBox()}
+                {this.renderOKCancelDialogBox()}
             </div>
         );
     }

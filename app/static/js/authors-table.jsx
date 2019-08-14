@@ -38,24 +38,40 @@ export default class AuthorsTable extends PagedTable {
         const $this = this;
 
         $this.loadTable();
+    }
 
-        // On author add, reload table
-        $("#new-author").on("frb.author.add", function (/* event */) {
-            console.log("On add event, reload authors");
-            $this.loadTable();
-        });
+    onDeleteAuthor(row) {
+        this.delete_author_row = row;
+        this.showOKCancelDialogBox("Delete author?", row.LastName + " " + row.FirstName, "Do you want to delete this author?");
+    }
 
-        // On author delete, reload table
-        $("#delete-author").on("frb.author.delete", function (/* event */) {
-            console.log("On delete event, reload authors");
-            $this.loadTable();
-        });
+    // OK to delete the selected author
+    onDialogOK() {
+        console.log("Deleting author " + this.delete_author_row.id);
+        const $this = this;
+        const url = `/author/${this.delete_author_row.id}`;
 
-        // On author edit, reload table
-        $("#edit-author").on("frb.author.edit", function (/* event */) {
-            console.log("On edit event, reload authors");
-            $this.loadTable();
+        $.ajax({
+            method: "DELETE",
+            url: url,
+            data: {},
+            success: function(data, status, xhr) {
+                // TODO Add timed message to page
+                // $this.showMessage(`Device ${rows[row_index]["name"]} removed`);
+                // Reload table to account for deleted author
+                $this.loadTable($this.props.url);
+            },
+            error: function(xhr, status, msg) {
+                $this.showDialogBox("Delete author", status, `${msg} ${xhr.responseText}`);
+            }
         });
+        super.onDialogOK();
+    }
+
+    // Delete dialog canceled
+    onDialogCancel() {
+        this.delete_author_row = null;
+        super.onDialogCancel();
     }
 
     // Generate the title for the authors page
@@ -89,9 +105,7 @@ export default class AuthorsTable extends PagedTable {
                         <LinkContainer to={"/edit-author-form/" + row.id} className="">
                             <Button className="nav-btn-inline btn-primary btn-sm">Edit</Button>
                         </LinkContainer>
-                        <LinkContainer to={"/delete-author-form/" + row.id} className="">
-                            <Button className="nav-btn-inline btn-primary btn-sm">Delete</Button>
-                        </LinkContainer>
+                        <Button className="nav-btn-inline btn-primary btn-sm" onClick={this.onDeleteAuthor.bind(this, row)}>Delete</Button>
                     </Nav>
                 </Navbar>
             </td>
