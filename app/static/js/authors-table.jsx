@@ -17,8 +17,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Button } from 'react-bootstrap';
 import PagedTable from './paged-table';
 import $ from 'jquery';
 
@@ -80,16 +81,16 @@ export default class AuthorsTable extends PagedTable {
     getActions(row) {
         return (
             <td>
-                <Navbar className="bg-light">
+                <Navbar className="bg-light navbar-inline">
                     <Nav className="">
                         <LinkContainer to={"/books-page/" + row.id} className="">
-                            <NavItem className="nav-item-inline">Books</NavItem>
+                            <Button className="nav-btn-inline btn-primary btn-sm">Books</Button>
                         </LinkContainer>
                         <LinkContainer to={"/edit-author-form/" + row.id} className="">
-                            <NavItem className="nav-item-inline">Edit</NavItem>
+                            <Button className="nav-btn-inline btn-primary btn-sm">Edit</Button>
                         </LinkContainer>
                         <LinkContainer to={"/delete-author-form/" + row.id} className="">
-                            <NavItem className="nav-item-inline">Delete</NavItem>
+                            <Button className="nav-btn-inline btn-primary btn-sm">Delete</Button>
                         </LinkContainer>
                     </Nav>
                 </Navbar>

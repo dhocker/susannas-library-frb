@@ -38,6 +38,16 @@ label {
     margin-right: 5px;
 }
 
+.nav-btn-inline {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 /*
     Smaller sized input text box
 */
@@ -49,6 +59,11 @@ label {
 .navbar {
     background: #377BA8;
     padding: 10;
+}
+
+.navbar-inline {
+    padding: 0;
+    margin: 0;
 }
 
 /*
@@ -110,10 +125,6 @@ body {
     margin: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-}
-.btn {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
 }
 .btn-primary {
     background: #377BA8;
