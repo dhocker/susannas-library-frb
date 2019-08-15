@@ -24,6 +24,7 @@ import Navigation from "./navigation";
 import { renderAuthorsTable } from "./authors-table";
 import NewAuthorForm from "./new-author-form";
 import EditAuthorForm from "./edit-author-form";
+import { renderPagedBooksTable} from "./paged-books-table";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -44,10 +45,6 @@ import '../css/bootstrap-custom.css';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
-
-function Books() {
-    return <h2>Books</h2>;
-}
 
 function Series() {
     return <h2>Series</h2>;
@@ -70,7 +67,18 @@ ReactDOM.render(
                 <Route path="/authors-page" render={renderAuthorsTable} />
                 <Route path="/new-author-form" component={NewAuthorForm} />
                 <Route path="/edit-author-form/:authorid" component={EditAuthorForm} />
-                <Route path="/books-page" component={Books} />
+
+                {
+                // Notes on books-page path URLs.
+                // The ID value will show up at the component in the props.match.params object.
+                // The presence of a specific property indicates filtering by that property.
+                // For example, if seriesid is present, then books are filtered by series ID.
+                }
+                <Route path="/books-page" exact render={renderPagedBooksTable} />
+                <Route path="/books-page/author/:authorid" render={renderPagedBooksTable} />
+                <Route path="/books-page/series/:seriesid" render={renderPagedBooksTable} />
+                <Route path="/books-page/category/:categoryid" render={renderPagedBooksTable} />
+
                 <Route path="/series-page" component={Series} />
                 <Route path="/categories-page" component={Categories} />
                 <Route path="/about-page" component={About} />

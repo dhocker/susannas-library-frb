@@ -16,11 +16,12 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { Nav, Navbar } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { Button } from 'react-bootstrap';
 import PagedTable from './paged-table';
-import * as DeleteBook from './delete-book-dialog';
-import * as EditBook from './edit-book-dialog';
+import $ from 'jquery';
 
 /*
     Paged Books table - a specific instance of a paged table showing
@@ -30,10 +31,12 @@ export default class PagedBooksTable extends PagedTable {
     constructor(props) {
         super(props);
 
+        // The initial title. It will change when the related record is loaded.
+        this.state.title = props.title;
+
         // Function bindings
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.onEditClick = this.onEditClick.bind(this);
-        this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.onDeleteBook = this.onDeleteBook.bind(this);
         this.getActions = this.getActions.bind(this);
     }
 
@@ -42,46 +45,69 @@ export default class PagedBooksTable extends PagedTable {
 
         $this.loadTable();
 
-        // On book add, reload table
-        $("#new-book").on("frb.book.add", function (/* event */) {
-            console.log("On add event, reload books");
-            $this.loadTable();
-        });
+        // Load related record
+        switch (this.props.filter_by) {
+            case "author":
+                $this.loadAuthor(this.props.filter_by_id);
+                break;
+            case "series":
+                break;
+            case "category":
+                break;
+            default:
+                break;
+        }
+    }
 
-        // On book delete, reload table
-        $("#delete-book").on("frb.book.delete", function (/* event */) {
-            console.log("On delete event, reload books");
-            $this.loadTable();
-        });
+    // Books for an author
+    loadAuthor(authorid) {
+        const $this = this;
+        const url = "/author/" + String(authorid);
+        $.get(url, function (response /* , status */) {
+            const author = response.data;
+            let author_title = `${$this.props.title} ${author.FirstName} ${author.LastName}`;
 
-        // On book edit, reload table
-        $("#edit-book").on("frb.book.edit", function (/* event */) {
-            console.log("On edit event, reload books");
-            $this.loadTable();
+            $this.setState({title: author_title});
         });
     }
 
-    onEditClick(row) {
-        console.log("Edit was clicked for id " + String(row.id));
-        EditBook.editBookDialog(row);
-    }
-
-    onDeleteClick(row) {
+    onDeleteBook(row) {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
-        DeleteBook.deleteBook(row);
+        // DeleteBook.deleteBook(row);
+    }
+
+    // Generate the title for the books page
+    getTitle(title) {
+        return (
+            <div className="card">
+                <div className="row">
+                    <div className="col-md-8">
+                        <h2>{this.state.title}</h2>
+                    </div>
+                    <div className="col-md-4">
+                        <form className="form-inline">
+                            <button id="search-button" className="btn btn-primary btn-sm pull-right" type="button">Search</button>
+                            <input type="text" className="form-control pull-right" id="search-text" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     // Generate the actions for authors
     getActions(row) {
         return (
             <td>
-                <a href="#edit" onClick={this.onEditClick.bind(this, row)}>
-                    Edit
-                </a>
-                <a href="#delete" onClick={this.onDeleteClick.bind(this, row)}>
-                    Delete
-                </a>
+                <Navbar className="bg-light navbar-inline">
+                    <Nav className="">
+                        <LinkContainer to={"/edit-book-form/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Edit</Button>
+                        </LinkContainer>
+                        <Button className="nav-btn-inline btn-primary btn-sm" onClick={this.onDeleteBook.bind(this, row)}>Delete</Button>
+                    </Nav>
+                </Navbar>
             </td>
         );
     }
@@ -101,7 +127,7 @@ PagedBooksTable.defaultProps = {
     Create the books table instance on the books page
 */
 let pagedBooksTableInstance;
-export function createPagedBooksTable(filter_by, id, name) {
+export function renderPagedBooksTable(props) {
     // Defines the columns in the authors table
     const bookTableColumns = [
         { colname: 'Title', label: 'Title', sortable: true },
@@ -118,26 +144,35 @@ export function createPagedBooksTable(filter_by, id, name) {
     // Apply filtering
     let url = "/paged-books";
     let title = "Books";
-    switch (filter_by) {
-        case "author":
-            url += "?author=" + id;
-            title = "Books for Author: " + name;
-            break;
-        case "series":
-            url += "?series=" + id;
-            title = "Books for Series: " + name;
-            break;
-        case "category":
-            url += "?category=" + id;
-            title = "Books for Category: " + name;
-            break;
-        default:
-            break;
+    let filter_by = "";
+    let id = "";
+    if (props.match.params.hasOwnProperty('authorid')) {
+        const {authorid} = props.match.params;
+        title = "Books for author ";
+        url += "?author=" + authorid;
+        id = authorid;
+        filter_by = "author";
+    }
+    else if (props.match.params.hasOwnProperty('seriesid')) {
+        const {seriesid} = props.match.params;
+        url += "?series=" + seriesid;
+        title = "Books for Series ";
+        id = seriesid;
+        filter_by = "series";
+    }
+    else if (props.match.params.hasOwnProperty('categoryid')) {
+        const {categoryid} = props.match.params;
+        url += "?category=" + categoryid;
+        title = "Books for Category ";
+        id = categoryid;
+        filter_by = "category";
+    }
+    else {
+        // Default
     }
 
-    console.log("Attempting to create PagedBooks table");
     // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(
+    return (
         <PagedBooksTable
             class="table table-striped table-condensed"
             title={title}
@@ -148,10 +183,8 @@ export function createPagedBooksTable(filter_by, id, name) {
             ref={(instance) => {
                 pagedBooksTableInstance = instance;
             }}
-        />,
-        document.querySelector('#bookstable')
+        />
     );
-    console.log("Books table created");
 }
 
 /*

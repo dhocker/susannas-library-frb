@@ -99,7 +99,7 @@ export default class AuthorsTable extends PagedTable {
             <td>
                 <Navbar className="bg-light navbar-inline">
                     <Nav className="">
-                        <LinkContainer to={"/books-page/" + row.id} className="">
+                        <LinkContainer to={"/books-page/author/" + row.id} className="">
                             <Button className="nav-btn-inline btn-primary btn-sm">Books</Button>
                         </LinkContainer>
                         <LinkContainer to={"/edit-author-form/" + row.id} className="">
