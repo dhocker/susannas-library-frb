@@ -78,7 +78,7 @@ export default class PagedBooksTable extends PagedTable {
     }
 
     // Generate the title for the books page
-    getTitle(title) {
+    getTitle() {
         return (
             <div className="card">
                 <div className="row">

@@ -236,10 +236,9 @@ export default class PagedTable extends BaseComponent {
         const {current_page} = this.state;
         const {total_pages} = this.state;
         const {page_size} = this.state;
-        const {title} = this.props;
         const {class: class_name} = this.props;
 
-        const TitleBarComponents = this.getTitle(title);
+        const TitleBarComponents = this.getTitle();
         const HeaderComponents = this.generateHeaders();
         const RowComponents = this.generateRows();
         const FooterComponents = this.generateFooter();

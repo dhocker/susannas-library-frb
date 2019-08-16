@@ -75,12 +75,12 @@ export default class AuthorsTable extends PagedTable {
     }
 
     // Generate the title for the authors page
-    getTitle(title) {
+    getTitle() {
         return (
             <div className="card">
                 <div className="row">
                     <div className="col-md-8">
-                        <h2>{title}</h2>
+                        <h2>{this.props.title}</h2>
                     </div>
                     <div className="col-md-4">
                         <form className="form-inline">
