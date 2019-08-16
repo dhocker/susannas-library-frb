@@ -40,7 +40,22 @@ export default class PagedBooksTable extends PagedTable {
         this.getActions = this.getActions.bind(this);
     }
 
+    // Occurs after render on mount (not on update)
     componentDidMount() {
+        this.loadBooks();
+    }
+
+    // Occurs after update but not on initial render
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // Updates occur when the data source URL changes
+        if (this.props.url !== prevProps.url) {
+            this.setState({title: this.props.title});
+            this.loadBooks();
+        }
+    }
+
+    // Load the table based on the current state
+    loadBooks() {
         const $this = this;
 
         $this.loadTable();
@@ -126,7 +141,7 @@ PagedBooksTable.defaultProps = {
 /*
     Create the books table instance on the books page
 */
-let pagedBooksTableInstance;
+let pagedBooksTableInstance = null;
 export function renderPagedBooksTable(props) {
     // Defines the columns in the authors table
     const bookTableColumns = [

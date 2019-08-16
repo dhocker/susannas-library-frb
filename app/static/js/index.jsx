@@ -75,9 +75,9 @@ ReactDOM.render(
                 // For example, if seriesid is present, then books are filtered by series ID.
                 }
                 <Route path="/books-page" exact render={renderPagedBooksTable} />
-                <Route path="/books-page/author/:authorid" render={renderPagedBooksTable} />
-                <Route path="/books-page/series/:seriesid" render={renderPagedBooksTable} />
-                <Route path="/books-page/category/:categoryid" render={renderPagedBooksTable} />
+                <Route path="/author-books-page/:authorid" render={renderPagedBooksTable} />
+                <Route path="/series-books-page/:seriesid" render={renderPagedBooksTable} />
+                <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />
 
                 <Route path="/series-page" component={Series} />
                 <Route path="/categories-page" component={Categories} />

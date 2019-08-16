@@ -30,7 +30,7 @@ function Navigation() {
                     <LinkContainer to="/new-author-form" className="">
                         <NavItem className="">New Author</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/books-page" className="">
+                    <LinkContainer to="/books-page" exact className="">
                         <NavItem className="">Books</NavItem>
                     </LinkContainer>
                     <LinkContainer to="/new-book-form" className="">
