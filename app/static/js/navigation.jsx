@@ -16,8 +16,9 @@
 */
 
 import React from 'react';
-import { Nav, Navbar, NavItem, NavbarBrand } from "react-bootstrap";
+import { Nav, Navbar, NavbarBrand } from "react-bootstrap";
 import { LinkContainer, IndexLinkContainer } from "react-router-bootstrap";
+import { Button } from 'react-bootstrap';
 
 function Navigation() {
     return (
@@ -25,31 +26,31 @@ function Navigation() {
             <Navbar className="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
                 <Nav className="navbar-nav mr-auto">
                     <IndexLinkContainer to="/authors-page" className="">
-                        <NavItem className="">Authors</NavItem>
+                        <Button className="nav-btn">Authors</Button>
                     </IndexLinkContainer>
                     <LinkContainer to="/new-author-form" className="">
-                        <NavItem className="">New Author</NavItem>
+                        <Button className="nav-btn">New Author</Button>
                     </LinkContainer>
                     <LinkContainer to="/books-page" exact className="">
-                        <NavItem className="">Books</NavItem>
+                        <Button className="nav-btn">Books</Button>
                     </LinkContainer>
                     <LinkContainer to="/new-book-form" className="">
-                        <NavItem className="">New Book</NavItem>
+                        <Button className="nav-btn">New Book</Button>
                     </LinkContainer>
                     <LinkContainer to="/series-page" className="">
-                        <NavItem className="">Series</NavItem>
+                        <Button className="nav-btn">Series</Button>
                     </LinkContainer>
                     <LinkContainer to="/new-series-form" className="">
-                        <NavItem className="">New Series</NavItem>
+                        <Button className="nav-btn">New Series</Button>
                     </LinkContainer>
                     <LinkContainer to="/categories-page" className="">
-                        <NavItem className="">Categories</NavItem>
+                        <Button className="nav-btn">Categories</Button>
                     </LinkContainer>
                     <LinkContainer to="/new-category-form" className="">
-                        <NavItem className="">New Category</NavItem>
+                        <Button className="nav-btn">New Category</Button>
                     </LinkContainer>
                     <LinkContainer to="/about-page" className="">
-                        <NavItem className="">About</NavItem>
+                        <Button className="nav-btn">About</Button>
                     </LinkContainer>
                 </Nav>
                 <NavbarBrand className="navbar-brand">

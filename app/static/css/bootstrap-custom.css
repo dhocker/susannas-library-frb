@@ -48,6 +48,11 @@ label {
     margin-bottom: 0;
 }
 
+.nav-btn {
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
 /*
     Smaller sized input text box
 */
@@ -58,7 +63,7 @@ label {
 
 .navbar {
     background: #377BA8;
-    padding: 10;
+    padding: 10px;
 }
 
 .navbar-inline {
