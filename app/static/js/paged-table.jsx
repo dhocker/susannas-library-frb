@@ -31,14 +31,15 @@ const SORT_ASC = 1;
 const SORT_INVERT = -1;
 
 export default class PagedTable extends BaseComponent {
-    constructor(props) {
+    constructor(props, cols) {
         super(props);
+        // List of columns in this table
+        this.cols = cols;
 
-        this.column_count = props.cols.length;
         this.sort_col = 0;
         this.sort_dir = [];
         // 1 = sort asc, -1 = sort desc
-        for (let i = 0; i < this.column_count; i += 1) {
+        for (let i = 0; i < this.cols.length; i += 1) {
             // Set up the current sort direction
             this.sort_dir.push(SORT_ASC);
         }
@@ -202,7 +203,6 @@ export default class PagedTable extends BaseComponent {
         Build the base url
     */
     buildUrl() {
-        const {cols} = this.props;
         let {url} = this.props;
         if (url.includes("?")) {
             url += "&";
@@ -213,7 +213,7 @@ export default class PagedTable extends BaseComponent {
         url += "page=" + String(this.current_page);
         url += "&pagesize=" + String(this.page_size);
         // TODO Determine if sort col will be the index or the name
-        url += "&sortcol=" + String(cols[this.sort_col].colname);
+        url += "&sortcol=" + String(this.cols[this.sort_col].colname);
         url += "&sortdir=" + (this.sort_dir[this.sort_col] > 0 ? "asc" : "desc");
         if (this.search_arg.length) {
             url += "&search=" + this.search_arg;
@@ -334,10 +334,9 @@ export default class PagedTable extends BaseComponent {
     }
 
     generateHeaders() {
-        const {cols} = this.props;
         // generate our header (th) cell components
-        const cells = cols.map(function (colData, i) {
-            if (cols[i].sortable) {
+        const cells = this.cols.map(function (colData, i) {
+            if (this.cols[i].sortable) {
                 return (
                     <th
                         key={colData.colname}
@@ -369,13 +368,12 @@ export default class PagedTable extends BaseComponent {
     }
 
     generateRows() {
-        const {cols} = this.props; // [{colname, label}]
         const {rows} = this.state;
         const $this = this;
 
         return rows.map(function (row) {
             // handle the column data within each row
-            const cells = cols.map(function (colData) {
+            const cells = $this.cols.map(function (colData) {
 
                 // colData.colname might be "FirstName"
                 return (

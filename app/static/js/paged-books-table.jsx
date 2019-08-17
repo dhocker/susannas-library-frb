@@ -29,7 +29,20 @@ import $ from 'jquery';
 */
 export default class PagedBooksTable extends PagedTable {
     constructor(props) {
-        super(props);
+        // Defines the columns in the authors table
+        const cols = [
+            { colname: 'Title', label: 'Title', sortable: true },
+            { colname: 'Volume', label: 'Volume', sortable: false },
+            { colname: 'Series', label: 'Series', sortable: true },
+            { colname: 'Author', label: 'Author', sortable: true },
+            { colname: 'Category', label: 'Category', sortable: true },
+            { colname: 'Status', label: 'Status', sortable: true },
+            { colname: 'CoverType', label: 'CoverType', sortable: true },
+            { colname: 'Notes', label: 'Notes', sortable: false },
+            { colname: 'id', label: 'ID', sortable: true }
+        ];
+
+        super(props, cols);
 
         // The initial title. It will change when the related record is loaded.
         this.state.title = props.title;
@@ -131,7 +144,6 @@ export default class PagedBooksTable extends PagedTable {
 PagedBooksTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.array.isRequired,
     url: PropTypes.string.isRequired
 };
 
@@ -143,18 +155,6 @@ PagedBooksTable.defaultProps = {
 */
 let pagedBooksTableInstance = null;
 export function renderPagedBooksTable(props) {
-    // Defines the columns in the authors table
-    const bookTableColumns = [
-        { colname: 'Title', label: 'Title', sortable: true },
-        { colname: 'Volume', label: 'Volume', sortable: false },
-        { colname: 'Series', label: 'Series', sortable: true },
-        { colname: 'Author', label: 'Author', sortable: true },
-        { colname: 'Category', label: 'Category', sortable: true },
-        { colname: 'Status', label: 'Status', sortable: true },
-        { colname: 'CoverType', label: 'CoverType', sortable: true },
-        { colname: 'Notes', label: 'Notes', sortable: false },
-        { colname: 'id', label: 'ID', sortable: true }
-    ];
 
     // Apply filtering
     let url = "/paged-books";
@@ -193,7 +193,6 @@ export function renderPagedBooksTable(props) {
             title={title}
             filter_by={filter_by}
             filter_by_id={id}
-            cols={bookTableColumns}
             url={url}
             ref={(instance) => {
                 pagedBooksTableInstance = instance;

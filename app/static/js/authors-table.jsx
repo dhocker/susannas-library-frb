@@ -29,15 +29,55 @@ import $ from 'jquery';
 */
 export default class AuthorsTable extends PagedTable {
     constructor(props) {
-        super(props);
+        // Defines the columns in the authors table
+        const cols = [
+            { colname: 'LastName', label: 'Last Name', sortable: true },
+            { colname: 'FirstName', label: 'First Name', sortable: true },
+            { colname: 'category', label: 'Category', sortable: true },
+            { colname: 'try_author', label: 'Try', sortable: true },
+            { colname: 'Avoid', label: 'Avoid', sortable: true },
+            { colname: 'id', label: 'ID', sortable: true }
+        ];
+
+        super(props, cols);
+
+        this.state.search_arg = "";
 
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+        this.onSearchArgChanged = this.onSearchArgChanged.bind(this);
     }
 
+    // Only at component creation
     componentDidMount() {
         const $this = this;
 
         $this.loadTable();
+    }
+
+    // After component update
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("authorsDidUpdate")
+        // Reload the table on search reset
+        /*
+        if (this.search_arg.length) {
+            this.search_arg = "";
+            this.setState({search_arg: ""});
+            this.loadTable();
+        }
+        */
+    }
+
+    onSearch() {
+        console.log("Search called " + this.state.search_arg);
+        this.filterTable(this.state.search_arg);
+    }
+
+    // Track search argument value
+    onSearchArgChanged(event) {
+        this.setState({
+            search_arg: event.target.value
+        });
     }
 
     onDeleteAuthor(row) {
@@ -84,8 +124,20 @@ export default class AuthorsTable extends PagedTable {
                     </div>
                     <div className="col-md-4">
                         <form className="form-inline">
-                            <button id="search-button" className="btn btn-primary btn-sm pull-right" type="button">Search</button>
-                            <input type="text" className="form-control pull-right" id="search-text" />
+                            <Button
+                                id="search-button"
+                                className="btn btn-primary btn-sm pull-right"
+                                onClick={this.onSearch}
+                            >
+                                Search
+                            </Button>
+                            <input
+                                type="text"
+                                className="form-control pull-right"
+                                id="search-text"
+                                value={this.state.search_arg}
+                                onChange={this.onSearchArgChanged}
+                            />
                         </form>
                     </div>
                 </div>
@@ -116,7 +168,6 @@ export default class AuthorsTable extends PagedTable {
 AuthorsTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.array.isRequired,
     url: PropTypes.string.isRequired
 };
 
@@ -124,15 +175,6 @@ AuthorsTable.defaultProps = {
 };
 
 export function renderAuthorsTable(props) {
-    // Defines the columns in the authors table
-    const authorTableColumns = [
-        { colname: 'LastName', label: 'Last Name', sortable: true },
-        { colname: 'FirstName', label: 'First Name', sortable: true },
-        { colname: 'category', label: 'Category', sortable: true },
-        { colname: 'try_author', label: 'Try', sortable: true },
-        { colname: 'Avoid', label: 'Avoid', sortable: true },
-        { colname: 'id', label: 'ID', sortable: true }
-    ];
 
     // The query parameters are in props.location.search
     // See this article: https://tylermcginnis.com/react-router-query-strings/
@@ -157,7 +199,6 @@ export function renderAuthorsTable(props) {
         <AuthorsTable
             class="table table-striped table-condensed"
             title={title}
-            cols={authorTableColumns}
             filter_by={filter_by}
             filter_by_id={id}
             url={url}
