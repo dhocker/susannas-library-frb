@@ -25,6 +25,7 @@ import { renderAuthorsTable } from "./authors-table";
 import NewAuthorForm from "./new-author-form";
 import EditAuthorForm from "./edit-author-form";
 import { renderPagedBooksTable} from "./paged-books-table";
+import { renderSearchBooksTable } from "./search-books-table";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -75,6 +76,7 @@ ReactDOM.render(
                 // For example, if seriesid is present, then books are filtered by series ID.
                 }
                 <Route path="/books-page" exact render={renderPagedBooksTable} />
+                <Route path="/search-books-page/:searcharg" render={renderSearchBooksTable} />
                 <Route path="/author-books-page/:authorid" render={renderPagedBooksTable} />
                 <Route path="/series-books-page/:seriesid" render={renderPagedBooksTable} />
                 <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />

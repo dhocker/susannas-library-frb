@@ -16,6 +16,7 @@
 */
 
 import React from 'react';
+import { Redirect } from "react-router";
 import PropTypes from 'prop-types';
 import { BaseComponent } from "./base-component";
 import * as sitecookies from './site-cookies';
@@ -54,6 +55,7 @@ export default class PagedTable extends BaseComponent {
             rows: [],
             current_page: this.current_page,
             page_size: String(this.page_size),
+            search_url: "",
             ...this.state
         };
 
@@ -250,6 +252,14 @@ export default class PagedTable extends BaseComponent {
             setPageSizeDisabled = "";
         }
 
+        // Search trigger
+        if (this.state.search_url.length) {
+            return (
+                <Redirect to={this.state.search_url} />
+            );
+        }
+
+        // Normal render of table
         return (
             <div className="container">
                 {TitleBarComponents}

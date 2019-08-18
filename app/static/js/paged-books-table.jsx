@@ -46,25 +46,19 @@ export default class PagedBooksTable extends PagedTable {
 
         // The initial title. It will change when the related record is loaded.
         this.state.title = props.title;
+        this.state.search_arg = "";
 
         // Function bindings
         this.componentDidMount = this.componentDidMount.bind(this);
         this.onDeleteBook = this.onDeleteBook.bind(this);
         this.getActions = this.getActions.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+        this.onSearchArgChanged = this.onSearchArgChanged.bind(this);
     }
 
     // Occurs after render on mount (not on update)
     componentDidMount() {
         this.loadBooks();
-    }
-
-    // Occurs after update but not on initial render
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        // Updates occur when the data source URL changes
-        if (this.props.url !== prevProps.url) {
-            this.setState({title: this.props.title});
-            this.loadBooks();
-        }
     }
 
     // Load the table based on the current state
@@ -105,6 +99,24 @@ export default class PagedBooksTable extends PagedTable {
         // DeleteBook.deleteBook(row);
     }
 
+    onSearch() {
+        console.log("Search called " + this.state.search_arg);
+        const url = "/search-books-page/" + this.state.search_arg;
+        // Redirect to search page
+        this.setState({search_url: url});
+    }
+
+    // Track search argument value
+    onSearchArgChanged(event) {
+        if (event.key === 'Enter') {
+            this.onSearch();
+            return;
+        }
+        this.setState({
+            search_arg: event.target.value
+        });
+    }
+
     // Generate the title for the books page
     getTitle() {
         return (
@@ -115,8 +127,21 @@ export default class PagedBooksTable extends PagedTable {
                     </div>
                     <div className="col-md-4">
                         <form className="form-inline">
-                            <button id="search-button" className="btn btn-primary btn-sm pull-right" type="button">Search</button>
-                            <input type="text" className="form-control pull-right" id="search-text" />
+                            <Button
+                                id="search-button"
+                                className="btn btn-primary btn-sm pull-right"
+                                onClick={this.onSearch}
+                            >
+                                Search
+                            </Button>
+                            <input
+                                type="text"
+                                className="form-control pull-right"
+                                id="search-text"
+                                value={this.state.search_arg}
+                                onChange={this.onSearchArgChanged}
+                                onKeyPress={this.onSearchArgChanged}
+                            />
                         </form>
                     </div>
                 </div>
