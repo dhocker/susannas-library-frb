@@ -34,6 +34,7 @@ export default class NewAuthorForm extends React.Component {
         };
 
         // Bind 'this' to various methods
+        this.clearFormFields = this.clearFormFields.bind(this);
         this.onAdd = this.onAdd.bind(this);
         this.firstnameChanged = this.firstnameChanged.bind(this);
         this.lastnameChanged = this.lastnameChanged.bind(this);
@@ -49,6 +50,35 @@ export default class NewAuthorForm extends React.Component {
     }
 
     componentDidMount() {
+        this.setFocus();
+    }
+
+    /*
+        Clear all form fields
+    */
+    clearFormFields() {
+        this.setState({
+            lastnameValue: "",
+            firstnameValue: "",
+            categoryValue: 1,
+            tryValue: false,
+            avoidValue: false,
+            message: ""
+        });
+
+        // Reset the categories combo box to its default value
+        this.selectCategoryInstance.resetSelectedCategory();
+
+        this.setFocus();
+    }
+
+    setFocus() {
+        const $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function () {
+            $this.lastName.focus();
+            $this.lastName.select();
+        }, 0);
     }
 
     /*
