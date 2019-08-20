@@ -96,7 +96,37 @@ export default class PagedBooksTable extends PagedTable {
     onDeleteBook(row) {
         console.log("Delete was clicked for id " + String(row.id));
         // Fire up the delete dialog box
-        // DeleteBook.deleteBook(row);
+        this.delete_book_row = row;
+        this.showOKCancelDialogBox("Delete book?", row.Title, "Do you want to delete this book?");
+    }
+
+    // OK to delete the selected author
+    onDialogOK() {
+        console.log("Deleting book " + this.delete_book_row.id);
+        const $this = this;
+        const url = `/book/${this.delete_book_row.id}`;
+
+        $.ajax({
+            method: "DELETE",
+            url: url,
+            data: {},
+            success: function(data, status, xhr) {
+                // TODO Add timed message to page
+                // $this.showMessage(`Device ${rows[row_index]["name"]} removed`);
+                // Reload table to account for deleted author
+                $this.loadTable($this.props.url);
+            },
+            error: function(xhr, status, msg) {
+                $this.showDialogBox("Delete author", status, `${msg} ${xhr.responseText}`);
+            }
+        });
+        super.onDialogOK();
+    }
+
+    // Delete dialog canceled
+    onDialogCancel() {
+        this.delete_book_row = null;
+        super.onDialogCancel();
     }
 
     onSearch() {
