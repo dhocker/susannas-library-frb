@@ -202,6 +202,7 @@ export default class NewBookForm extends React.Component {
         Send book data to server
     */
     commitBook(data) {
+        const $this = this;
         // The data object will be request.form on the server
         const http_verb = "POST";
         const url = "/book";
@@ -212,15 +213,13 @@ export default class NewBookForm extends React.Component {
             success: function (result) {
                 console.log(result);
                 console.log("Book added");
+                $this.setState({message: "Book added"})
             },
             error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                // TODO It would be nice if this were another dialog box
-                // $this.setState({error: errorThrown});
-                // errordlg.showErrorDialog("New Book Error", errorThrown);
-                // Note that the dialog box is left open so the user can fix the error
+                $this.setState({message: errorThrown})
             }
         });
     }
