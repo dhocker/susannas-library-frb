@@ -203,7 +203,6 @@ export default class NewBookForm extends React.Component {
     */
     commitBook(data) {
         // The data object will be request.form on the server
-        const $this = this;
         const http_verb = "POST";
         const url = "/book";
         this.serverRequest = $.ajax({
@@ -305,7 +304,7 @@ export default class NewBookForm extends React.Component {
     }
 
     /*
-        Override to customize the dialog header (title)
+        Override to customize the form header (title)
         In this case, there is a simple error message embedded in the header
     */
     getHeader() {
@@ -321,7 +320,7 @@ export default class NewBookForm extends React.Component {
     }
 
     /*
-        Override to customize the dialog body. For example, return
+        Override to customize the form body. For example, return
         a form element to build a form-in-a-dialog.
     */
     getBody() {
@@ -482,7 +481,7 @@ export default class NewBookForm extends React.Component {
         const option_elements = options_list.map(function (row) {
             return (
                 <option key={row.id} value={row.id}>
-                    {row.name}
+                    {row.name + " (" + String(row.id) + ")"}
                 </option>
             );
         });
@@ -508,7 +507,7 @@ export default class NewBookForm extends React.Component {
         const option_elements = options_list.map(function (row) {
             return (
                 <option key={row.id} value={row.id}>
-                    {row.LastName + ", " + row.FirstName}
+                    {row.LastName + ", " + row.FirstName + " (" + String(row.id) + ")"}
                 </option>
             );
         });

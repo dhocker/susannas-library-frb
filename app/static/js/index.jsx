@@ -27,6 +27,7 @@ import EditAuthorForm from "./edit-author-form";
 import { renderPagedBooksTable} from "./paged-books-table";
 import { renderSearchBooksTable } from "./search-books-table";
 import NewBookForm from "./new-book-form";
+import EditBookForm from "./edit-book-form";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -82,6 +83,7 @@ ReactDOM.render(
                 <Route path="/series-books-page/:seriesid" render={renderPagedBooksTable} />
                 <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />
                 <Route path="/new-book-form" component={NewBookForm} />
+                <Route path="/edit-book-form/:bookid" component={EditBookForm} />
 
                 <Route path="/series-page" component={Series} />
                 <Route path="/categories-page" component={Categories} />

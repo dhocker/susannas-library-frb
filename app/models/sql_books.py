@@ -64,6 +64,49 @@ def get_books_by_page(page, pagesize, sort_col, sort_dir):
 
     return {"rows": rows, "count": get_filtered_books_count(None, None, None, None)}
 
+
+def get_book_by_id(id):
+    # TODO There are consistency issues. Collab records with no book or no author.
+    # We use left outer joins here to get all books regardless of collaborations status.
+    # The following alias table names are used:
+    #   b = books
+    #   collab = collaborations
+    #   a = authors
+    #   s = series
+    #   cat = categories
+    stmt = """
+        select
+            b.id,
+            b.Title,
+            b.ISBN,
+            b.Volume,
+            b.series_id,
+            b.Published,
+            cat.name as Category,
+            b.Status,
+            b.CoverType,
+            b.Notes,
+            b.category_id,
+            case when length(a.FirstName) > 0
+                then (a.LastName || ", " || a.FirstName)
+                else a.LastName
+                end as Author,
+            a.id as author_id,
+            s.name as Series
+        from books as b
+        left outer join collaborations as collab on collab.book_id=b.id
+        left outer join authors as a on a.id=collab.author_id
+        left outer join series as s on s.id=b.series_id
+        left outer join categories as cat on cat.id=b.category_id
+        where b.id={0}
+        """.format(id)
+
+    csr = get_cursor()
+    rst = csr.execute(stmt)
+    row = utils.row2dict(rst.fetchone())
+
+    return row
+
 def search_for_books_by_page(page, pagesize, author_id, series_id, category_id, search_arg, sort_col, sort_dir):
     # Build where clause based on filter inputs
     # We used named parameters to prevent Sql injection vulnerabilities

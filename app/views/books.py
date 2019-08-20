@@ -15,11 +15,20 @@
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
 from app import app
-from flask import request
+from flask import request, jsonify
 from app.models.books import insert_book, update_book, delete_book_by_id
+from app.models.sql_books import get_book_by_id
 import logging
 
 logger = logging.getLogger("app")
+
+
+@app.route("/book/<id>", methods=['GET'])
+def get_book_from_id(id):
+    book = get_book_by_id(id)
+    if book:
+        return jsonify({"data": book })
+    return "ERROR: Book not found", 404
 
 
 @app.route("/book", methods=['POST'])
