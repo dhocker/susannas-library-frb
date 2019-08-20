@@ -94,7 +94,7 @@ export default class NewAuthorForm extends React.Component {
         const data = this.marshalFormData();
 
         // The data object will be request.form on the server
-        this.commitAuthor(data);
+        this.commitAuthor("POST", "/author", data);
     }
 
     validateForm() {
@@ -133,12 +133,12 @@ export default class NewAuthorForm extends React.Component {
 
     /*
         Send author data to server
+        http_verb - POST or PUT
+        url - REST URL for HTTP action
+        data - author data passed as if a form
     */
-    commitAuthor(data) {
+    commitAuthor(http_verb, url, data) {
         // The data object will be request.form on the server
-        // const $this = this;
-        const http_verb = "POST";
-        const url = "/author";
         const $this = this;
         this.serverRequest = $.ajax({
             type: http_verb,
@@ -146,8 +146,14 @@ export default class NewAuthorForm extends React.Component {
             data: data,
             success: function (result) {
                 console.log(result);
-                console.log("Author added");
-                $this.setState({message: "Author added"});
+                if (http_verb === "POST") {
+                    console.log("Author added");
+                    $this.setState({message: "Author added"});
+                }
+                else {
+                    console.log("Author saved");
+                    $this.setState({message: "Author saved"});
+                }
            },
             error: function (xhr, status, errorThrown) {
                 console.log(status);
