@@ -53,19 +53,21 @@ export default class AuthorsTable extends PagedTable {
     // Only at component creation
     componentDidMount() {
         this.loadTable();
+        this.setFocus();
     }
 
     // After component update
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log("authorsDidUpdate")
-        // Reload the table on search reset
-        /*
-        if (this.search_arg.length) {
-            this.search_arg = "";
-            this.setState({search_arg: ""});
-            this.loadTable();
-        }
-        */
+    }
+
+    setFocus() {
+        const $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function () {
+            $this.searchInput.focus();
+            $this.searchInput.select();
+        }, 0);
     }
 
     onSearch() {
@@ -144,6 +146,9 @@ export default class AuthorsTable extends PagedTable {
                                 value={this.state.search_arg}
                                 onChange={this.onSearchArgChanged}
                                 onKeyPress={this.onSearchArgChanged}
+                                ref={(instance) => {
+                                    this.searchInput = instance;
+                                }}
                             />
                         </form>
                     </div>

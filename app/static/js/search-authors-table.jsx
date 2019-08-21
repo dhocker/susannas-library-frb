@@ -47,6 +47,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
                 search_arg: ""
             });
             this.loadTable();
+            this.setFocus();
         }
     }
 

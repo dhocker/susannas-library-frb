@@ -59,6 +59,16 @@ export default class PagedBooksTable extends PagedTable {
     // Occurs after render on mount (not on update)
     componentDidMount() {
         this.loadBooks();
+        this.setFocus();
+    }
+
+    setFocus() {
+        const $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function () {
+            $this.searchInput.focus();
+            $this.searchInput.select();
+        }, 0);
     }
 
     // Load the table based on the current state
@@ -171,6 +181,9 @@ export default class PagedBooksTable extends PagedTable {
                                 value={this.state.search_arg}
                                 onChange={this.onSearchArgChanged}
                                 onKeyPress={this.onSearchArgChanged}
+                                ref={(instance) => {
+                                    this.searchInput = instance;
+                                }}
                             />
                         </form>
                     </div>

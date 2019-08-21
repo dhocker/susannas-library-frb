@@ -47,6 +47,7 @@ export default class SearchBooksTable extends PagedBooksTable {
                 search_arg: ""
             });
             this.loadBooks();
+            this.setFocus();
         }
     }
 
