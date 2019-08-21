@@ -41,6 +41,8 @@ export default class AuthorsTable extends PagedTable {
 
         super(props, cols);
 
+        // The initial title. It will change when the related record is loaded.
+        this.state.title = props.title;
         this.state.search_arg = "";
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -50,9 +52,7 @@ export default class AuthorsTable extends PagedTable {
 
     // Only at component creation
     componentDidMount() {
-        const $this = this;
-
-        $this.loadTable();
+        this.loadTable();
     }
 
     // After component update
@@ -70,11 +70,17 @@ export default class AuthorsTable extends PagedTable {
 
     onSearch() {
         console.log("Search called " + this.state.search_arg);
-        this.filterTable(this.state.search_arg);
+        const url = "/search-authors-page/" + this.state.search_arg;
+        // Redirect to search page
+        this.setState({search_url: url});
     }
 
     // Track search argument value
     onSearchArgChanged(event) {
+        if (event.key === 'Enter') {
+            this.onSearch();
+            return;
+        }
         this.setState({
             search_arg: event.target.value
         });
@@ -120,7 +126,7 @@ export default class AuthorsTable extends PagedTable {
             <div className="card">
                 <div className="row">
                     <div className="col-md-8">
-                        <h2>{this.props.title}</h2>
+                        <h2>{this.state.title}</h2>
                     </div>
                     <div className="col-md-4">
                         <form className="form-inline">
@@ -137,6 +143,7 @@ export default class AuthorsTable extends PagedTable {
                                 id="search-text"
                                 value={this.state.search_arg}
                                 onChange={this.onSearchArgChanged}
+                                onKeyPress={this.onSearchArgChanged}
                             />
                         </form>
                     </div>

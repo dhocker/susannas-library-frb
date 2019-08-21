@@ -24,6 +24,7 @@ import Navigation from "./navigation";
 import { renderAuthorsTable } from "./authors-table";
 import NewAuthorForm from "./new-author-form";
 import EditAuthorForm from "./edit-author-form";
+import { renderSearchAuthorsTable } from "./search-authors-table";
 import { renderPagedBooksTable} from "./paged-books-table";
 import { renderSearchBooksTable } from "./search-books-table";
 import NewBookForm from "./new-book-form";
@@ -70,6 +71,7 @@ ReactDOM.render(
                 <Route path="/authors-page" render={renderAuthorsTable} />
                 <Route path="/new-author-form" component={NewAuthorForm} />
                 <Route path="/edit-author-form/:authorid" component={EditAuthorForm} />
+                <Route path="/search-authors-page/:searcharg" render={renderSearchAuthorsTable} />
 
                 {
                 // Notes on books-page path URLs.
