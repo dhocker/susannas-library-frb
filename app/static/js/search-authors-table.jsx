@@ -17,7 +17,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 import AuthorsTable from './authors-table';
 
 /*
@@ -36,14 +35,8 @@ export default class SearchAuthorsTable extends AuthorsTable {
         this.state.search_arg = "";
 
         // Function bindings
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.onSearch = this.onSearch.bind(this);
-    }
-
-    // Occurs after render on mount (not on update)
-    componentDidMount() {
-        this.loadTable();
     }
 
     componentDidUpdate() {
@@ -79,38 +72,6 @@ export default class SearchAuthorsTable extends AuthorsTable {
             url += "&search=" + this.searcharg;
         }
         return url;
-    }
-
-    // Generate the title for the books page
-    getTitle() {
-        return (
-            <div className="card">
-                <div className="row">
-                    <div className="col-md-8">
-                        <h2>{this.state.title}</h2>
-                    </div>
-                    <div className="col-md-4">
-                        <form className="form-inline">
-                            <Button
-                                id="search-button"
-                                className="btn btn-primary btn-sm pull-right"
-                                onClick={this.onSearch}
-                            >
-                                Search
-                            </Button>
-                            <input
-                                type="text"
-                                className="form-control pull-right"
-                                id="search-text"
-                                value={this.state.search_arg}
-                                onChange={this.onSearchArgChanged}
-                                onKeyPress={this.onSearchArgChanged}
-                            />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        );
     }
 }
 
