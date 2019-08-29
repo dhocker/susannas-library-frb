@@ -27,6 +27,7 @@ import EditAuthorForm from "./edit-author-form";
 import { renderSearchAuthorsTable } from "./search-authors-table";
 import { renderPagedBooksTable} from "./paged-books-table";
 import { renderSearchBooksTable } from "./search-books-table";
+import { renderSeriesTable } from "./series-table";
 import NewBookForm from "./new-book-form";
 import EditBookForm from "./edit-book-form";
 // import '../css/index.css';
@@ -49,10 +50,6 @@ import '../css/bootstrap-custom.css';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
-
-function Series() {
-    return <h2>Series</h2>;
-}
 
 function Categories() {
     return <h2>Categories</h2>;
@@ -87,7 +84,8 @@ ReactDOM.render(
                 <Route path="/new-book-form" component={NewBookForm} />
                 <Route path="/edit-book-form/:bookid" component={EditBookForm} />
 
-                <Route path="/series-page" component={Series} />
+                <Route path="/series-page" render={renderSeriesTable} />
+
                 <Route path="/categories-page" component={Categories} />
                 <Route path="/about-page" component={About} />
             </Switch>

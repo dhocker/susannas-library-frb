@@ -16,12 +16,11 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { Nav, Navbar } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { Button } from 'react-bootstrap';
 import PagedTable from './paged-table';
-import * as DeleteSeries from './delete-series-dialog';
-import * as EditSeries from './edit-series-dialog';
-import ActionAnchor from './action-anchor';
 
 /*
     Series table - a specific instance of a table showing
@@ -29,73 +28,139 @@ import ActionAnchor from './action-anchor';
 */
 export default class SeriesTable extends PagedTable {
     constructor(props) {
-        super(props);
+        // Defines the columns in the series table
+        const cols = [
+            { colname: 'name', label: 'Name', sortable: true },
+            { colname: 'id', label: 'ID', sortable: true }
+        ];
+
+        super(props, cols);
+
+        // The initial title. It will change when the related record is loaded.
+        this.state.title = props.title;
+        this.state.search_arg = "";
 
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+        this.onSearchArgChanged = this.onSearchArgChanged.bind(this);
     }
 
     componentDidMount() {
+        this.loadTable();
+    }
+
+    setFocus() {
         const $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function () {
+            $this.searchInput.focus();
+            $this.searchInput.select();
+        }, 0);
+    }
 
-        $this.loadTable();
+    onSearch() {
+        console.log("Search called " + this.state.search_arg);
+        const url = "/search-series-page/" + this.state.search_arg;
+        // Redirect to search page
+        this.setState({search_url: url});
+    }
 
-        // On series add, reload table
-        $("#new-series").on("frb.series.add", function (/* event */) {
-            console.log("On add event, reload series");
-            $this.loadTable();
-        });
-
-        // On series delete, reload table
-        $("#delete-series").on("frb.series.delete", function (/* event */) {
-            console.log("On delete event, reload series");
-            $this.loadTable();
-        });
-
-        // On series edit, reload table
-        $("#edit-series").on("frb.series.edit", function (/* event */) {
-            console.log("On edit event, reload series");
-            $this.loadTable();
+    // Track search argument value
+    onSearchArgChanged(event) {
+        if (event.key === 'Enter') {
+            this.onSearch();
+            return;
+        }
+        this.setState({
+            search_arg: event.target.value
         });
     }
 
-    onBooksClick(row) {
-        console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/paged-books-page?series=" + String(row.id);
-    }
-
-    onEditClick(row) {
-        console.log("Edit was clicked for id " + String(row.id));
-        EditSeries.editSeriesDialog(row);
-    }
-
-    onDeleteClick(row) {
+    onDelete(row) {
         console.log("Delete was clicked for id " + String(row.id));
-        // Fire up the delete dialog box
-        DeleteSeries.deleteSeries(row);
+        this.delete_series_row = row;
+        this.showOKCancelDialogBox("Delete series?", row.name, "Do you want to delete this series?");
     }
 
-    // Generate the actions for authors
+    // OK to delete the selected author
+    onDialogOK() {
+        console.log("Deleting series " + this.delete_series_row.id);
+        const $this = this;
+        const url = `/series/${this.delete_series_row.id}`;
+
+        $.ajax({
+            method: "DELETE",
+            url: url,
+            data: {},
+            success: function(data, status, xhr) {
+                // TODO Add timed message to page
+                // $this.showMessage(`Device ${rows[row_index]["name"]} removed`);
+                // Reload table to account for deleted author
+                $this.loadTable($this.props.url);
+            },
+            error: function(xhr, status, msg) {
+                $this.showDialogBox("Delete author", status, `${msg} ${xhr.responseText}`);
+            }
+        });
+        super.onDialogOK();
+    }
+
+    // Delete dialog canceled
+    onDialogCancel() {
+        this.delete_author_row = null;
+        super.onDialogCancel();
+    }
+
+    // Generate the title for the authors page
+    getTitle() {
+        return (
+            <div className="card">
+                <div className="row">
+                    <div className="col-md-8">
+                        <h2>{this.state.title}</h2>
+                    </div>
+                    <div className="col-md-4">
+                        <form className="form-inline">
+                            <Button
+                                id="search-button"
+                                className="btn btn-primary btn-sm pull-right"
+                                onClick={this.onSearch}
+                            >
+                                Search
+                            </Button>
+                            <input
+                                type="text"
+                                className="form-control pull-right"
+                                id="search-text"
+                                value={this.state.search_arg}
+                                onChange={this.onSearchArgChanged}
+                                onKeyPress={this.onSearchArgChanged}
+                                ref={(instance) => {
+                                    this.searchInput = instance;
+                                }}
+                            />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Generate the actions for series
     getActions(row) {
         return (
             <td>
-                <ActionAnchor
-                    htmlHref="#books"
-                    onItemClick={this.onBooksClick}
-                    item={row}
-                    anchorText="Books"
-                />
-                <ActionAnchor
-                    htmlHref="#edit"
-                    onItemClick={this.onEditClick}
-                    item={row}
-                    anchorText="Edit"
-                />
-                <ActionAnchor
-                    htmlHref="#delete"
-                    onItemClick={this.onDeleteClick}
-                    item={row}
-                    anchorText="Delete"
-                />
+                <Navbar className="bg-light navbar-inline">
+                    <Nav className="">
+                        <LinkContainer to={"/series-books-page/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Books</Button>
+                        </LinkContainer>
+                        <LinkContainer to={"/edit-series-form/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Edit</Button>
+                        </LinkContainer>
+                        <Button className="nav-btn-inline btn-primary btn-sm" onClick={this.onDelete.bind(this, row)}>Delete</Button>
+                    </Nav>
+                </Navbar>
             </td>
         );
     }
@@ -104,7 +169,6 @@ export default class SeriesTable extends PagedTable {
 SeriesTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.array.isRequired,
     url: PropTypes.string.isRequired
 };
 
@@ -114,34 +178,12 @@ SeriesTable.defaultProps = {
 /*
     Create the series table instance on the series page
 */
-let seriesTableInstance;
-export function createSeriesTable() {
-    // Defines the columns in the series table
-    const seriesTableColumns = [
-        { colname: 'name', label: 'Name', sortable: true },
-        { colname: 'id', label: 'ID', sortable: true }
-    ];
-
-    console.log("Attempting to create Series table");
-    // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(
+export function renderSeriesTable() {
+    return (
         <SeriesTable
             class="table table-striped table-condensed"
             title="Series"
-            cols={seriesTableColumns}
             url="/series"
-            ref={(instance) => {
-                seriesTableInstance = instance;
-            }}
-        />,
-        document.querySelector('#seriestable')
+        />
     );
-    console.log("Series table created");
-}
-
-/*
-    Load series table based on search/filter
-*/
-export function searchSeries(arg) {
-    seriesTableInstance.filterTable(arg);
 }
