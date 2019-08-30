@@ -21,6 +21,7 @@ import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button } from 'react-bootstrap';
 import PagedTable from './paged-table';
+import $ from 'jquery';
 
 /*
     Series table - a specific instance of a table showing
