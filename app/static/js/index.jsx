@@ -31,6 +31,7 @@ import { renderSeriesTable } from "./series-table";
 import NewBookForm from "./new-book-form";
 import EditBookForm from "./edit-book-form";
 import NewSeriesForm from "./new-series-form";
+import EditSeriesForm from "./edit-series-form";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -87,6 +88,7 @@ ReactDOM.render(
 
                 <Route path="/series-page" render={renderSeriesTable} />
                 <Route path="/new-series-form" component={NewSeriesForm} />
+                <Route path="/edit-series-form/:seriesid" component={EditSeriesForm} />
 
                 <Route path="/categories-page" component={Categories} />
                 <Route path="/about-page" component={About} />

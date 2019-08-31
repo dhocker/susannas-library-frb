@@ -84,33 +84,36 @@ export default class NewSeriesForm extends React.Component {
             name: this.state.nameValue,
         };
         // The data object will be request.form on the server
-        this.commitSeries(data);
+        this.commitSeries("POST", "/series", data);
     }
 
     /*
         Send series data to server
     */
-    commitSeries(data) {
+    commitSeries(http_verb, url, data) {
         // The data object will be request.form on the server
         const $this = this;
-        const http_verb = "POST";
-        const url = "/series";
         this.serverRequest = $.ajax({
             type: http_verb,
             url: url,
             data: data,
             success: function (result) {
                 console.log(result);
-                console.log("Series added");
-                $this.setState({message: "Series added"});
-            },
+                if (http_verb === "POST") {
+                    console.log("Series added");
+                    $this.setState({message: "Series added"});
+                }
+                else {
+                    console.log("Series saved");
+                    $this.setState({message: "Series saved"});
+                }
+           },
             error: function (xhr, status, errorThrown) {
                 console.log(status);
                 console.log(errorThrown);
                 // Show user error
-                // TODO It would be nice if this were another dialog box
-                $this.setState({message: "That series already exists"});
-                // Note that the dialog box is left open so the user can fix the error
+                const errormsg = "That series already exists: " + $this.state.nameValue;
+                $this.setState({message: errormsg});
             }
         });
     }

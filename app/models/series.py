@@ -53,6 +53,9 @@ def append_order_by_clause(query, sort_col, sort_dir):
 def get_series(series_id):
     return Series.query.get(series_id)
 
+def get_series_as_dict(series_id):
+    return Series.row2dict(Series.query.get(series_id))
+
 def search_for_series(page, pagesize, search_arg, sort_col, sort_dir):
     q = append_order_by_clause(Series.query, sort_col, sort_dir)
     if search_arg:

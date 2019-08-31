@@ -19,7 +19,7 @@ from flask import Flask, request, Response, session, g, redirect, url_for, abort
     render_template, flash, jsonify
 from app.models.authors import get_author
 from app.models.series import get_all_series, get_series, insert_series, series_exists, \
-    update_series, delete_series_by_id, search_for_series
+    update_series, delete_series_by_id, search_for_series, get_series_as_dict
 from app.models.models import Author, Book, Series
 from app.models.models import db_session
 import logging
@@ -49,6 +49,16 @@ def get_series_records():
     else:
         series = get_all_series(page_number, page_size, sort_col, sort_dir)
 
+    json = jsonify({'data': series})
+    return json
+
+@app.route("/series/<id>", methods=['GET'])
+def get_series_record(id):
+    """
+    Get an existing series record
+    :return:
+    """
+    series = get_series_as_dict(id)
     json = jsonify({'data': series})
     return json
 
