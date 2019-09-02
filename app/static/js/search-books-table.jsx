@@ -30,9 +30,11 @@ export default class SearchBooksTable extends PagedBooksTable {
         // The initial title. It will change when the related record is loaded.
         this.state.title = props.title;
         // Initially, the search arg is the value passed to the component
-        this.searcharg = this.props.searcharg;
+        this.searcharg = decodeURIComponent(this.props.searcharg);
         // This is the search arg entered in this component
         this.state.search_arg = "";
+        // Table load is needed
+        this.loadRequired = true;
 
         // Function bindings
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -40,7 +42,8 @@ export default class SearchBooksTable extends PagedBooksTable {
     }
 
     componentDidUpdate() {
-        if (this.searcharg !== this.props.searcharg) {
+        if (this.loadRequired) {
+            this.loadRequired = false;
             console.log("Reloading books because search arg changed");
             this.setState({
                 search_url: "",
@@ -56,6 +59,7 @@ export default class SearchBooksTable extends PagedBooksTable {
         this.searcharg = this.state.search_arg;
         const new_title = "Books containing " + this.state.search_arg;
         this.setState({title: new_title});
+        this.loadRequired = true;
         super.onSearch();
     }
 
@@ -70,7 +74,7 @@ export default class SearchBooksTable extends PagedBooksTable {
         url += "&sortcol=" + String(this.cols[this.sort_col].colname);
         url += "&sortdir=" + (this.sort_dir[this.sort_col] > 0 ? "asc" : "desc");
         if (this.searcharg.length) {
-            url += "&search=" + this.searcharg;
+            url += "&search=" + encodeURIComponent(this.searcharg);
         }
         return url;
     }
@@ -88,7 +92,7 @@ SearchBooksTable.defaultProps = {
     Create the books table instance on the books page
 */
 export function renderSearchBooksTable(props) {
-    let title = "Books containing " + props.match.params.searcharg;
+    let title = "Books containing " + decodeURIComponent(props.match.params.searcharg);
 
     // Note that the ref attribute is the preferred way to capture the rendered instance
     return (
