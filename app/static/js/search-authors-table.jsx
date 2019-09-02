@@ -33,6 +33,8 @@ export default class SearchAuthorsTable extends AuthorsTable {
         this.searcharg = decodeURIComponent(this.props.searcharg);
         // This is the search arg entered in this component
         this.state.search_arg = "";
+        // Table load is needed
+        this.loadRequired = true;
 
         // Function bindings
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -40,7 +42,8 @@ export default class SearchAuthorsTable extends AuthorsTable {
     }
 
     componentDidUpdate() {
-        if (encodeURIComponent(this.searcharg) !== this.props.searcharg) {
+        if (this.loadRequired) {
+            this.loadRequired = false;
             console.log("Reloading authors because search arg changed");
             this.setState({
                 search_url: "",
@@ -56,6 +59,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
         this.searcharg = this.state.search_arg;
         const new_title = "Authors containing " + this.state.search_arg;
         this.setState({title: new_title});
+        this.loadRequired = true;
         super.onSearch();
     }
 

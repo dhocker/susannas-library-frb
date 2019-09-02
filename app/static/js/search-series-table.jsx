@@ -29,6 +29,8 @@ export default class SearchSeriesTable extends SeriesTable {
         this.searcharg = decodeURIComponent(this.props.searcharg);
         // This is the search arg entered in this component
         this.state.search_arg = "";
+        // Table load is needed
+        this.loadRequired = true;
 
         // Function bindings
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -37,7 +39,8 @@ export default class SearchSeriesTable extends SeriesTable {
 
     componentDidUpdate() {
         // Note that the props searcharg is encoded
-        if (encodeURIComponent(this.searcharg) !== this.props.searcharg) {
+        if (this.loadRequired) {
+            this.loadRequired = false;
             console.log("Reloading series because search arg changed");
             this.setState({
                 search_url: "",
@@ -53,6 +56,7 @@ export default class SearchSeriesTable extends SeriesTable {
         this.searcharg = this.state.search_arg;
         const new_title = "Series containing " + this.state.search_arg;
         this.setState({title: new_title});
+        this.loadRequired = true;
         super.onSearch();
     }
 
