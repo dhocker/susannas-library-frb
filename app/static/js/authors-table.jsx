@@ -72,7 +72,7 @@ export default class AuthorsTable extends PagedTable {
 
     onSearch() {
         console.log("Search called " + this.state.search_arg);
-        const url = "/search-authors-page/" + this.state.search_arg;
+        const url = "/search-authors-page/" + encodeURIComponent(this.state.search_arg);
         // Redirect to search page
         this.setState({search_url: url});
     }

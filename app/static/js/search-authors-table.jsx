@@ -30,7 +30,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
         // The initial title. It will change when the related record is loaded.
         this.state.title = props.title;
         // Initially, the search arg is the value passed to the component
-        this.searcharg = this.props.searcharg;
+        this.searcharg = decodeURIComponent(this.props.searcharg);
         // This is the search arg entered in this component
         this.state.search_arg = "";
 
@@ -40,7 +40,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
     }
 
     componentDidUpdate() {
-        if (this.searcharg !== this.props.searcharg) {
+        if (encodeURIComponent(this.searcharg) !== this.props.searcharg) {
             console.log("Reloading authors because search arg changed");
             this.setState({
                 search_url: "",
@@ -70,7 +70,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
         url += "&sortcol=" + String(this.cols[this.sort_col].colname);
         url += "&sortdir=" + (this.sort_dir[this.sort_col] > 0 ? "asc" : "desc");
         if (this.searcharg.length) {
-            url += "&search=" + this.searcharg;
+            url += "&search=" + encodeURIComponent(this.searcharg);
         }
         return url;
     }
@@ -88,7 +88,7 @@ SearchAuthorsTable.defaultProps = {
     Create the authors table instance on the books page
 */
 export function renderSearchAuthorsTable(props) {
-    let title = "Authors containing " + props.match.params.searcharg;
+    let title = "Authors containing " + decodeURIComponent(props.match.params.searcharg);
 
     return (
         <SearchAuthorsTable

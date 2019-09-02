@@ -254,6 +254,7 @@ export default class PagedTable extends BaseComponent {
 
         // Search trigger
         if (this.state.search_url.length) {
+            const redirect_url = this.state.search_arg;
             return (
                 <Redirect to={this.state.search_url} />
             );
