@@ -33,6 +33,7 @@ import EditBookForm from "./edit-book-form";
 import NewSeriesForm from "./new-series-form";
 import EditSeriesForm from "./edit-series-form";
 import { renderSearchSeriesTable } from "./search-series-table";
+import { renderCategoriesTable } from "./categories-table";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -53,10 +54,6 @@ import '../css/bootstrap-custom.css';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
-
-function Categories() {
-    return <h2>Categories</h2>;
-}
 
 function About() {
     return <h2>About the Library</h2>;
@@ -83,7 +80,6 @@ ReactDOM.render(
                 <Route path="/search-books-page/:searcharg" render={renderSearchBooksTable} />
                 <Route path="/author-books-page/:authorid" render={renderPagedBooksTable} />
                 <Route path="/series-books-page/:seriesid" render={renderPagedBooksTable} />
-                <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />
                 <Route path="/new-book-form" component={NewBookForm} />
                 <Route path="/edit-book-form/:bookid" component={EditBookForm} />
 
@@ -92,7 +88,10 @@ ReactDOM.render(
                 <Route path="/edit-series-form/:seriesid" component={EditSeriesForm} />
                 <Route path="/search-series-page/:searcharg" render={renderSearchSeriesTable} />
 
-                <Route path="/categories-page" component={Categories} />
+                <Route path="/categories-page" render={renderCategoriesTable} />
+                <Route path="/category-authors-page/:categoryid" render={renderAuthorsTable} />
+                <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />
+
                 <Route path="/about-page" component={About} />
             </Switch>
             <h2 className="clearfix">Footer</h2>

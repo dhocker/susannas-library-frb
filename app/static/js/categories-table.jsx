@@ -1,6 +1,6 @@
 /*
     Categories Table
-    Copyright (C) 2016  Dave Hocker (email: AtHomeX10@gmail.com)
+    Copyright © 2019  Dave Hocker (email: AtHomeX10@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,12 +16,12 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { Nav, Navbar } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { Button } from 'react-bootstrap';
 import PagedTable from './paged-table';
-import * as DeleteCategory from './delete-category-dialog';
-import * as EditCategory from './edit-category-dialog';
-import ActionAnchor from './action-anchor';
+import $ from 'jquery';
 
 /*
     Categories table - a specific instance of a table showing
@@ -29,88 +29,147 @@ import ActionAnchor from './action-anchor';
 */
 export default class CategoriesTable extends PagedTable {
     constructor(props) {
-        super(props);
+        // Defines the columns in the categories table
+        const cols = [
+            { colname: 'name', label: 'Name', sortable: true },
+            { colname: 'id', label: 'ID', sortable: true }
+        ];
+        super(props, cols);
+
+        // The initial title. It will change when the related record is loaded.
+        this.state.title = props.title;
+        this.state.search_arg = "";
 
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.onAuthorsClick = this.onAuthorsClick.bind(this);
-        this.onBooksClick = this.onBooksClick.bind(this);
-        this.onEditClick = this.onEditClick.bind(this);
-        this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+        this.onSearchArgChanged = this.onSearchArgChanged.bind(this);
     }
 
+
+    // Only at component creation
     componentDidMount() {
+        this.loadTable();
+        this.setFocus();
+    }
+
+    setFocus() {
         const $this = this;
+        // Trick to get focus into input text box
+        setTimeout(function () {
+            $this.searchInput.focus();
+            $this.searchInput.select();
+        }, 0);
+    }
 
-        $this.loadTable();
+    onSearch() {
+        if (this.state.search_arg.length > 0) {
+            console.log("Search called " + this.state.search_arg);
+            const url = "/search-categories-page/" + encodeURIComponent(this.state.search_arg);
+            // Redirect to search page
+            this.setState({search_url: url});
+        }
+    }
 
-        // On series add, reload table
-        $("#new-category").on("frb.category.add", function (/* event */) {
-            console.log("On add event, reload categories");
-            $this.loadTable();
+    // Track search argument value
+    onSearchArgChanged(event) {
+        if (event.key === 'Enter') {
+            this.onSearch();
+            return;
+        }
+        this.setState({
+            search_arg: event.target.value
         });
-
-        // On category delete, reload table
-        $("#delete-category").on("frb.category.delete", function (/* event */) {
-            console.log("On delete event, reload categories");
-            $this.loadTable();
-        });
-
-        // On category edit, reload table
-        $("#edit-category").on("frb.category.edit", function (/* event */) {
-            console.log("On edit event, reload categories");
-            $this.loadTable();
-        });
     }
 
-    onBooksClick(row) {
-        console.log("Books was clicked for id " + String(row.id));
-        window.location.href = "/paged-books-page?category=" + String(row.id);
-    }
-
-    onAuthorsClick(row) {
-        console.log("Authors was clicked for id " + String(row.id));
-        window.location.href = "/authors-page?category=" + String(row.id);
-    }
-
-    onEditClick(row) {
-        console.log("Edit was clicked for id " + String(row.id));
-        EditCategory.editCategoryDialog(row);
-    }
-
-    onDeleteClick(row) {
+    onDelete(row) {
         console.log("Delete was clicked for id " + String(row.id));
-        // Fire up the delete dialog box
-        DeleteCategory.deleteCategory(row);
+        this.delete_category_row = row;
+        this.showOKCancelDialogBox("Delete category?", row.name, "Do you want to delete this category?");
     }
 
-    // Generate the actions for categories
+    // OK to delete the selected author
+    onDialogOK() {
+        console.log("Deleting author " + this.delete_category_row.id);
+        const $this = this;
+        const url = `/author/${this.delete_author_row.id}`;
+
+        $.ajax({
+            method: "DELETE",
+            url: url,
+            data: {},
+            success: function(data, status, xhr) {
+                // TODO Add timed message to page
+                // $this.showMessage(`Device ${rows[row_index]["name"]} removed`);
+                // Reload table to account for deleted author
+                $this.loadTable($this.props.url);
+            },
+            error: function(xhr, status, msg) {
+                $this.showDialogBox("Delete author", status, `${msg} ${xhr.responseText}`);
+            }
+        });
+        super.onDialogOK();
+    }
+
+    // Delete dialog canceled
+    onDialogCancel() {
+        this.delete_author_row = null;
+        super.onDialogCancel();
+    }
+
+    // Generate the title for the categories page
+    getTitle() {
+        return (
+            <div className="card">
+                <div className="row">
+                    <div className="col-md-8">
+                        <h2>{this.state.title}</h2>
+                    </div>
+                    <div className="col-md-4">
+                        <form className="form-inline">
+                            <Button
+                                id="search-button"
+                                className="btn btn-primary btn-sm pull-right"
+                                onClick={this.onSearch}
+                            >
+                                Search
+                            </Button>
+                            <input
+                                type="text"
+                                className="form-control pull-right"
+                                id="search-text"
+                                value={this.state.search_arg}
+                                onChange={this.onSearchArgChanged}
+                                onKeyPress={this.onSearchArgChanged}
+                                ref={(instance) => {
+                                    this.searchInput = instance;
+                                }}
+                            />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Generate the actions for authors
     getActions(row) {
         return (
             <td>
-                <ActionAnchor
-                    htmlHref="#authors"
-                    onItemClick={this.onAuthorsClick}
-                    item={row}
-                    anchorText="Authors"
-                />
-                <ActionAnchor
-                    htmlHref="#books"
-                    onItemClick={this.onBooksClick}
-                    item={row}
-                    anchorText="Books"
-                />
-                <ActionAnchor
-                    htmlHref="#edit"
-                    onItemClick={this.onEditClick}
-                    item={row}
-                    anchorText="Edit"
-                />
-                <ActionAnchor
-                    htmlHref="#delete"
-                    onItemClick={this.onDeleteClick}
-                    item={row}
-                    anchorText="Delete"
-                />
+                <Navbar className="bg-light navbar-inline">
+                    <Nav className="">
+                        <LinkContainer to={"/category-authors-page/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Authors</Button>
+                        </LinkContainer>
+                        <LinkContainer to={"/category-books-page/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Books</Button>
+                        </LinkContainer>
+                        <LinkContainer to={"/edit-category-form/" + row.id} className="">
+                            <Button className="nav-btn-inline btn-primary btn-sm">Edit</Button>
+                        </LinkContainer>
+                        <Button className="nav-btn-inline btn-primary btn-sm" onClick={this.onDelete.bind(this, row)}>Delete</Button>
+                    </Nav>
+                </Navbar>
             </td>
         );
     }
@@ -119,44 +178,18 @@ export default class CategoriesTable extends PagedTable {
 CategoriesTable.propTypes = {
     title: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
-    cols: PropTypes.array.isRequired,
     url: PropTypes.string.isRequired
 };
 
 CategoriesTable.defaultProps = {
 };
 
-/*
-    Create the categories table instance on the series page
-*/
-let categoriesTableInstance;
-export function createCategoriesTable() {
-    // Defines the columns in the categories table
-    const categoriesTableColumns = [
-        { colname: 'name', label: 'Name', sortable: true },
-        { colname: 'id', label: 'ID', sortable: true }
-    ];
-
-    console.log("Attempting to create Categories table");
-    // Note that the ref attribute is the preferred way to capture the rendered instance
-    ReactDOM.render(
+export function renderCategoriesTable() {
+    return (
         <CategoriesTable
             class="table table-striped table-condensed"
             title="Categories"
-            cols={categoriesTableColumns}
             url="/categories"
-            ref={(instance) => {
-                categoriesTableInstance = instance;
-            }}
-        />,
-        document.querySelector('#categoriestable')
+        />
     );
-    console.log("Categories table created");
-}
-
-/*
-    Load categories table based on search/filter
-*/
-export function searchCategories(arg) {
-    categoriesTableInstance.filterTable(arg);
 }

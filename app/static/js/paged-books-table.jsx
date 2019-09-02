@@ -85,6 +85,7 @@ export default class PagedBooksTable extends PagedTable {
             case "series":
                 break;
             case "category":
+                $this.loadCategory(this.props.filter_by_id);
                 break;
             default:
                 break;
@@ -100,6 +101,17 @@ export default class PagedBooksTable extends PagedTable {
             let author_title = `${$this.props.title} ${author.FirstName} ${author.LastName}`;
 
             $this.setState({title: author_title});
+        });
+    }
+
+    // Books for an author
+    loadCategory(categoryid) {
+        const $this = this;
+        const url = "/category/" + String(categoryid);
+        $.get(url, function (response /* , status */) {
+            const category = response.data;
+            const category_title = `${$this.props.title} ${category.name}`;
+            $this.setState({title: category_title});
         });
     }
 

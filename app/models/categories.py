@@ -30,6 +30,9 @@ def get_all_categories():
 def get_category(category_id):
     return Category.query.get(category_id)
 
+def get_category_as_dict(category_id):
+    return Category.row2dict(Category.query.get(category_id))
+
 def insert_category(name):
     s = Category(name)
     db_session.add(s)

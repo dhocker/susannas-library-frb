@@ -52,13 +52,42 @@ export default class AuthorsTable extends PagedTable {
 
     // Only at component creation
     componentDidMount() {
-        this.loadTable();
+        this.loadAuthors();
         this.setFocus();
     }
 
     // After component update
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log("authorsDidUpdate")
+    }
+
+    // Load the table based on the current state
+    loadAuthors() {
+        const $this = this;
+
+        $this.loadTable();
+
+        // Load related record
+        switch (this.props.filter_by) {
+            case "category":
+                $this.loadCategory(this.props.filter_by_id);
+                break;
+            case "series":
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Books for an author
+    loadCategory(categoryid) {
+        const $this = this;
+        const url = "/category/" + String(categoryid);
+        $.get(url, function (response /* , status */) {
+            const category = response.data;
+            const category_title = `${$this.props.title} ${category.name}`;
+            $this.setState({title: category_title});
+        });
     }
 
     setFocus() {
@@ -196,17 +225,18 @@ export function renderAuthorsTable(props) {
     // Apply filtering
     let filter_by = "";
     let id = "";
-    let name = "";
     let url = "/authors";
     let title = "Authors";
-    switch (filter_by) {
-        case "category":
-            url += "?category=" + id;
-            title = "Authors for Category: " + name;
-            break;
-        default:
-            title = "Authors";
-            break;
+
+    if (props.match.params.hasOwnProperty('categoryid')) {
+        const {categoryid} = props.match.params;
+        url += "?category=" + categoryid;
+        title = "Authors for Category ";
+        id = categoryid;
+        filter_by = "category";
+    }
+    else {
+        // Default
     }
 
     return (
