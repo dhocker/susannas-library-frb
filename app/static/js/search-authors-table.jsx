@@ -55,12 +55,14 @@ export default class SearchAuthorsTable extends AuthorsTable {
     }
 
     onSearch() {
-        // Use the currently entered search argument
-        this.searcharg = this.state.search_arg;
-        const new_title = `Authors containing "${decodeURIComponent(this.searcharg)}"`;
-        this.setState({title: new_title});
-        this.loadRequired = true;
-        super.onSearch();
+        if (this.state.search_arg.length > 0) {
+            // Use the currently entered search argument
+            this.searcharg = this.state.search_arg;
+            const new_title = `Authors containing "${decodeURIComponent(this.searcharg)}"`;
+            this.setState({title: new_title});
+            this.loadRequired = true;
+            super.onSearch();
+        }
     }
 
     /*

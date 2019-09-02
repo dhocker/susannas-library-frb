@@ -140,10 +140,12 @@ export default class PagedBooksTable extends PagedTable {
     }
 
     onSearch() {
-        console.log("Search called " + this.state.search_arg);
-        const url = "/search-books-page/" + encodeURIComponent(this.state.search_arg);
-        // Redirect to search page
-        this.setState({search_url: url});
+        if (this.state.search_arg.length > 0) {
+            console.log("Search called " + this.state.search_arg);
+            const url = "/search-books-page/" + encodeURIComponent(this.state.search_arg);
+            // Redirect to search page
+            this.setState({search_url: url});
+        }
     }
 
     // Track search argument value
