@@ -48,6 +48,7 @@ export default class SeriesTable extends PagedTable {
 
     componentDidMount() {
         this.loadTable();
+        this.setFocus();
     }
 
     setFocus() {
@@ -61,7 +62,8 @@ export default class SeriesTable extends PagedTable {
 
     onSearch() {
         console.log("Search called " + this.state.search_arg);
-        const url = "/search-series-page/" + this.state.search_arg;
+        // Note that the searcharg must be encoded to allow special characters
+        const url = "/search-series-page/" + encodeURIComponent(this.state.search_arg);
         // Redirect to search page
         this.setState({search_url: url});
     }
