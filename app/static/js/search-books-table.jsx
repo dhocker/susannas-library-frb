@@ -57,7 +57,7 @@ export default class SearchBooksTable extends PagedBooksTable {
     onSearch() {
         // Use the currently entered search argument
         this.searcharg = this.state.search_arg;
-        const new_title = "Books containing " + this.state.search_arg;
+        const new_title = `Books containing "${this.state.search_arg}"`;
         this.setState({title: new_title});
         this.loadRequired = true;
         super.onSearch();
@@ -92,7 +92,7 @@ SearchBooksTable.defaultProps = {
     Create the books table instance on the books page
 */
 export function renderSearchBooksTable(props) {
-    let title = "Books containing " + decodeURIComponent(props.match.params.searcharg);
+    let title = `Books containing "${decodeURIComponent(props.match.params.searcharg)}"`;
 
     // Note that the ref attribute is the preferred way to capture the rendered instance
     return (

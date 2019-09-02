@@ -57,7 +57,7 @@ export default class SearchAuthorsTable extends AuthorsTable {
     onSearch() {
         // Use the currently entered search argument
         this.searcharg = this.state.search_arg;
-        const new_title = "Authors containing " + this.state.search_arg;
+        const new_title = `Authors containing "${decodeURIComponent(this.searcharg)}"`;
         this.setState({title: new_title});
         this.loadRequired = true;
         super.onSearch();
@@ -92,7 +92,7 @@ SearchAuthorsTable.defaultProps = {
     Create the authors table instance on the books page
 */
 export function renderSearchAuthorsTable(props) {
-    let title = "Authors containing " + decodeURIComponent(props.match.params.searcharg);
+    let title = `Authors containing "${decodeURIComponent(props.match.params.searcharg)}"`;
 
     return (
         <SearchAuthorsTable

@@ -54,7 +54,7 @@ export default class SearchSeriesTable extends SeriesTable {
     onSearch() {
         // Use the currently entered search argument
         this.searcharg = this.state.search_arg;
-        const new_title = "Series containing " + this.state.search_arg;
+        const new_title = `Series containing "${this.state.search_arg}"`;
         this.setState({title: new_title});
         this.loadRequired = true;
         super.onSearch();
@@ -88,7 +88,7 @@ SearchSeriesTable.defaultProps = {
 };
 
 export function renderSearchSeriesTable(props) {
-    let title = "Series containing " + props.match.params.searcharg;
+    let title = `Series containing "${props.match.params.searcharg}"`;
 
     return (
         <SearchSeriesTable
