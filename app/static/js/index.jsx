@@ -97,7 +97,6 @@ ReactDOM.render(
 
                 <Route path="/about-page" component={About} />
             </Switch>
-            <h2 className="clearfix">Footer</h2>
         </BrowserRouter>
     ),
     document.getElementById('root')

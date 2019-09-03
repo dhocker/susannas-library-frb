@@ -177,9 +177,9 @@ def delete_author(id):
     return "Author deleted", 200
 
 
-@app.route("/about", methods=['GET'])
+@app.route("/version", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
-def get_about():
+def get_about_version():
     about = {
         "data": {
             "version": GetVersion()

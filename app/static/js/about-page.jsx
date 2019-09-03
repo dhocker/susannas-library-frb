@@ -16,8 +16,25 @@
 */
 
 import React from 'react';
+import $ from 'jquery';
 
 export default class About extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            version: "Unknown"
+        };
+    }
+
+    componentDidMount() {
+        const $this = this;
+        const url = "/version";
+        $.get(url, function (response /* , status */) {
+            const {version} = response.data;
+            $this.setState({version: version});
+        });
+    }
+
     render() {
         return (
             <div className="container">
@@ -31,20 +48,36 @@ export default class About extends React.Component {
                 <div className="card">
                     <div className="card-body">
                         <p>
-                            All about Susanna&apos;s New Library
+                            All about Susanna&apos;s Library
                         </p>
                         <p>
-                            The following are used:
+                            Track your collection of books/ebooks using
+                            <ul>
+                                <li>Authors</li>
+                                <li>Books/ebooks written by those authors</li>
+                                <li>Series of books</li>
+                                <li>Custom categories for authors and books/ebooks</li>
+                            </ul>
                         </p>
-                        <ul>
-                            <li>Python 3</li>
-                            <li>Flask</li>
-                            <li>React</li>
-                            <li>React Router</li>
-                            <li>Bootstrap 4</li>
-                            <li>Webpack</li>
-                            <li>Javascript</li>
-                        </ul>
+                        <p>
+                            The following technologies are used:
+                            <ul>
+                                <li>Python 3</li>
+                                <li>Flask</li>
+                                <li>Javascript</li>
+                                <li>React</li>
+                                <li>React Router</li>
+                                <li>Bootstrap 4</li>
+                                <li>Webpack</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div className="card">
+                    <div className="row">
+                        <h3 className="col-md-8">
+                            Version {this.state.version}
+                        </h3>
                     </div>
                 </div>
             </div>
