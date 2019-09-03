@@ -34,6 +34,7 @@ import NewSeriesForm from "./new-series-form";
 import EditSeriesForm from "./edit-series-form";
 import { renderSearchSeriesTable } from "./search-series-table";
 import { renderCategoriesTable } from "./categories-table";
+import NewCategoryForm from "./new-category-form";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -91,6 +92,7 @@ ReactDOM.render(
                 <Route path="/categories-page" render={renderCategoriesTable} />
                 <Route path="/category-authors-page/:categoryid" render={renderAuthorsTable} />
                 <Route path="/category-books-page/:categoryid" render={renderPagedBooksTable} />
+                <Route path="/new-category-form" component={NewCategoryForm} />
 
                 <Route path="/about-page" component={About} />
             </Switch>
