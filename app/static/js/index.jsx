@@ -37,6 +37,7 @@ import { renderCategoriesTable } from "./categories-table";
 import NewCategoryForm from "./new-category-form";
 import EditCategoryForm from "./edit-category-form";
 import { renderSearchCategoriesTable } from "./search-categories-table";
+import About from "./about-page";
 // import '../css/index.css';
 // import App from './app';
 // import * as serviceWorker from './serviceWorker';
@@ -57,10 +58,6 @@ import '../css/bootstrap-custom.css';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
-
-function About() {
-    return <h2>About the Library</h2>;
-}
 
 ReactDOM.render(
     (
