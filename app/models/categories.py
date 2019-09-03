@@ -21,11 +21,23 @@ from sqlalchemy import func, or_
 from app.models.models import db_session
 
 
-def get_all_categories():
-    q = Category.query
+def get_all_categories(page, pagesize, sort_col, sort_dir):
+    q = append_order_by_clause(Category.query, sort_col, sort_dir)
+    if pagesize > 0:
+        series = q.limit(pagesize).offset(page * pagesize).all()
+    else:
+        series = q.offset(page * pagesize).all()
     count = q.count()
-    rst = q.order_by(func.lower(Category.name).asc()).all()
-    return {"rows": Category.rows2dictlist(rst), "count": count}
+    return {"rows": Category.rows2dictlist(series), "count": count}
+
+def search_for_categories(page, pagesize, search_arg, sort_col, sort_dir):
+    q = append_order_by_clause(Category.query, sort_col, sort_dir)
+    if search_arg:
+        like = '%' + search_arg + '%'
+        q = q.filter(Category.name.like(like))
+    count = q.count()
+    series =  q.limit(pagesize).offset(page * pagesize)
+    return {"rows": Category.rows2dictlist(series), "count": count}
 
 def get_category(category_id):
     return Category.query.get(category_id)
@@ -61,3 +73,24 @@ def delete_category_by_id(id):
     s = Category.query.get(id)
     db_session.delete(s)
     db_session.commit()
+
+def append_order_by_clause(query, sort_col, sort_dir):
+    column_list = {
+        "name": Category.name,
+        "id": Category.id
+    }
+
+    if sort_col in column_list:
+        if sort_dir == "desc":
+            if sort_col == "id":
+                q = query.order_by(column_list[sort_col].desc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).desc())
+        else:
+            if sort_col == "id":
+                q = query.order_by(column_list[sort_col].asc())
+            else:
+                q = query.order_by(func.lower(column_list[sort_col]).asc())
+    else:
+        q = query.order_by(func.lower(column_list["name"]).asc())
+    return q

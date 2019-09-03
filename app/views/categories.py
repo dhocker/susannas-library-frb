@@ -18,7 +18,8 @@ from app import app
 from flask import Flask, request, Response, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from app.models.categories import get_all_categories, insert_category, \
-    delete_category_by_id, update_category, category_exists, get_category, get_category_as_dict
+    delete_category_by_id, update_category, category_exists, get_category, get_category_as_dict, \
+    search_for_categories
 import logging
 
 logger = logging.getLogger("app")
@@ -35,7 +36,16 @@ def get_categories_page():
 @app.route("/categories", methods=['GET'])
 #@login_required                                 # Use of @login_required decorator
 def get_category_records():
-    categories = get_all_categories()
+    page_number = int(request.args.get('page', 0))
+    page_size = int(request.args.get('pagesize', 0))
+    search_arg = request.args.get('search', '')
+    sort_col = request.args.get('sortcol', '')
+    sort_dir = request.args.get('sortdir', '')
+
+    if search_arg:
+        categories = search_for_categories(page_number, page_size, search_arg, sort_col, sort_dir)
+    else:
+        categories = get_all_categories(page_number, page_size, sort_col, sort_dir)
 
     json = jsonify({'data': categories})
     return json
