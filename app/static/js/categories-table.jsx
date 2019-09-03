@@ -92,20 +92,18 @@ export default class CategoriesTable extends PagedTable {
     onDialogOK() {
         console.log("Deleting author " + this.delete_category_row.id);
         const $this = this;
-        const url = `/author/${this.delete_author_row.id}`;
+        const url = `/category/${this.delete_category_row.id}`;
 
         $.ajax({
             method: "DELETE",
             url: url,
             data: {},
             success: function(data, status, xhr) {
-                // TODO Add timed message to page
-                // $this.showMessage(`Device ${rows[row_index]["name"]} removed`);
-                // Reload table to account for deleted author
-                $this.loadTable($this.props.url);
+                // Reload table to account for deleted category
+                $this.loadTable();
             },
             error: function(xhr, status, msg) {
-                $this.showDialogBox("Delete author", status, `${msg} ${xhr.responseText}`);
+                $this.showDialogBox("Delete category", status, `${msg} ${xhr.responseText}`);
             }
         });
         super.onDialogOK();
@@ -113,7 +111,7 @@ export default class CategoriesTable extends PagedTable {
 
     // Delete dialog canceled
     onDialogCancel() {
-        this.delete_author_row = null;
+        this.delete_category_row = null;
         super.onDialogCancel();
     }
 
