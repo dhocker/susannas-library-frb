@@ -64,7 +64,8 @@ export default class NewBookForm extends React.Component {
         this.loadSeries = this.loadSeries.bind(this);
         this.clearFormFields = this.clearFormFields.bind(this);
         this.setFocus = this.setFocus.bind(this);
-    }
+        this.handleSubmit = this.handleSubmit.bind(this);
+   }
 
     loadAuthors() {
         // Retrieve all of the authors
@@ -165,7 +166,7 @@ export default class NewBookForm extends React.Component {
     */
     onAdd() {
         // Validate fields
-        this.setState({error: ""});
+        this.setState({message: ""});
         if (this.state.titleValue.length <= 0) {
             this.setState({message: "Title is blank"});
             return;
@@ -196,6 +197,12 @@ export default class NewBookForm extends React.Component {
         };
         // The data object will be request.form on the server
         this.commitBook(data);
+    }
+
+    // Catches the Enter key (which gets interpreted as a submit action)
+    handleSubmit(event) {
+        this.onAdd();
+        event.preventDefault();
     }
 
     /*
@@ -230,14 +237,14 @@ export default class NewBookForm extends React.Component {
     titleChanged(event) {
         this.setState({
             titleValue: event.target.value,
-            error: ""
+            message: ""
         });
     }
 
     isbnChanged(event) {
         this.setState({
             isbnValue: event.target.value,
-            error: ""
+            message: ""
         });
     }
 
@@ -248,20 +255,20 @@ export default class NewBookForm extends React.Component {
             if (!Number.isNaN(v)) {
                 this.setState({
                     volumeValue: event.target.value,
-                    error: ""
+                    message: ""
                 });
             }
             else {
                 this.setState({
                     volumeValue: event.target.value,
-                    error: "Volume must be a numbers or empty"
+                    message: "Volume must be a numbers or empty"
                 });
             }
         }
         else {
             this.setState({
                 volumeValue: event.target.value,
-                error: ""
+                message: ""
             });
         }
     }
@@ -323,9 +330,9 @@ export default class NewBookForm extends React.Component {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
-        const {id} = this.props;
+        const id = "new-book-form";
         return (
-            <form id={id}>
+            <form id={id} onSubmit={this.handleSubmit}>
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
@@ -345,11 +352,11 @@ export default class NewBookForm extends React.Component {
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-category"}>
+                                <label htmlFor={id + "-category"}>
                                     Category or Genre
                                 </label>
                                 <SelectCategory
-                                    id={this.props.id + "-category"}
+                                    id={id + "-category"}
                                     onChange={this.categoryChanged}
                                     ref={(instance) => {
                                         this.selectCategoryInstance = instance;
@@ -359,10 +366,10 @@ export default class NewBookForm extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-author"}>
+                                <label htmlFor={id + "-author"}>
                                     Author
                                 </label>
-                                {this.getAuthorSelect(this.props.id + "-author")}
+                                {this.getAuthorSelect(id + "-author")}
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="status">
@@ -379,10 +386,10 @@ export default class NewBookForm extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <label htmlFor={this.props.id + "-series"}>
+                                <label htmlFor={id + "-series"}>
                                     Series
                                 </label>
-                                {this.getSeriesSelect(this.props.id + "-series")}
+                                {this.getSeriesSelect(id + "-series")}
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="cover">
@@ -440,8 +447,33 @@ export default class NewBookForm extends React.Component {
                             </div>
                         </div>
                     </div>
+                    {this.getActionButtons()}
                 </div>
             </form>
+        );
+    }
+
+    getActionButtons() {
+        return (
+            <div className="card-footer">
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary float-left"
+                        >
+                            Add
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-extra float-left"
+                            onClick={this.clearFormFields}
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -453,20 +485,6 @@ export default class NewBookForm extends React.Component {
         return (
             <div className="container">
                 <h2 className="text-danger">{this.state.message}</h2>
-                <button
-                    type="button"
-                    className="btn btn-primary float-left"
-                    onClick={this.onAdd}
-                >
-                    Add
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary btn-extra float-left"
-                    onClick={this.clearFormFields}
-                >
-                    Reset
-                </button>
             </div>
         );
     }

@@ -29,6 +29,7 @@ export default class EditBookForm extends NewBookForm {
         this.commitBook = this.commitBook.bind(this);
         this.initState = this.initState.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     initState(row) {
@@ -65,6 +66,13 @@ export default class EditBookForm extends NewBookForm {
             $this.selectCategoryInstance.setSelectedCategory(row.category_id);
             $this.setFocus();
         })
+    }
+
+    // Catches the Enter key (which gets interpreted as a submit action)
+    handleSubmit(event) {
+        // This really becomes Save (call back to commitBook)
+        this.onAdd();
+        event.preventDefault();
     }
 
     /*
@@ -111,6 +119,23 @@ export default class EditBookForm extends NewBookForm {
         );
     }
 
+    getActionButtons() {
+        return (
+            <div className="card-footer">
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary float-left"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     /*
         Override to customize the footer including action buttons.
         The stock buttons are Close and Cancel.
@@ -119,13 +144,6 @@ export default class EditBookForm extends NewBookForm {
         return (
             <div className="container">
                 <h2 className="text-danger">{this.state.message}</h2>
-                <button
-                    type="button"
-                    className="btn btn-primary float-left"
-                    onClick={this.onAdd}
-                >
-                    Save
-                </button>
             </div>
         );
     }

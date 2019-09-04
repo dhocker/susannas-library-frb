@@ -34,6 +34,7 @@ export default class EditSeriesForm extends NewSeriesForm {
         this.commitSeries = this.commitSeries.bind(this);
         this.loadSeries = this.loadSeries.bind(this);
         this.onSave = this.onSave.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     loadSeries(seriesid) {
@@ -70,6 +71,12 @@ export default class EditSeriesForm extends NewSeriesForm {
         this.commitSeries("PUT", url, data);
     }
 
+    // Catches the Enter key (which gets interpreted as a submit action)
+    handleSubmit(event) {
+        this.onSave();
+        event.preventDefault();
+    }
+
     getHeader() {
         return (
             <div className="card">
@@ -82,17 +89,27 @@ export default class EditSeriesForm extends NewSeriesForm {
         );
     }
 
+    getActionButtons() {
+        return (
+            <div className="card-footer">
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary float-left"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     getFooter() {
         return (
             <div className="container">
                 <h2 className="text-danger">{this.state.message}</h2>
-                <button
-                    type="button"
-                    className="btn btn-primary float-left"
-                    onClick={this.onSave}
-                >
-                    Save
-                </button>
             </div>
         );
     }

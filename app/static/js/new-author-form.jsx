@@ -47,6 +47,7 @@ export default class NewAuthorForm extends React.Component {
         this.getFooter = this.getFooter.bind(this);
         this.commitAuthor = this.commitAuthor.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +96,12 @@ export default class NewAuthorForm extends React.Component {
 
         // The data object will be request.form on the server
         this.commitAuthor("POST", "/author", data);
+    }
+
+    // Catches the Enter key (which gets interpreted as a submit action)
+    handleSubmit(event) {
+        this.onAdd();
+        event.preventDefault();
     }
 
     validateForm() {
@@ -228,8 +235,9 @@ export default class NewAuthorForm extends React.Component {
         a form element to build a form-in-a-dialog.
     */
     getBody() {
+        const id = "new-author-jsx";
         return (
-            <form id={this.props.id}>
+            <form id="new-author-jsx" onSubmit={this.handleSubmit}>
                 <div className="card">
                     <div className="card-body">
                         <div className="form-group">
@@ -260,11 +268,11 @@ export default class NewAuthorForm extends React.Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor={this.props.id + "-category"}>
+                            <label htmlFor={id + "-category"}>
                                 Category or Genre
                             </label>
                             <SelectCategory
-                                id={this.props.id + "-category"}
+                                id={id + "-category"}
                                 onChange={this.categoryChanged}
                                 ref={(instance) => {
                                     this.selectCategoryInstance = instance;
@@ -294,8 +302,33 @@ export default class NewAuthorForm extends React.Component {
                             </label>
                         </div>
                     </div>
+                    {this.getActionButtons()}
                 </div>
             </form>
+        );
+    }
+
+    getActionButtons() {
+        return (
+            <div className="card-footer">
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary float-left"
+                        >
+                            Add
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-extra float-left"
+                            onClick={this.clearFormFields}
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -307,20 +340,6 @@ export default class NewAuthorForm extends React.Component {
         return (
             <div className="container">
                 <h2 className="text-danger">{this.state.message}</h2>
-                <button
-                    type="button"
-                    className="btn btn-primary float-left"
-                    onClick={this.onAdd}
-                >
-                    Add
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary btn-extra float-left"
-                    onClick={this.clearFormFields}
-                >
-                    Reset
-                </button>
             </div>
         );
     }

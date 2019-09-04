@@ -36,6 +36,7 @@ export default class NewCategoryForm extends React.Component {
         this.getBody = this.getBody.bind(this);
         this.getFooter = this.getFooter.bind(this);
         this.commitCategory = this.commitCategory.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     /*
@@ -67,7 +68,7 @@ export default class NewCategoryForm extends React.Component {
     */
     onAdd() {
         // Validate fields
-        this.setState({error: ""});
+        this.setState({message: ""});
         if (this.state.nameValue.length <= 0) {
             this.setState({message: "Name is blank"});
             return;
@@ -78,6 +79,12 @@ export default class NewCategoryForm extends React.Component {
         };
         // The data object will be request.form on the server
         this.commitCategory("POST", "/category", data);
+    }
+
+    // Catches the Enter key (which gets interpreted as a submit action)
+    handleSubmit(event) {
+        this.onAdd();
+        event.preventDefault();
     }
 
     /*
@@ -145,28 +152,55 @@ export default class NewCategoryForm extends React.Component {
 
     getBody() {
         return (
-            <form id="new-category-jsx">
+            <form id="new-category-jsx" onSubmit={this.handleSubmit}>
                 <div className="card">
                     <div className="card-body">
-                        <div className="form-group">
-                            <label htmlFor="input-name">
-                                Category Name
-                            </label>
-                            <input
-                                id="input-name"
-                                type="text"
-                                className="form-control"
-                                ref={(instance) => {
-                                    this.inputName = instance;
-                                }}
-                                value={this.state.nameValue}
-                                onChange={this.nameChanged}
-                                autoFocus
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label htmlFor="input-name">
+                                    Category Name
+                                </label>
+                                <input
+                                    id="input-name"
+                                    type="text"
+                                    className="form-control"
+                                    ref={(instance) => {
+                                        this.inputName = instance;
+                                    }}
+                                    value={this.state.nameValue}
+                                    onChange={this.nameChanged}
+                                    autoFocus
+                                />
+                            </div>
                         </div>
                     </div>
+                    {this.getActionButtons()}
                 </div>
             </form>
+        );
+    }
+
+    getActionButtons() {
+        return (
+            <div className="card-footer">
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary float-left"
+                        >
+                            Add
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-extra float-left"
+                            onClick={this.clearFormFields}
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -174,20 +208,6 @@ export default class NewCategoryForm extends React.Component {
         return (
             <div className="container">
                 <h2 className="text-danger">{this.state.message}</h2>
-                <button
-                    type="button"
-                    className="btn btn-primary float-left"
-                    onClick={this.onAdd}
-                >
-                    Add
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary btn-extra float-left"
-                    onClick={this.clearFormFields}
-                >
-                    Reset
-                </button>
             </div>
         );
     }
