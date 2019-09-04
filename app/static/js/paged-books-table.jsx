@@ -48,6 +48,10 @@ export default class PagedBooksTable extends PagedTable {
         this.state.title = props.title;
         this.state.search_arg = "";
 
+        // Initialize last filter
+        this.filter_by = this.props.filter_by;
+        this.filter_by_id = this.props.filter_by_id;
+
         // Function bindings
         this.componentDidMount = this.componentDidMount.bind(this);
         this.onDeleteBook = this.onDeleteBook.bind(this);
@@ -60,6 +64,16 @@ export default class PagedBooksTable extends PagedTable {
     componentDidMount() {
         this.loadBooks();
         this.setFocus();
+    }
+
+    // Occurs when component is already mounted
+    componentDidUpdate() {
+        if (this.filter_by !== this.props.filter_by && this.filter_by_id !== this.props.filter_by_id) {
+            this.filter_by = this.props.filter_by;
+            this.filter_by_id = this.props.filter_by_id;
+            this.loadBooks();
+            this.setFocus();
+        }
     }
 
     setFocus() {
@@ -83,11 +97,13 @@ export default class PagedBooksTable extends PagedTable {
                 $this.loadAuthor(this.props.filter_by_id);
                 break;
             case "series":
+                $this.loadSeries(this.props.filter_by_id);
                 break;
             case "category":
                 $this.loadCategory(this.props.filter_by_id);
                 break;
             default:
+                $this.setState({title: $this.props.title});
                 break;
         }
     }
@@ -112,6 +128,17 @@ export default class PagedBooksTable extends PagedTable {
             const category = response.data;
             const category_title = `${$this.props.title} ${category.name}`;
             $this.setState({title: category_title});
+        });
+    }
+
+    // Books in a series
+    loadSeries(seriesid) {
+        const $this = this;
+        const url = "/series/" + String(seriesid);
+        $.get(url, function (response /* , status */) {
+            const series = response.data;
+            const series_title = `${$this.props.title} ${series.name}`;
+            $this.setState({title: series_title});
         });
     }
 
